@@ -16,10 +16,6 @@ body {
   .btn-primary {
     @apply !bg-[#22c55e] hover:!bg-green-300;
   }
-
-  .input {
-    @apply bg-zinc-800 rounded 
-  }
 }
 
 @layer base {
