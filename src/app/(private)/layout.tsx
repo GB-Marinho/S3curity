@@ -1,5 +1,5 @@
 import Cabecalho from "@/components/shared/Cabecalho";
-import Drawer from "@/components/shared/Drawer";
+import Sidebar from "@/components/shared/Sidebar";
 import React, { ReactNode } from "react";
 
 interface PrivateLayoutProps {
@@ -9,10 +9,10 @@ interface PrivateLayoutProps {
 export default function PrivateLayout({ children }: PrivateLayoutProps) {
   return (
     <div className="flex h-screen">
-        <Drawer/>
+        <Sidebar/>
       <div className="flex flex-col flex-1 pr-11 pb-11">
         <Cabecalho />
-        <main className="flex items-center justify-center h-full bg-[#18181b] rounded-xl">{children}</main>
+        <main className="flex items-center justify-center flex-1 bg-[#18181b] rounded-xl">{children}</main>
       </div>
     </div>
   );
