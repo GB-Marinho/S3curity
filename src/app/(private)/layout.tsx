@@ -1,4 +1,4 @@
-import Cabecalho from "@/components/shared/Cabecalho";
+import Cabecalho from "@/components/shared/cabecalho/Cabecalho";
 import Sidebar from "@/components/shared/Sidebar";
 import React, { ReactNode } from "react";
 

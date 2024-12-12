@@ -176,6 +176,7 @@ export function RegisterForm() {
                       placeholder="Digite o numero de telefone"
                       maxLength={15}
                       {...field}
+                      maxLength={15}
                     />
                   </FormControl>
                   <FormMessage />
