@@ -25,6 +25,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { registerFormSchema } from "./registerFormSchema";
+import CardLogin from "@/components/ui/cardLogin";
 
 export function RegisterForm() {
   const form = useForm<z.infer<typeof registerFormSchema>>({
@@ -54,7 +55,7 @@ export function RegisterForm() {
   }
 
   return (
-    <Card className="mx-auto py-8 bg-[#18181B] border-none text-white w-[631px]">
+    <CardLogin>
       <CardHeader>
         <div className="w-full flex flex-col justify-center items-center gap-8">
           <CardTitle className="text-2xl">Cadastrar</CardTitle>
@@ -184,7 +185,7 @@ export function RegisterForm() {
             <div className="my-6">
               <Button
                 type="submit"
-                className="w-full btn-primary text-xl"
+                className="w-full btn-primary text-white py-6 text-xl"
                 disabled={form.formState.isSubmitting}
               >
                 {form.formState.isSubmitting ? (
@@ -209,6 +210,6 @@ export function RegisterForm() {
           <br />
         </div>
       </CardContent>
-    </Card>
+    </CardLogin>
   );
 }
