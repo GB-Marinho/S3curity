@@ -1,19 +1,6 @@
 "use client";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  IconMail,
-  IconEye,
-  IconEyeOff,
-  IconSignature,
-  IconLock,
-} from "@tabler/icons-react";
-import { useState } from "react";
-import { registerFormSchema } from "./registerFormSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -22,8 +9,22 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { useForm } from "react-hook-form";
+import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  IconEye,
+  IconEyeOff,
+  IconLock,
+  IconMail,
+  IconSignature,
+} from "@tabler/icons-react";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { registerFormSchema } from "./registerFormSchema";
 
 export function RegisterForm() {
   const form = useForm<z.infer<typeof registerFormSchema>>({
@@ -44,7 +45,12 @@ export function RegisterForm() {
   };
 
   function onSubmit(data: z.infer<typeof registerFormSchema>) {
-    console.log(data);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log(data);
+        resolve(null);
+      }, 3000);
+    });
   }
 
   return (
@@ -167,6 +173,7 @@ export function RegisterForm() {
                       defaultCountry="BR"
                       international={false}
                       placeholder="Digite o numero de telefone"
+                      maxLength={15}
                       {...field}
                     />
                   </FormControl>
@@ -175,8 +182,19 @@ export function RegisterForm() {
               )}
             />
             <div className="my-6">
-              <Button type="submit" className="w-full btn-primary text-xl">
-                Cadastre-se
+              <Button
+                type="submit"
+                className="w-full btn-primary text-xl"
+                disabled={form.formState.isSubmitting}
+              >
+                {form.formState.isSubmitting ? (
+                  <>
+                    <Loader2 className="animate-spin" />
+                    Cadastrando...
+                  </>
+                ) : (
+                  "Cadastre-se"
+                )}
               </Button>
             </div>
           </form>
