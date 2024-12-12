@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { isValidPhoneNumber} from "react-phone-number-input"
 
 export const registerFormSchema = z.object({
 
@@ -10,5 +11,6 @@ export const registerFormSchema = z.object({
         message: "A senha deve ter no máximo 20 caracteres",
     }).regex(/[0-9]/, { message: "A senha deve conter ao menos um número" }).regex(/[A-Z]/, { message: "A senha deve conter ao menos uma letra maiúscula" }).regex(/[a-z]/, { message: "A senha deve conter ao menos uma letra minúscula" }).regex(/[!@#$%^&*(),.?":{}|<>]/, { message: "A senha deve conter ao menos um caractere especial" }),
     passwordConfirm: z.string(),
-    telephone: z.string().min(9, {message: "Telefone deve ter 8 ou mais números"}).max(15, {message: "Telefone deve ter 11 ou menos números"})
+    telephone: z.string().refine(isValidPhoneNumber, {message: "Numero de telefone invalido."})
+    // telephone: z.string().min(9, {message: "Telefone deve ter 8 ou mais números"}).max(15, {message: "Telefone deve ter 11 ou menos números"}).refine(isValidPhoneNumber)
 }).refine(({ password, passwordConfirm }) => password === passwordConfirm, { message: "As senhas devem ser iguais", path: ['passwordConfirm'] })
