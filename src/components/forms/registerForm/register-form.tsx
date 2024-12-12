@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -176,7 +176,6 @@ export function RegisterForm() {
                       placeholder="Digite o numero de telefone"
                       maxLength={15}
                       {...field}
-                      maxLength={15}
                     />
                   </FormControl>
                   <FormMessage />
