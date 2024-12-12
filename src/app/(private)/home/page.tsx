@@ -2,6 +2,9 @@ import React from 'react'
 
 export default function HomePage() {
   return (
-    <div>HomePage</div>
+    <div className='flex flex-col flex-wrap'>
+
+    </div>
+
   )
 }

@@ -168,6 +168,7 @@ export function RegisterForm() {
                       international={false}
                       placeholder="Digite o numero de telefone"
                       {...field}
+                      maxLength={15}
                     />
                   </FormControl>
                   <FormMessage />
