@@ -22,9 +22,9 @@ interface PrivateLayoutProps {
 export default function PrivateLayout({ children }: PrivateLayoutProps) {
     return (
         <SidebarProvider>
-            <div className="flex h-screen">
+            <div className="flex h-screen w-full">
                 <AppSidebar />
-                <div className="flex flex-col flex-1 md:px-11 px-6 pb-11">
+                <div className="flex flex-col w-full md:px-11 px-6 pb-11">
                     <Cabecalho />
                     <main className="flex items-center justify-center flex-1 bg-[#18181b] rounded-xl p-8">
                         {children}
