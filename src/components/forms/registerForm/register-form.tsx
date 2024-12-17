@@ -21,11 +21,32 @@ import {
 } from "@tabler/icons-react";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { registerFormSchema } from "./registerFormSchema";
 import CardLogin from "@/components/ui/cardLogin";
+
+const BotaoCadastrar = React.memo(
+  ({ isSubmitting }: { isSubmitting: boolean }) => (
+    <Button
+      type="submit"
+      className="w-full btn-primary text-white py-6 text-xl"
+      disabled={isSubmitting}
+    >
+      {isSubmitting ? (
+        <>
+          <Loader2 className="animate-spin" />
+          Cadastrando...
+        </>
+      ) : (
+        "Cadastre-se"
+      )}
+    </Button>
+  )
+);
+
+BotaoCadastrar.displayName = "BotaoCadastrar";
 
 export function RegisterForm() {
   const form = useForm<z.infer<typeof registerFormSchema>>({
@@ -41,9 +62,17 @@ export function RegisterForm() {
 
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  const handlerMostrarSenha = () => {
-    setMostrarSenha(!mostrarSenha);
-  };
+  const handlerMostrarSenha = useCallback(() => {
+    setMostrarSenha((prev) => !prev);
+  }, []);
+
+  const handlerIconMostrarSenha = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      handlerMostrarSenha();
+    },
+    [handlerMostrarSenha]
+  );
 
   function onSubmit(data: z.infer<typeof registerFormSchema>) {
     return new Promise((resolve) => {
@@ -53,6 +82,15 @@ export function RegisterForm() {
       }, 3000);
     });
   }
+
+  const LinkLogin = useMemo(
+    () => (
+      <Link href="/accounts/login" className="text-green-500">
+        Faça Login
+      </Link>
+    ),
+    []
+  );
 
   return (
     <CardLogin>
@@ -121,18 +159,12 @@ export function RegisterForm() {
                       <IconLock className=" absolute left-3 text-zinc-600 peer-focus:text-zinc-300" />
                       {mostrarSenha ? (
                         <IconEyeOff
-                          onMouseDown={(e) => {
-                            e.preventDefault();
-                            handlerMostrarSenha();
-                          }}
+                          onMouseDown={handlerIconMostrarSenha}
                           className="absolute right-3 text-zinc-600 hover:text-zinc-300"
                         />
                       ) : (
                         <IconEye
-                          onMouseDown={(e) => {
-                            e.preventDefault();
-                            handlerMostrarSenha();
-                          }}
+                          onMouseDown={handlerIconMostrarSenha}
                           className="absolute right-3 text-zinc-600 hover:text-zinc-300"
                         />
                       )}
@@ -183,30 +215,12 @@ export function RegisterForm() {
               )}
             />
             <div className="my-6">
-              <Button
-                type="submit"
-                className="w-full btn-primary text-white py-6 text-xl"
-                disabled={form.formState.isSubmitting}
-              >
-                {form.formState.isSubmitting ? (
-                  <>
-                    <Loader2 className="animate-spin" />
-                    Cadastrando...
-                  </>
-                ) : (
-                  "Cadastre-se"
-                )}
-              </Button>
+              <BotaoCadastrar isSubmitting={form.formState.isSubmitting} />
             </div>
           </form>
         </Form>
         <div className=" text-center text-sm">
-          <span>
-            Já possui conta?{" "}
-            <Link href="/accounts/login" className="text-green-500">
-              Faça Login
-            </Link>
-          </span>
+          <span>Já possui conta? {LinkLogin}</span>
           <br />
         </div>
       </CardContent>
