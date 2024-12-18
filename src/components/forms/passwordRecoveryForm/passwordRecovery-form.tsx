@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -17,6 +17,7 @@ import { z } from "zod";
 import { passwordRecoveryFormShema } from "./passwordRecoveryFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CardLogin from "@/components/ui/cardLogin";
+import { toast } from "sonner";
 
 const BotaoEnviar = React.memo(() => (
   <Button type="submit" className="w-full btn-primary text-xl text-white py-6">
@@ -35,7 +36,20 @@ export function PasswordRecoveryForm() {
   });
 
   function onSubmit(data: z.infer<typeof passwordRecoveryFormShema>) {
-    console.log(data);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        toast.success(`Verifique o seu e-mail!`, {
+          description: (
+            <pre className="mt-2 p-2 bg-green-950 rounded-md">
+              <code className="text-white"> 
+                {JSON.stringify(data, null, 2)}
+              </code>
+            </pre>
+          ),
+        })
+        resolve(null);
+      }, 3000)
+    })
   }
 
   return (

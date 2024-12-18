@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { Poppins } from 'next/font/google'
+import { Toaster } from "@/components/ui/sonner";
 
 const poppins =  Poppins({
   weight: ['400', '600', '700'], 
@@ -31,6 +32,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             {children}
+            <Toaster richColors position="top-right" toastOptions={{className: "bg-white text-black shadow-md border border-gray-200"}} />
           </ThemeProvider>
       </body>
     </html>
