@@ -33,6 +33,7 @@
     "react-hook-form": "^7.54.0",
     "react-hot-toast": "^2.4.1",
     "react-phone-number-input": "^3.4.10",
+    "sonner": "^1.7.1",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "zod": "^3.24.0"
