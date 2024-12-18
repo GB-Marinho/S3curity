@@ -14,7 +14,9 @@ import Logotipo from "@/assets/img/logotipo.png";
 import {
     IconUser,
     IconBox,
-    IconClipboardText
+    IconClipboardText,
+    IconUserPlus,
+    IconHome
 } from "@tabler/icons-react";
 import { Combobox } from "../ui/combobox";
 
@@ -35,6 +37,22 @@ const items = [
         icon: IconClipboardText,
     },
 ]
+
+
+// telas sem rotas definidas (Remover pós implementação)
+const itemsTemporarios = [
+    {
+        title: "Home",
+        url: "home",
+        icon: IconHome,
+    },
+    {
+        title: "Novo Usuario",
+        url: "new-user",
+        icon: IconUserPlus,
+    },
+]
+// até aqui
 
 export function AppSidebar() {
     return (
@@ -57,7 +75,7 @@ export function AppSidebar() {
                             {items.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url} className="flex justify-center">
+                                        <a href={item.url} className="flex pl-11 justify-start">
                                             <div className="h-5 w-5 mr-2">
                                                 <item.icon  className="h-5 w-5"/>
                                             </div>
@@ -69,6 +87,29 @@ export function AppSidebar() {
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
+
+                {/* telas sem rotas definidas (Remover pós implementação) */}
+                <SidebarGroup>
+                    <SidebarHeader><div className="flex pl-5">Temporario</div></SidebarHeader>
+                    <SidebarGroupContent className="">
+                        <SidebarMenu>
+                            {itemsTemporarios.map((item) => (
+                                <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton asChild>
+                                        <a href={item.url} className="flex pl-11 justify-start">
+                                            <div className="h-5 w-5 mr-2">
+                                                <item.icon className="h-5 w-5"/>
+                                            </div>
+                                            <span className="text-base mr-2">{item.title}</span>
+                                        </a>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
+                        </SidebarMenu>
+                    </SidebarGroupContent>
+                </SidebarGroup>
+                {/* Até aqui */}
+
             </SidebarContent>
         </Sidebar>
     )

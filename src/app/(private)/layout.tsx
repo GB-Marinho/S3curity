@@ -11,7 +11,7 @@ interface PrivateLayoutProps {
 export default function PrivateLayout({ children }: PrivateLayoutProps) {
   return (
     <SidebarProvider>
-      <div className="flex h-screen">
+      <div className="flex h-screen w-screen">
         <AppSidebar />
         <Content>{children}</Content>
       </div>
