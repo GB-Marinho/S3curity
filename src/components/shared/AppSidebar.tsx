@@ -23,7 +23,7 @@ import { Combobox } from "../ui/combobox";
 const items = [
     {
         title: "Gerenciar",
-        url: "#",
+        url: "/manage",
         icon: IconUser,
     },
     {
