@@ -26,7 +26,7 @@ export default function PrivateLayout({ children }: PrivateLayoutProps) {
                 <AppSidebar />
                 <div className="flex flex-col w-full md:px-11 px-6 pb-11">
                     <Cabecalho />
-                    <main className="flex items-center justify-center flex-1 bg-[#18181b] rounded-xl p-8">
+                    <main className="flex justify-center flex-1 bg-[#18181b] rounded-xl p-8">
                         {children}
                     </main>
                 </div>
