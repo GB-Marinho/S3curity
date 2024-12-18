@@ -16,6 +16,9 @@ body {
   .btn-primary {
     @apply !bg-[#22c55e] hover:!bg-green-300;
   }
+  .btn-secondary {
+    @apply !bg-[#1d4ed8] hover:!bg-blue-500;
+  }
 }
 
 @layer base {
