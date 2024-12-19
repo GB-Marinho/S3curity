@@ -1,6 +1,6 @@
 "use client";
 import Cabecalho from "@/components/shared/cabecalho/Cabecalho";
-import { AppSidebar } from "@/components/shared/AppSidebar";
+import { AppSidebar } from "@/components/shared/sidebar/AppSidebar";
 import { SidebarProvider, useSidebar } from "@/components/ui/sidebar";
 import React, { ReactNode } from "react";
 

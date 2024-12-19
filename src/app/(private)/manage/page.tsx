@@ -51,7 +51,7 @@ export default async function ManagePage() {
     const data = await getData()
 
     return (
-        <div className="w-full">
+        <div className="w-full h-full container">
             <DataTable columns={columns} data={data} />
         </div>
     )
