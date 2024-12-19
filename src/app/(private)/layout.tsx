@@ -29,7 +29,7 @@ function Content({ children }: PrivateLayoutProps) {
   return (
     <div className={mainClass}>
       <Cabecalho />
-      <main className="flex items-center justify-center flex-1 bg-[#18181b] rounded-xl p-8">
+      <main className="flex flex-1 bg-[#18181b] rounded-xl p-8">
         {children}
       </main>
     </div>
