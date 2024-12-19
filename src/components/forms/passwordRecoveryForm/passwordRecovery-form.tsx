@@ -17,17 +17,30 @@ import { z } from "zod";
 import { passwordRecoveryFormShema } from "./passwordRecoveryFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CardLogin from "@/components/ui/cardLogin";
-import { toast } from "sonner";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-const BotaoEnviar = React.memo(() => (
-  <Button type="submit" className="w-full btn-primary text-xl text-white py-6">
-    Enviar
+const BotaoEnviar = React.memo((
+  {isSubmitting}:{isSubmitting: boolean}
+) => (
+  <Button type="submit" className="w-full btn-primary text-xl text-white py-6" disabled={isSubmitting}>
+          {isSubmitting ? (
+        <>
+          <Loader2 className="animate-spin" />
+          Enviando...
+        </>
+      ) : (
+        "Enviar"
+      )}
   </Button>
 ));
 
 BotaoEnviar.displayName = "BotaoEnviar"
 
 export function PasswordRecoveryForm() {
+
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof passwordRecoveryFormShema>>({
     resolver: zodResolver(passwordRecoveryFormShema),
     defaultValues: {
@@ -38,15 +51,7 @@ export function PasswordRecoveryForm() {
   function onSubmit(data: z.infer<typeof passwordRecoveryFormShema>) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        toast.success(`Verifique o seu e-mail!`, {
-          description: (
-            <pre className="mt-2 p-2 bg-green-950 rounded-md">
-              <code className="text-white"> 
-                {JSON.stringify(data, null, 2)}
-              </code>
-            </pre>
-          ),
-        })
+        router.push("/accounts/recovery/success")
         resolve(null);
       }, 3000)
     })
@@ -85,7 +90,7 @@ export function PasswordRecoveryForm() {
               )}
             />
             <div className="my-6">
-              <BotaoEnviar/>
+              <BotaoEnviar isSubmitting={form.formState.isSubmitting}/>
             </div>
           </form>
         </Form>
