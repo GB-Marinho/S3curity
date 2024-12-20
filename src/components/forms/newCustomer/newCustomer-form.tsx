@@ -1,7 +1,7 @@
 "use client";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
-import { newUserFormSchema } from "./newUserFormSchema";
+import { newCustomerFormSchema } from "./newCustomerFormSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import CardNewUser from "@/components/ui/cardNewUser";
@@ -26,7 +26,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 const BotaoSalvar = React.memo(() => (
   <Button
@@ -38,41 +37,51 @@ const BotaoSalvar = React.memo(() => (
 ));
 BotaoSalvar.displayName = "BotaoSalvar";
 
-interface BotaoCancelarProps {
-  resetForm: () => void;
-}
 
 const BotaoCancelar = React.memo(({ resetForm }: { resetForm: () => void }) => (
-  <Link href={"/home"} className="w-full max-w-[206px] flex">
     <Button
-      onClick={resetForm}
+      onClick={(e)=> {
+        e.preventDefault();
+        resetForm()}}
       className="w-full max-w-[206px] btn-secondary text-white text-xl font-bold py-6"
     >
       Cancelar
     </Button>
-  </Link>
 ));
 BotaoCancelar.displayName = "BotaoCancelar";
 
-export default function NewUserForm() {
-  const form = useForm<z.infer<typeof newUserFormSchema>>({
-    resolver: zodResolver(newUserFormSchema),
+
+interface NewCustomerFormProps {
+  onClose?: () => void
+}
+
+export default function NewCustomerForm({onClose}:NewCustomerFormProps) {
+  const form = useForm<z.infer<typeof newCustomerFormSchema>>({
+    resolver: zodResolver(newCustomerFormSchema),
     defaultValues: {
       name: "",
       perfis: [],
       diasDeTrabalho: [],
-      ativo: "",
+      ativo: "Desativado",
     },
   });
 
-  function onSubmit(data: z.infer<typeof newUserFormSchema>) {
+  function onSubmit(data: z.infer<typeof newCustomerFormSchema>) {
     console.log(data);
+    handlerModal()
   }
 
   const resetForm = useCallback(() => {
       form.reset();
       form.clearErrors();
+      handlerModal()
   },[]) 
+
+  function handlerModal() {
+    if(onClose){
+      onClose()
+    }
+  }
 
 
   return (
