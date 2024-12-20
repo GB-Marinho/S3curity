@@ -1,7 +1,7 @@
 import { optionSchema } from "@/components/ui/multipleSelector";
 import { z } from "zod";
 
-export const newUserFormSchema = z.object({
+export const newCustomerFormSchema = z.object({
   name: z
     .string()
     .min(2, { message: "O nome precisa ter mais que 2 caracteres" })
