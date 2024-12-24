@@ -16,14 +16,14 @@ import NavItemMidd from "./Middleware-navItem";
 export function AppSidebar() {
   return (
     <Sidebar className="border-none">
-      <SidebarHeader className="bg-black">
+      <SidebarHeader className="bg-black ">
         <div className="flex flex-col gap-2 h-[152px] justify-center items-center">
           <Image src={Logo} alt="Logo" width={90} />
           <Image src={Logotipo} alt="Logotipo" width={90} />
         </div>
       </SidebarHeader>
       <SidebarContent className="bg-black">
-        <SidebarGroup>
+        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
           <div className="flex justify-center">
             <Combobox />
           </div>
