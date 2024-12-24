@@ -68,7 +68,7 @@ export const navItems: NavItemType[] = [
       {
         id:"perfis",
         title: "Perfis",
-        url: "#",
+        url: "/perfis",
         icon: IconUsers,
         type: "item",
       },
@@ -76,7 +76,7 @@ export const navItems: NavItemType[] = [
       {
         id:"permissoes",
         title: "Permissoes",
-        url: "#",
+        url: "/permissoes",
         icon: IconLicense,
         type: "item",
       },

@@ -9,8 +9,6 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Input } from "@/components/ui/input";
-
 import {
   Table,
   TableBody,
@@ -19,18 +17,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
-import NewCustomersModal from "@/components/modals/newCustomersModal";
+import React, { cloneElement, ReactElement, ReactNode } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  searchFor?: string,
+  searchBar?: ReactNode;
 }
-
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  searchFor,
+  searchBar,
 }: DataTableProps<TData, TValue>) {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -46,25 +46,18 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  const nomeColumn = searchFor ? table.getColumn(searchFor): table.getColumn("nome") ;
+
   return (
     <div className="w-full">
-      <div className=" flex  w-full  justify-center gap-5 items-center">
-        <div className="flex flex-grow items-center justify-between px-4 py-2 rounded max-w-[600px] bg-zinc-800 my-0">
-          <p>Pesquisar Usuários</p>
-          <Input
-            placeholder="Procurar por nome..."
-            value={(table.getColumn("nome")?.getFilterValue() as string) ?? ""}
-            onChange={(event) =>
-              table.getColumn("nome")?.setFilterValue(event.target.value)
-            }
-            className="max-w-sm"
-          />
+      {searchBar && (
+        <div className=" flex  w-full  justify-center gap-5 items-center">
+          {cloneElement( searchBar as ReactElement, {
+            filterValue: (nomeColumn?.getFilterValue() as string) ?? "",
+            setFilterValue: (value: string) => nomeColumn?.setFilterValue(value),
+          })}
         </div>
-        <div>
-            <NewCustomersModal/>
-            {/* <BotaoNewCustomer/> */}
-        </div>
-      </div>
+      )}
       <div className="rounded-md border w-full mt-6">
         <Table>
           <TableHeader>
