@@ -10,6 +10,7 @@ export const API_AUTH_USER_REGISTER = `${API_AUTH}/registrar-usuario`;
 export const API_AUTH_RECOVERY_BY_EMAIL = `${API_AUTH}/recuperar-por-email`;
 export const API_AUTH_VERIFY_EMAIL_TOKEN = `${API_AUTH}/verificar-token`;
 export const API_AUTH_CHANGE_PASSWORD_BY_EMAIL_TOKEN = `${API_AUTH}/alterar-senha-email`;
+export const API_AUTH_CHANGE_TOKENID_BY_REFRESH_TOKEN = `${API_AUTH}/alterar-token`;
 // PAGES WEBAPP ---------------------------------
 export const PATH_PAGE_HOME = "/";
 // PAGES WEBAPP - ACCOUNTS ----------------------
