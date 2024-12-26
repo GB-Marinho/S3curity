@@ -1,21 +1,9 @@
 "use client";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import Image from "next/image";
 import Logo from "@/assets/img/logo.png";
 import Logotipo from "@/assets/img/logotipo.png";
-import {
-  IconMail,
-  IconEye,
-  IconBrandGoogleFilled,
-  IconEyeOff,
-} from "@tabler/icons-react";
-import React, { useCallback, useMemo, useState } from "react";
-import { loginFormSchema } from "./loginFormSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { Button } from "@/components/ui/button";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CardLogin from "@/components/ui/cardLogin";
 import {
   Form,
   FormControl,
@@ -24,8 +12,29 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  handleError,
+  PATH_PAGE_ACCOUNTS_RECOVERY,
+  PATH_PAGE_ACCOUNTS_REGISTER,
+} from "@/lib";
+import { login } from "@/services";
+import { ErrorResponse } from "@/types";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  IconBrandGoogleFilled,
+  IconEye,
+  IconEyeOff,
+  IconMail,
+} from "@tabler/icons-react";
+import { Loader2 } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import CardLogin from "@/components/ui/cardLogin";
+import { toast } from "sonner";
+import { z } from "zod";
+import { loginFormSchema } from "./loginFormSchema";
 
 const GoogleButton = React.memo(() => (
   <Button
@@ -53,14 +62,24 @@ export function LoginForm() {
     setMostrarSenha((prev) => !prev);
   }, []);
 
-  function onSubmit(data: z.infer<typeof loginFormSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof loginFormSchema>) {
+    try {
+      const response = await login(data.email, data.password);
+      if (response.status === 200) {
+        console.log("Sucesso");
+      } else {
+        const error = response.data as ErrorResponse;
+        toast.error(error.message);
+      }
+    } catch (error) {
+      handleError(error);
+    }
   }
 
   const LinkEsqueceuSenha = useMemo(
     () => (
       <Link
-        href="/accounts/recovery"
+        href={PATH_PAGE_ACCOUNTS_RECOVERY}
         className="ml-auto inline-block text-sm text-zinc-500 hover:text-zinc-200"
       >
         Esqueceu a senha?
@@ -71,17 +90,23 @@ export function LoginForm() {
 
   const LinkCadastro = useMemo(
     () => (
-      <Link href="/accounts/register" className="underline text-green-500">
+      <Link
+        href={PATH_PAGE_ACCOUNTS_REGISTER}
+        className="underline text-green-500"
+      >
         Cadastre-se aqui
       </Link>
     ),
     []
   );
 
-  const handlerIconMostrarSenha = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-    handlerMostrarSenha();
-  }, [handlerMostrarSenha])
+  const handlerIconMostrarSenha = useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault();
+      handlerMostrarSenha();
+    },
+    [handlerMostrarSenha]
+  );
 
   return (
     <CardLogin>
@@ -154,8 +179,13 @@ export function LoginForm() {
             <Button
               type="submit"
               className="w-full btn-primary text-white text-xl py-6"
+              disabled={form.formState.isSubmitting}
             >
-              Login
+              {form.formState.isSubmitting ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                "Login"
+              )}
             </Button>
           </form>
         </Form>
@@ -174,10 +204,7 @@ export function LoginForm() {
           </div>
         </div>
         <div className=" text-center text-sm">
-          <span>
-            Ainda não possui conta?{" "}
-            {LinkCadastro}
-          </span>
+          <span>Ainda não possui conta? {LinkCadastro}</span>
           <br />
           <span className="text-zinc-500 text-xs">
             ou faça login pelo Google clicando no G acima.
