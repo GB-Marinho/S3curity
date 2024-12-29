@@ -1,7 +1,12 @@
 import { API_AUTH_RECOVERY_BY_EMAIL } from "@/lib";
-import { axiosApi } from "../config";
+import { ErrorResponse } from "@/types";
+import { axiosApiClientSide } from "../config";
 
 export async function recoveryByEmail(email: string, baseUrl: string) {
   const data = { email, baseUrl };
-  return await axiosApi.post<void>(API_AUTH_RECOVERY_BY_EMAIL, data);
+  const axiosApi = axiosApiClientSide();
+  return await axiosApi.post<void | ErrorResponse>(
+    API_AUTH_RECOVERY_BY_EMAIL,
+    data
+  );
 }

@@ -13,13 +13,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/context";
 import {
   handleError,
   PATH_PAGE_ACCOUNTS_RECOVERY,
   PATH_PAGE_ACCOUNTS_REGISTER,
+  PATH_PAGE_HOME,
 } from "@/lib";
-import { login } from "@/services";
-import { ErrorResponse } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   IconBrandGoogleFilled,
@@ -32,7 +32,6 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
 import { z } from "zod";
 import { loginFormSchema } from "./loginFormSchema";
 
@@ -48,6 +47,8 @@ const GoogleButton = React.memo(() => (
 GoogleButton.displayName = "GoogleButton";
 
 export function LoginForm() {
+  const { login } = useAuth();
+
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -64,13 +65,9 @@ export function LoginForm() {
 
   async function onSubmit(data: z.infer<typeof loginFormSchema>) {
     try {
-      const response = await login(data.email, data.password);
-      if (response.status === 200) {
-        console.log("Sucesso");
-      } else {
-        const error = response.data as ErrorResponse;
-        toast.error(error.message);
-      }
+      await login(data.email, data.password);
+      // replace("/home");
+      window.location.replace(PATH_PAGE_HOME);
     } catch (error) {
       handleError(error);
     }
