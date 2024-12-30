@@ -18,7 +18,6 @@ import {
   handleError,
   PATH_PAGE_ACCOUNTS_RECOVERY,
   PATH_PAGE_ACCOUNTS_REGISTER,
-  PATH_PAGE_HOME,
 } from "@/lib";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -66,8 +65,6 @@ export function LoginForm() {
   async function onSubmit(data: z.infer<typeof loginFormSchema>) {
     try {
       await login(data.email, data.password);
-      // replace("/home");
-      window.location.replace(PATH_PAGE_HOME);
     } catch (error) {
       handleError(error);
     }
