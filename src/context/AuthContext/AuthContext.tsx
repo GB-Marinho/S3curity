@@ -1,5 +1,5 @@
 "use client";
-import { PATH_PAGE_ACCOUNTS_LOGIN } from "@/lib";
+import { PATH_PAGE_ACCOUNTS_LOGIN, PATH_PAGE_HOME } from "@/lib";
 import { createCookie, deleteCookie, getCookie } from "@/lib/actions/";
 import { decrypt } from "@/lib/JWT/verifyToken";
 import { loginRequest, LoginResponse } from "@/services";
@@ -78,6 +78,7 @@ export function AuthProvider({ children }: AuthProviderInterface) {
         email: payload.email as string,
       });
       // replace(PATH_PAGE_HOME);
+      window.location.replace(PATH_PAGE_HOME);
     } else {
       const error = response.data as ErrorResponse;
       toast.error(error.message);
