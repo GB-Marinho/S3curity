@@ -1,5 +1,6 @@
 "use client";
 import { PATH_PAGE_ACCOUNTS_LOGIN } from "@/lib";
+import { createCookie, deleteCookie, getCookie } from "@/lib/actions/";
 import { decrypt } from "@/lib/JWT/verifyToken";
 import { loginRequest, LoginResponse } from "@/services";
 import {
@@ -18,7 +19,6 @@ import {
   useState,
 } from "react";
 import { toast } from "sonner";
-import { createCookie, deleteCookie, getCookie } from "./actions";
 
 const AuthContext = createContext<AuthContextInterface>(
   {} as AuthContextInterface

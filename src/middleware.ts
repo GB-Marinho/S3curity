@@ -12,16 +12,25 @@ export async function middleware(request: NextRequest) {
     if (user) return NextResponse.next();
   } catch (error) {
     if (error instanceof JWTExpired && tokenId) {
+      const res = NextResponse.next();
+      res.cookies.delete("tokenId");
       const tokenRefresh = request.cookies.get("token")?.value || "";
       const response = await changeTokenId(tokenRefresh, tokenId);
       if (response.status === 200) {
-        // TODO: falta adicionar aos cookies novos tokens (criar a funcao para isso)
+        const data = response.data;
+        // Adiciona novos cookies
+        res.cookies.set("tokenId", data.tokenId, { maxAge: 2 * 60 * 60 }); // 2 horas
+        res.cookies.set("token", data.token, { maxAge: 30 * 24 * 60 * 60 }); // 30 dias
         console.log("Redefiniu Tokens");
-        return NextResponse.next();
+        return res;
       }
     }
   }
-  return NextResponse.redirect(new URL(PATH_PAGE_ACCOUNTS_LOGIN, request.url));
+  const redirectResponse = NextResponse.redirect(
+    new URL(PATH_PAGE_ACCOUNTS_LOGIN, request.url)
+  );
+  redirectResponse.cookies.delete("tokenId");
+  return redirectResponse;
 }
 
 export const config = {

@@ -1,9 +1,13 @@
+import { UserInfoSkeleton } from "@/components/skeletons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context";
 
 export default function UserProfileSection() {
-  const { name, email, logout } = useAuth();
+  const { name, email, logout, loading } = useAuth();
+
+  if (loading) return <UserInfoSkeleton />;
+
   return (
     <div className="flex gap-2 px-2">
       <Avatar className="h-[53px] w-[53px]">
