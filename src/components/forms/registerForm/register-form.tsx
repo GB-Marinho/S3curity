@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CardLogin from "@/components/ui/cardLogin";
 import {
   Form,
   FormControl,
@@ -11,6 +12,9 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PhoneInput } from "@/components/ui/phone-input";
+import { handleError, MsgSuccess, PATH_PAGE_ACCOUNTS_LOGIN } from "@/lib";
+import { register } from "@/services";
+import { ErrorResponse } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   IconEye,
@@ -21,11 +25,12 @@ import {
 } from "@tabler/icons-react";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { registerFormSchema } from "./registerFormSchema";
-import CardLogin from "@/components/ui/cardLogin";
 
 const BotaoCadastrar = React.memo(
   ({ isSubmitting }: { isSubmitting: boolean }) => (
@@ -49,6 +54,7 @@ const BotaoCadastrar = React.memo(
 BotaoCadastrar.displayName = "BotaoCadastrar";
 
 export function RegisterForm() {
+  const { push } = useRouter();
   const form = useForm<z.infer<typeof registerFormSchema>>({
     resolver: zodResolver(registerFormSchema),
     defaultValues: {
@@ -74,18 +80,33 @@ export function RegisterForm() {
     [handlerMostrarSenha]
   );
 
-  function onSubmit(data: z.infer<typeof registerFormSchema>) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        console.log(data);
-        resolve(null);
-      }, 3000);
-    });
+  async function onSubmit(data: z.infer<typeof registerFormSchema>) {
+    try {
+      const response = await register(
+        data.name,
+        data.email,
+        data.password,
+        data.passwordConfirm,
+        data.telephone
+      );
+      if (response.status === 201) {
+        toast.success(MsgSuccess.USUARIO_CADASTRADO);
+        push(PATH_PAGE_ACCOUNTS_LOGIN);
+      } else {
+        const error = response.data as ErrorResponse;
+        toast.error(error.message);
+      }
+    } catch (error) {
+      handleError(error);
+    }
   }
 
   const LinkLogin = useMemo(
     () => (
-      <Link href="/accounts/login" className="text-green-500">
+      <Link
+        href={PATH_PAGE_ACCOUNTS_LOGIN}
+        className="text-green-500 hover:text-green-400"
+      >
         Faça Login
       </Link>
     ),

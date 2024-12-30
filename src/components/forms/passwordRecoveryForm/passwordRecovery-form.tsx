@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CardLogin from "@/components/ui/cardLogin";
 import {
   Form,
   FormControl,
@@ -10,21 +11,27 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { IconMail } from "@tabler/icons-react";
-import React from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { passwordRecoveryFormShema } from "./passwordRecoveryFormSchema";
+import { handleError, PATH_PAGE_ACCOUNTS_RECOVERY_SUCCESS } from "@/lib";
+import { recoveryByEmail } from "@/services";
+import { ErrorResponse } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CardLogin from "@/components/ui/cardLogin";
+import { IconMail } from "@tabler/icons-react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { passwordRecoveryFormShema } from "./passwordRecoveryFormSchema";
 
-const BotaoEnviar = React.memo((
-  {isSubmitting}:{isSubmitting: boolean}
-) => (
-  <Button type="submit" className="w-full btn-primary text-xl text-white py-6" disabled={isSubmitting}>
-          {isSubmitting ? (
+const BotaoEnviar = React.memo(
+  ({ isSubmitting }: { isSubmitting: boolean }) => (
+    <Button
+      type="submit"
+      className="w-full btn-primary text-xl text-white py-6"
+      disabled={isSubmitting}
+    >
+      {isSubmitting ? (
         <>
           <Loader2 className="animate-spin" />
           Enviando...
@@ -32,14 +39,14 @@ const BotaoEnviar = React.memo((
       ) : (
         "Enviar"
       )}
-  </Button>
-));
+    </Button>
+  )
+);
 
-BotaoEnviar.displayName = "BotaoEnviar"
+BotaoEnviar.displayName = "BotaoEnviar";
 
 export function PasswordRecoveryForm() {
-
-  const router = useRouter()
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof passwordRecoveryFormShema>>({
     resolver: zodResolver(passwordRecoveryFormShema),
@@ -48,13 +55,19 @@ export function PasswordRecoveryForm() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof passwordRecoveryFormShema>) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        router.push("/accounts/recovery/success")
-        resolve(null);
-      }, 3000)
-    })
+  async function onSubmit(data: z.infer<typeof passwordRecoveryFormShema>) {
+    try {
+      const baseUrl = `${window.location.href}/email`;
+      const response = await recoveryByEmail(data.email, baseUrl);
+      if (response.status === 204) {
+        router.push(PATH_PAGE_ACCOUNTS_RECOVERY_SUCCESS);
+      } else {
+        const error = response.data as ErrorResponse;
+        toast.error(error.message);
+      }
+    } catch (error) {
+      handleError(error);
+    }
   }
 
   return (
@@ -90,7 +103,7 @@ export function PasswordRecoveryForm() {
               )}
             />
             <div className="my-6">
-              <BotaoEnviar isSubmitting={form.formState.isSubmitting}/>
+              <BotaoEnviar isSubmitting={form.formState.isSubmitting} />
             </div>
           </form>
         </Form>
