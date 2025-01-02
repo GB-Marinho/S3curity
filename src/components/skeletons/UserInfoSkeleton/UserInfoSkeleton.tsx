@@ -9,7 +9,6 @@ export function UserInfoSkeleton() {
         <Skeleton className="h-4 w-28" />
         <Skeleton className="h-4 w-24" />
       </div>
-      <Button size="icon">Sair</Button>
     </div>
   );
 }
