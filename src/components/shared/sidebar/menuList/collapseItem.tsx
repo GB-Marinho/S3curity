@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/sidebar";
 import { NavItemType } from "@/types";
 import { ChevronRight } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 interface CollapseItemProps {
@@ -41,12 +42,12 @@ export default function CollapseItem({ navItem }: CollapseItemProps) {
             {navItem.items?.map((subItem) => (
               <SidebarMenuSubItem key={subItem.title}>
                 <SidebarMenuSubButton asChild>
-                  <a href={subItem.url}>
+                  <Link href={subItem.url!}>
                     <div className="h-3 w-3 ">
                       <subItem.icon className="h-3 w-3 text-zinc-300 " />
                     </div>
                     <span className="pl-2 text-zinc-400">{subItem.title}</span>
-                  </a>
+                  </Link>
                 </SidebarMenuSubButton>
               </SidebarMenuSubItem>
             ))}
