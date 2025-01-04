@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { newCustomerFormSchema } from "./newCustomerFormSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CardNewUser from "@/components/ui/cardNewUser";
 import {
   Form,
   FormControl,
@@ -25,37 +24,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-
-const BotaoSalvar = React.memo(() => (
-  <Button
-    type="submit"
-    className="w-full max-w-[206px] btn-primary text-white text-xl font-bold py-6"
-  >
-    Salvar
-  </Button>
-));
-BotaoSalvar.displayName = "BotaoSalvar";
-
-
-const BotaoCancelar = React.memo(({ resetForm }: { resetForm: () => void }) => (
-    <Button
-      onClick={(e)=> {
-        e.preventDefault();
-        resetForm()}}
-      className="w-full max-w-[206px] btn-secondary text-white text-xl font-bold py-6"
-    >
-      Cancelar
-    </Button>
-));
-BotaoCancelar.displayName = "BotaoCancelar";
+import CardModal from "@/components/ui/custom/cards/cardModal";
+import ButtonSubmit from "@/components/ui/custom/buttons/buttonSubmit";
+import ButtonCloseModal from "@/components/ui/custom/buttons/buttonCloseModal";
 
 
 interface NewCustomerFormProps {
-  onClose?: () => void
+  onClose?: () => void;
 }
 
-export default function NewCustomerForm({onClose}:NewCustomerFormProps) {
+export default function NewCustomerForm({ onClose }: NewCustomerFormProps) {
   const form = useForm<z.infer<typeof newCustomerFormSchema>>({
     resolver: zodResolver(newCustomerFormSchema),
     defaultValues: {
@@ -67,26 +45,24 @@ export default function NewCustomerForm({onClose}:NewCustomerFormProps) {
   });
 
   function onSubmit(data: z.infer<typeof newCustomerFormSchema>) {
-    console.log(data);
-    handlerModal()
+    handlerModal();
   }
 
   const resetForm = useCallback(() => {
-      form.reset();
-      form.clearErrors();
-      handlerModal()
-  },[]) 
+    form.reset();
+    form.clearErrors();
+    handlerModal();
+  }, []);
 
   function handlerModal() {
-    if(onClose){
-      onClose()
+    if (onClose) {
+      onClose();
     }
   }
 
-
   return (
-    <CardNewUser>
-      <div className="w-full max-w-[702px] ">
+    <CardModal title="Criar Usuário">
+      <div className="w-full max-w-[702px]">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -196,12 +172,12 @@ export default function NewCustomerForm({onClose}:NewCustomerFormProps) {
               </div>
             </div>
             <div className="flex justify-center w-full gap-7">
-              <BotaoSalvar />
-              <BotaoCancelar resetForm={resetForm} />
+              <ButtonSubmit />
+              <ButtonCloseModal resetForm={resetForm} />
             </div>
           </form>
         </Form>
       </div>
-    </CardNewUser>
+    </CardModal>
   );
 }

@@ -3,7 +3,7 @@ import Logo from "@/assets/img/logo.png";
 import Logotipo from "@/assets/img/logotipo.png";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import CardLogin from "@/components/ui/cardLogin";
+import CardLogin from "@/components/ui/custom/cards/cardLogin";
 import {
   Form,
   FormControl,

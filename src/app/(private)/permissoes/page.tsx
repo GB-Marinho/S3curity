@@ -2,6 +2,7 @@ import React from "react";
 import { columns, PermissoesData } from "./columns";
 import BarraDePesquisa from "@/components/shared/tabela/BarraDePesquisa";
 import { DataTable } from "@/components/shared/tabela/data-table";
+import NewPermissionsModal from "@/components/modals/newPermissionsModal";
 
 
 export default function PermissoesPage() {
@@ -15,7 +16,9 @@ export default function PermissoesPage() {
     <BarraDePesquisa
       title="Pesquisar Permissões"
       placeholder="Procurar por nome..."
-    ></BarraDePesquisa>
+    >
+      <NewPermissionsModal/>
+    </BarraDePesquisa>
   );
 
   return (
