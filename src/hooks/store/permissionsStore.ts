@@ -34,13 +34,11 @@ export const usePermissionsStore = create<PermissionsState>((set, get) => ({
   addPermission: async (newPermission) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await addPermission(
-        newPermission.nome,
-        newPermission.descricao
+      await addPermission(
+        newPermission.name,
+        newPermission.description
       );
-      if (response.status === 201) {
-        await get().fetchPermissions();
-      }
+      await get().fetchPermissions();
     } catch (error: any) {
       set({
         error: error.message || "Erro ao adicionar permissão",

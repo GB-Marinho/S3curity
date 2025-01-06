@@ -18,6 +18,8 @@ import { useCallback, useState } from "react";
 import ConfirmationDialog from "@/components/ui/custom/confirmationDialog";
 import useConfirmDialog from "@/hooks/useConfirmDialog";
 import CardModal from "@/components/ui/custom/cards/cardModal";
+import { usePermissionsStore } from "@/hooks/store/permissionsStore";
+import { toast } from "sonner";
 
 interface NewPermissionsFormProps {
   onClose?: () => void;
@@ -26,14 +28,15 @@ interface NewPermissionsFormProps {
 export default function NewPermissionsForm({
   onClose,
 }: NewPermissionsFormProps) {
+  const {addPermission} = usePermissionsStore()
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { showDialog, handleConfirm, handleCancel } = useConfirmDialog();
 
   const form = useForm<z.infer<typeof newPermissionsFormSchema>>({
     resolver: zodResolver(newPermissionsFormSchema),
     defaultValues: {
-      nome: "",
-      descricao: "",
+      name: "",
+      description: "",
     },
   });
 
@@ -50,13 +53,14 @@ export default function NewPermissionsForm({
   }
 
   async function onSubmit(data: z.infer<typeof newPermissionsFormSchema>) {
-    if (!data.descricao) {
-      const confimacao = await showDialog(setIsDialogOpen);
-      if (!confimacao) return;
-    }
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    console.log("Dados salvos:", data);
-    handlerModal();
+    await addPermission(data);
+    const {error} = usePermissionsStore.getState();
+      if(error){
+        toast.error(error)
+      }else{
+        toast.success("Permissão criada com Sucesso!")
+        handlerModal();
+      }
   }
 
   return (
@@ -70,7 +74,7 @@ export default function NewPermissionsForm({
             <div className="flex flex-col gap-6 pt-5 pb-11">
               <FormField
                 control={form.control}
-                name="nome"
+                name="name"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-xl">Nome</FormLabel>
@@ -88,7 +92,7 @@ export default function NewPermissionsForm({
               />
               <FormField
                 control={form.control}
-                name="descricao"
+                name="description"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-xl">Descrição</FormLabel>

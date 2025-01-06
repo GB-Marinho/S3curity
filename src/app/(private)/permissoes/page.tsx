@@ -23,7 +23,7 @@ export default function PermissoesPage() {
         toast.error(error)
         fetchPermissions()
       }else{
-        toast.success("Deletado com Sucesso")
+        toast("Permissão deletada com Sucesso!")
       }
     }
   }
