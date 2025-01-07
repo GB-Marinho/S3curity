@@ -1,3 +1,4 @@
+import PasswordRecoveryEmailForm from "@/components/forms/passwordRecoveryEmailForm";
 import { verifyEmailToken } from "@/services";
 import { notFound } from "next/navigation";
 
@@ -11,7 +12,7 @@ export default async function RecoveryByEmailToken({
     // TODO: Criar o Form de Recuperar a senha se entrar nesse if
     return (
       <section>
-        <h1>Digite sua nova senha</h1>
+        <PasswordRecoveryEmailForm/>
       </section>
     );
 
