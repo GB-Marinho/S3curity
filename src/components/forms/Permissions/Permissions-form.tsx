@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { newPermissionsFormSchema } from "./newPermissionsFormSchema";
+import { PermissionsFormSchema } from "./PermissionsFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -14,26 +14,25 @@ import {
 import { Input } from "@/components/ui/input";
 import ButtonSubmit from "@/components/ui/custom/buttons/buttonSubmit";
 import ButtonCloseModal from "@/components/ui/custom/buttons/buttonCloseModal";
-import { useCallback, useState } from "react";
-import ConfirmationDialog from "@/components/ui/custom/confirmationDialog";
-import useConfirmDialog from "@/hooks/useConfirmDialog";
+import { useCallback, useEffect } from "react";
 import CardModal from "@/components/ui/custom/cards/cardModal";
 import { usePermissionsStore } from "@/hooks/store/permissionsStore";
 import { toast } from "sonner";
+import { findPermissionID, updatePermission } from "@/services";
 
-interface NewPermissionsFormProps {
+interface PermissionsFormProps {
   onClose?: () => void;
+  id?: string;
 }
 
-export default function NewPermissionsForm({
+export default function PermissionsForm({
   onClose,
-}: NewPermissionsFormProps) {
-  const {addPermission} = usePermissionsStore()
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const { showDialog, handleConfirm, handleCancel } = useConfirmDialog();
+  id,
+}: PermissionsFormProps) {
+  const { addPermission } = usePermissionsStore();
 
-  const form = useForm<z.infer<typeof newPermissionsFormSchema>>({
-    resolver: zodResolver(newPermissionsFormSchema),
+  const form = useForm<z.infer<typeof PermissionsFormSchema>>({
+    resolver: zodResolver(PermissionsFormSchema),
     defaultValues: {
       name: "",
       description: "",
@@ -52,19 +51,52 @@ export default function NewPermissionsForm({
     }
   }
 
-  async function onSubmit(data: z.infer<typeof newPermissionsFormSchema>) {
-    await addPermission(data);
-    const {error} = usePermissionsStore.getState();
-      if(error){
-        toast.error(error)
-      }else{
-        toast.success("Permissão criada com Sucesso!")
+  useEffect(() => {
+    if (id) {
+      const buscarPermissao = async () => {
+        const permisao = await findPermissionID(id);
+        if (permisao) {
+          form.reset({
+            name: permisao.name,
+            description: permisao.description,
+          });
+        } else {
+          const { error } = usePermissionsStore.getState();
+          if (error) {
+            toast.error(error);
+          }
+        }
+      };
+      buscarPermissao();
+    }
+  }, [id, findPermissionID, form]);
+
+  async function onSubmit(data: z.infer<typeof PermissionsFormSchema>) {
+    if (id) {
+      // Editar
+      await updatePermission({ id, ...data });
+      const { error } = usePermissionsStore.getState();
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("Permissão atualizada com Sucesso!");
         handlerModal();
       }
+    } else {
+      // Criar
+      await addPermission(data);
+      const { error } = usePermissionsStore.getState();
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("Permissão criada com Sucesso!");
+        handlerModal();
+      }
+    }
   }
 
   return (
-    <CardModal title="Criar Permissão">
+    <CardModal title={`${id? "Editar": "Criar"} Permissão`}>
       <div className="w-full max-w-[702px]">
         <Form {...form}>
           <form
@@ -116,14 +148,6 @@ export default function NewPermissionsForm({
           </form>
         </Form>
       </div>
-
-      <ConfirmationDialog
-        open={isDialogOpen}
-        onClose={() => handleCancel(setIsDialogOpen)}
-        onConfirm={() => handleConfirm(setIsDialogOpen)}
-        title="Salvar sem descrição?"
-        description="Você está prestes a salvar sem fornecer uma descrição. Deseja continuar?"
-      />
     </CardModal>
   );
 }

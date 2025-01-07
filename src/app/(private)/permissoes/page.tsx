@@ -10,7 +10,7 @@ import useConfirmDialog from "@/hooks/useConfirmDialog";
 import { toast } from "sonner";
 
 export default function PermissoesPage() {
-  const { permissions, fetchPermissions, deletePermission } = usePermissionsStore();
+  const { permissions, findPermissions, deletePermission } = usePermissionsStore();
   const { showDialog, handleConfirm, handleCancel } = useConfirmDialog();
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -21,16 +21,17 @@ export default function PermissoesPage() {
        const {error} = usePermissionsStore.getState();
       if(error){
         toast.error(error)
-        fetchPermissions()
+        findPermissions()
       }else{
         toast("Permissão deletada com Sucesso!")
       }
     }
   }
 
+
   useEffect(() => {
-    fetchPermissions();
-  }, [fetchPermissions]);
+    findPermissions();
+  }, [findPermissions]);
 
 
   const sheach = (

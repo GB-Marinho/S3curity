@@ -1,1 +1,0 @@
-export * from "./newPermissions-form"

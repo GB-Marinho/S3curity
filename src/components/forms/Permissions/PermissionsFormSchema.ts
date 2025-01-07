@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const newPermissionsFormSchema = z.object({
+export const PermissionsFormSchema = z.object({
     name: z.string().min(3, { message: "O nome precisa ter mais que 3 caracteres" })
     .max(20, { message: "O nome não pode ter mais que 150 caracteres" })
     .regex(/^[A-Za-zÀ-ÖØ-öø-ÿ]+$/, {

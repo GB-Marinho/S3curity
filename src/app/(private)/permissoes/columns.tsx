@@ -1,4 +1,6 @@
 "use client";
+import PermissionsForm from "@/components/forms/Permissions/Permissions-form";
+import ModalTrigger from "@/components/ui/custom/buttons/modalTrigger";
 import { Permissao } from "@/types/Entities";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { ColumnDef } from "@tanstack/react-table";
@@ -19,12 +21,15 @@ export function columns(handleCancel: (id:string) => void) {
       header: "Ações",
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <button
+          <ModalTrigger 
+           trigger={<button
             className="text-blue-500 hover:underline"
-            onClick={() => alert(`Editando ID: ${row.original.id}`)}
           >
             <IconEdit/>
-          </button>
+          </button>}>
+            <PermissionsForm id={row.original.id}/>
+          </ModalTrigger>
+          
           <button
             className="text-red-500 hover:underline"
             onClick={() => handleCancel(row.original.id)}

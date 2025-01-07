@@ -1,6 +1,6 @@
 import NewCustomerForm from "../forms/newCustomer/newCustomer-form";
 import { IconPlus } from "@tabler/icons-react";
-import ButtonDialog from "../ui/custom/buttons/buttonDialog";
+import ButtonDialog from "../ui/custom/buttons/modalTrigger";
 
 export default function NewCustomersModal() {
   return (
