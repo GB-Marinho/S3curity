@@ -4,7 +4,6 @@ import { create } from "zustand";
 import {
   addPermission,
   deletePermission,
-  findPermissionID,
   findPermissions,
   updatePermission,
 } from "@/services";
@@ -15,7 +14,6 @@ interface PermissionsState {
   error: string | null;
 
   findPermissions: () => Promise<void>;
-  findPermissionId: (id: string) => Promise<Permissao | null>;
   addPermission: (permission: Omit<Permissao, "id">) => Promise<void>;
   updatePermission: (permission: Permissao) => Promise<void>;
   deletePermission: (id: string) => Promise<void>;
@@ -40,23 +38,6 @@ export const usePermissionsStore = create<PermissionsState>((set, get) => ({
     }
   },
 
-  findPermissionId: async (id) => {
-    set({ isLoading: true, error: null });
-    try {
-      const response = await findPermissionID(id);
-      if (!response) {
-        throw new Error("Permissão não encontrada.");
-      }
-      return response;
-    } catch (error: any) {
-      set({
-        error: error.message || "Erro ao buscar permissão",
-      });
-      return null;
-    } finally {
-      set({ isLoading: false });
-    }
-  },
 
   addPermission: async (newPermission) => {
     set({ isLoading: true, error: null });

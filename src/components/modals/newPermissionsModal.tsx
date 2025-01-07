@@ -1,5 +1,4 @@
 import { IconPlus } from "@tabler/icons-react";
-import ButtonDialog from "../ui/custom/buttons/modalTrigger";
 import NewPermissionsForm from "../forms/Permissions/Permissions-form";
 import ModalTrigger from "../ui/custom/buttons/modalTrigger";
 import { Button } from "../ui/button";

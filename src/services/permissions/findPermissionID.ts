@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_PERMISSIONS } from "@/lib";
 import { axiosApiClientSide } from "../config";
 import { Permissao } from "@/types/Entities";
