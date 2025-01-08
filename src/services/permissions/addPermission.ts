@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorResponse } from "@/types";
 import { axiosApiClientSide } from "../config";
 import { API_PERMISSIONS } from "@/lib";
 
-export async function addPermission(name: string, description: string) {
-  const data = { name, description };
+export async function addPermission(nome: string, descricao: string) {
+  const data = { nome, descricao };
   const axiosApi = axiosApiClientSide();
 
   try {

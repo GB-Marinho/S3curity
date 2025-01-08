@@ -3,10 +3,10 @@ import { axiosApiClientSide } from "../config";
 
 export async function changePasswordByEmailToken(
   token: string,
-  password: string,
-  passwordConfirm: string
+  senhaNova: string,
+  senhaNovaConfirmacao: string
 ) {
-  const data = { token, password, passwordConfirm };
+  const data = { token, senhaNova, senhaNovaConfirmacao };
   const axiosApi = axiosApiClientSide();
   return await axiosApi.post<void>(
     API_AUTH_CHANGE_PASSWORD_BY_EMAIL_TOKEN,

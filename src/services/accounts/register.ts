@@ -3,13 +3,13 @@ import { ErrorResponse } from "@/types";
 import { axiosApiClientSide } from "../config";
 
 export async function register(
-  name: string,
+  nome: string,
   email: string,
-  password: string,
-  passwordConfirm: string,
-  telephone: string
+  senha: string,
+  senhaConfirmacao: string,
+  telefone: string
 ) {
-  const data = { name, email, password, passwordConfirm, telephone };
+  const data = { nome, email, senha, senhaConfirmacao, telefone };
   const axiosApi = axiosApiClientSide();
   return await axiosApi.post<void | ErrorResponse>(
     API_AUTH_USER_REGISTER,

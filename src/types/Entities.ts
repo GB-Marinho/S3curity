@@ -16,8 +16,8 @@ export type Perfil = {
 
 export type Permissao = {
     id:string,
-    name: string,
-    description: string,
+    nome: string,
+    descricao: string,
     ativo?: boolean,
     dataCriacao?: Date | string,
 }

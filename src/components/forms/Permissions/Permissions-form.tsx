@@ -32,15 +32,15 @@ export default function PermissionsForm({ onClose, id }: PermissionsFormProps) {
   const form = useForm<z.infer<typeof PermissionsFormSchema>>({
     resolver: zodResolver(PermissionsFormSchema),
     defaultValues: async () => {
-      if (!id) return { name: "", description: "" };
+      if (!id) return { nome: "", descricao: "" };
 
       try {
         const permissao = await findPermissionID(id);
         console.log(permissao)
-        return { name: permissao.nome, description: permissao.descricao };
+        return { nome: permissao.nome, descricao: permissao.descricao };
       } catch (error: any) {
         toast.error(error.message);
-        return { name: "", description: "" };
+        return { nome: "", descricao: "" };
       }
     },
   });
@@ -97,7 +97,7 @@ export default function PermissionsForm({ onClose, id }: PermissionsFormProps) {
               <div className="flex flex-col gap-6 pt-5 pb-11">
                 <FormField
                   control={form.control}
-                  name="name"
+                  name="nome"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-xl">Nome</FormLabel>
@@ -115,7 +115,7 @@ export default function PermissionsForm({ onClose, id }: PermissionsFormProps) {
                 />
                 <FormField
                   control={form.control}
-                  name="description"
+                  name="descricao"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-xl">Descrição</FormLabel>

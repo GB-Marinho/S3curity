@@ -5,8 +5,8 @@ import { API_PERMISSIONS } from "@/lib";
 
 export async function updatePermission(permission: Permissao) {
   const data = {
-    name: permission.name,
-    description: permission.description,
+    nome : permission.nome,
+    descricao: permission.descricao,
   };
   const axiosApi = axiosApiClientSide();
 

@@ -42,7 +42,7 @@ export const usePermissionsStore = create<PermissionsState>((set, get) => ({
   addPermission: async (newPermission) => {
     set({ isLoading: true, error: null });
     try {
-      await addPermission(newPermission.name, newPermission.description);
+      await addPermission(newPermission.nome, newPermission.descricao);
       await get().findPermissions();
     } catch (error: any) {
       set({
