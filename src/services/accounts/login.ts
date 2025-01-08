@@ -7,8 +7,8 @@ export interface LoginResponse {
   token: string;
 }
 
-export async function loginRequest(email: string, password: string) {
-  const data = { email, password };
+export async function loginRequest(email: string, senha: string) {
+  const data = { email, senha };
   const axiosApi = axiosApiClientSide();
   return await axiosApi.post<LoginResponse | ErrorResponse>(
     API_AUTH_LOGIN,

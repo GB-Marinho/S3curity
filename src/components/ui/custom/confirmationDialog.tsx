@@ -12,7 +12,7 @@ import {
 
 interface ConfirmationDialogProps {
   open: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   onConfirm: () => void;
   title?: string;
   description?: string;
@@ -25,6 +25,14 @@ export default function ConfirmationDialog({
   title = "Confirmação necessária",
   description = "Por favor, confirme se deseja prosseguir com esta ação.",
 }: ConfirmationDialogProps) {
+
+  function handleClose(){
+    if(!onClose){
+      return () => open=false
+    }
+    return onClose
+  } 
+  
   return (
     <AlertDialog open={open} onOpenChange={onClose}>
       <AlertDialogContent>
@@ -33,7 +41,7 @@ export default function ConfirmationDialog({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onClose}>Cancelar</AlertDialogCancel>
+          <AlertDialogCancel onClick={handleClose}>Cancelar</AlertDialogCancel>
           <AlertDialogAction onClick={onConfirm}>Confirmar</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

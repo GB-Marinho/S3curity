@@ -2,7 +2,7 @@ export type Usuario = {
     nome?: string,
     ativo?: boolean,
     horarioTrabalho?: string,
-    diasDeTrabalho: string[],
+    diasDeTrabalho?: string[],
     perfis?: string[],
 } 
 
@@ -15,8 +15,9 @@ export type Perfil = {
 }
 
 export type Permissao = {
-    nome?: string,
-    descricao?: string,
+    id:string,
+    nome: string,
+    descricao: string,
     ativo?: boolean,
     dataCriacao?: Date | string,
 }

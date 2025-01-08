@@ -6,18 +6,15 @@ import React, {
   useState,
 } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "../../dialog";
-import { Button } from "../../button";
 
 interface ButtonDialogProps {
+  trigger: ReactNode;
   children: ReactNode;
-  title: string;
-  icon?: ReactNode;
 }
 
-export default function ButtonDialog({
+export default function ModalTrigger({
   children,
-  title,
-  icon,
+  trigger
 }: ButtonDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -28,10 +25,7 @@ export default function ButtonDialog({
   return (
     <Dialog modal={true} open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="btn-primary text-white items-center gap-2">
-          {icon}
-          {title}
-        </Button>
+        {trigger}
       </DialogTrigger>
       <DialogContent
         className="max-w-4xl p-0 border-none"
