@@ -2,9 +2,11 @@
 import { API_USERS } from "@/lib";
 import { axiosApiClientSide } from "../config";
 import { ErrorResponse } from "@/types";
+import { getCookie } from "@/lib/actions";
 
 export async function deleteUser(ID: string) {
-  const axiosApi = axiosApiClientSide();
+  const tokenId = await getCookie("tokenId");
+  const axiosApi = axiosApiClientSide(tokenId?.value)
 
   try {
     const response = await axiosApi.delete<void | ErrorResponse>(
@@ -16,14 +18,14 @@ export async function deleteUser(ID: string) {
     }
 
     if (response.data?.message) {
-        throw new Error(response.data.message);
+      throw new Error(response.data.message);
     }
-    
+
     throw new Error("Erro ao deletar usuário");
-} catch (error: any) {
+  } catch (error: any) {
     if (error.response) {
       if (error.response.data?.message) {
-        throw new Error(error.response.data.message); 
+        throw new Error(error.response.data.message);
       }
       throw new Error('Erro ao processar resposta da API');
     } else if (error.request) {

@@ -2,6 +2,7 @@ import { Usuario } from "@/types/Entities";
 import { axiosApiClientSide } from "../config";
 import { ErrorResponse } from "@/types";
 import { API_ATUALIZAR_USUARIO } from "@/lib";
+import { getCookie } from "@/lib/actions";
 
 export async function updateUser(user: Usuario) {
     const data = {
@@ -11,7 +12,8 @@ export async function updateUser(user: Usuario) {
         senhaConfirmacao: user.senhaConfirmacao,
         telefone: user.telefone,
     };
-    const axiosApi = axiosApiClientSide();
+    const tokenId = await getCookie("tokenId");
+    const axiosApi = axiosApiClientSide(tokenId?.value)
 
     try {
         const response = await axiosApi.put<void | ErrorResponse>(
