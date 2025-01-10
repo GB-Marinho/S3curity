@@ -1,26 +1,30 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { API_PERMISSIONS } from "@/lib";
+
+import { Perfil } from "@/types/Entities";
 import { axiosApiClientSide } from "../config";
-import { Permissao } from "@/types/Entities";
+import { API_PERFIS } from "@/lib";
 import { getCookie } from "@/lib/actions";
 
-export async function findPermissionID(id: string) {
+
+export async function findPerfilID(id: string) {
     const tokenId = await getCookie("tokenId");
     const axiosApi = axiosApiClientSide(tokenId?.value);
 
   try {
-    const response = await axiosApi.get<Permissao | null>(
-      `${API_PERMISSIONS}/${id}`
+    const response = await axiosApi.get<Perfil | null>(
+      `${API_PERFIS}/${id}`
+
     );
+    console.log(response)
 
     if (response.status >= 200 && response.status < 300) {
       if (response.data) {
         return response.data;
       } else {
-        throw new Error("Permissão não encontrada.");
+        throw new Error("Perfil não encontrado.");
       }
     }
-    throw new Error("Erro ao buscar permissão");
+    throw new Error("Erro ao buscar Perfil");
   } catch (error: any) {
     if (error.response) {
       throw new Error(

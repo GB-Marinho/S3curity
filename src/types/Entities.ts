@@ -7,11 +7,12 @@ export type Usuario = {
 } 
 
 export type Perfil = {
-    nome?: string,
-    descricao?: string,
+    id: string,
+    nome: string,
+    descricao: string,
     ativo?: boolean,
     dataCriacao?: Date | string,
-    permissoes?: Permissao[],
+    permissoes: Permissao[],
 }
 
 export type Permissao = {
