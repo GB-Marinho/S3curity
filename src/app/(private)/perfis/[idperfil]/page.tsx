@@ -1,31 +1,60 @@
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
 import UpdatePerfilForm from "@/components/forms/perfil/updatePerfilForm/updatePerfil-form";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { API_PERFIS } from "@/lib";
 import { findPerfilID } from "@/services/perfis/findPerfilID";
 import { Perfil } from "@/types/Entities";
 import { IconChevronLeft } from "@tabler/icons-react";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { create } from "zustand";
 
-export default async function PerfilPage({
+
+const usePerfilStore = create<{
+  perfil: Perfil | null | undefined;
+  fetchPerfil: (id: string) => Promise<void>;
+  reset: () => Promise<void>;
+}>((set) => ({
+  perfil: undefined, 
+  fetchPerfil: async (id: string) => {
+    try {
+      const perfil = await findPerfilID(id);
+      set({ perfil });
+    } catch (error) {
+      set({ perfil: null }); 
+    }
+  },
+  reset: async () => {
+    set({perfil: undefined})
+  }
+}));
+
+export default function PerfilPage({
   params,
 }: {
   params: { idperfil: string };
 }) {
-  let perfil: Perfil | null = null;
 
-  try {
-    perfil = await findPerfilID(params.idperfil);
-  } catch {
+  const { perfil, fetchPerfil, reset } = usePerfilStore();
+
+
+  useEffect(() => {
+    reset()
+    fetchPerfil(params.idperfil);
+  }, []);
+
+
+  if (perfil === undefined) {
+    return <div className="flex w-full h-full justify-center items-center"><Loader2 className="animate-spin" /></div>;
+  }
+
+  if (perfil === null) {
     notFound();
   }
 
-  if (!perfil) {
-    notFound();
-  }
 
   return (
     <div className="flex flex-col w-full gap-4 container">
@@ -47,5 +76,4 @@ export default async function PerfilPage({
       <UpdatePerfilForm perfil={perfil} />
     </div>
   );
-
 }
