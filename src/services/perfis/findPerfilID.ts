@@ -15,7 +15,6 @@ export async function findPerfilID(id: string) {
       `${API_PERFIS}/${id}`
 
     );
-    console.log(response)
 
     if (response.status >= 200 && response.status < 300) {
       if (response.data) {
