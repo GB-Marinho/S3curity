@@ -40,7 +40,11 @@ export const useUsersStore = create<UsersState>((set, get) => ({
     addUser: async (newUser) => {
         set({ isLoading: true, error: null });
         try {
-            await addUser(newUser.nome, newUser.email, newUser.senha, newUser.senhaConfirmacao, newUser.telefone);
+            if (newUser.nome && newUser.email && newUser.senha && newUser.senhaConfirmacao && newUser.telefone) {
+                await addUser(newUser.nome, newUser.email, newUser.senha, newUser.senhaConfirmacao, newUser.telefone);
+            } else {
+                throw new Error("Error desconhecido");
+            }
             await get().findUsers();
         } catch (error: any) {
             set({

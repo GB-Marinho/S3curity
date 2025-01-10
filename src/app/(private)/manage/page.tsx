@@ -55,7 +55,7 @@ export default function ManagePage() {
                 open={isDeleteDialogOpen}
                 onClose={() => handleCancel(setIsDeleteDialogOpen)}
                 onConfirm={() => handleConfirm(setIsDeleteDialogOpen)}
-                description="Deseja realmente deletar esta Permissão? Ao confirmar, esta permissão será DELETADA permanentemente."
+                description="Deseja realmente deletar este usuário? Ao confirmar, este usuário será DELETADO permanentemente."
             />
         </div>
     );
