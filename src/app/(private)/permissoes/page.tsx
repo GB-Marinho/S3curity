@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { columns } from "./columns";
+import { columnsPermissionTable } from "./columns";
 import BarraDePesquisa from "@/components/shared/tabela/BarraDePesquisa";
 import { DataTable } from "@/components/shared/tabela/data-table";
 import NewPermissionsModal from "@/components/modals/newPermissionsModal";
@@ -46,7 +46,7 @@ export default function PermissoesPage() {
   return (
     <div className="w-full h-full container">
       <DataTable
-        columns={columns(handlerDelete)}
+        columns={columnsPermissionTable(handlerDelete)}
         data={permissions}
         searchBar={sheach}
         searchFor="nome"

@@ -1,31 +1,36 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { API_PERMISSIONS } from "@/lib";
+
+import { ErrorResponse } from "@/types";
 import { axiosApiClientSide } from "../config";
-import { Permissao } from "@/types/Entities";
+import { API_PERFIS } from "@/lib";
 import { getCookie } from "@/lib/actions";
 
-export async function findPermissionID(id: string) {
+
+export async function addPerfil(nome: string, descricao: string) {
+  const data = { nome, descricao };
     const tokenId = await getCookie("tokenId");
     const axiosApi = axiosApiClientSide(tokenId?.value);
 
   try {
-    const response = await axiosApi.get<Permissao | null>(
-      `${API_PERMISSIONS}/${id}`
+    const response = await axiosApi.post<void | ErrorResponse>(
+      API_PERFIS,
+      data
     );
 
     if (response.status >= 200 && response.status < 300) {
-      if (response.data) {
-        return response.data;
-      } else {
-        throw new Error("Permissão não encontrada.");
-      }
+      return response.data;
     }
-    throw new Error("Erro ao buscar permissão");
+    if (response.data?.message) {
+      throw new Error(response.data.message);
+    }
+
+    throw new Error("Erro ao criar perfil");
   } catch (error: any) {
     if (error.response) {
-      throw new Error(
-        error.response.data?.message || "Erro ao processar resposta da API"
-      );
+      if (error.response.data?.message) {
+        throw new Error(error.response.data.message);
+      }
+      throw new Error("Erro ao processar resposta da API");
     } else if (error.request) {
       throw new Error(
         "Erro de rede. Não foi possível se comunicar com o servidor."

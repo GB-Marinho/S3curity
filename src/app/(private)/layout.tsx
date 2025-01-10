@@ -25,7 +25,6 @@ function Content({ children }: PrivateLayoutProps) {
   const mainClass = sidebar.open
     ? "flex flex-col flex-1 md:pr-11 md:pl-0 px-6 pb-11"
     : "flex flex-col flex-1 md:px-11 px-6 pb-11";
-
   return (
     <div className={mainClass}>
       <Cabecalho />

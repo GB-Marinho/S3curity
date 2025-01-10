@@ -27,11 +27,14 @@ export const UsersFormSchema = z.object({
         })
         .regex(/[!@#$%^&*(),.?":{}|<>]/, {
             message: "A senha deve conter ao menos um caractere especial",
-        }),
-    senhaConfirmacao: z.string(),
+        })
+        .optional(),
+    senhaConfirmacao: z.string()
+    .optional(),
     telefone: z
         .string()
-        .refine(isValidPhoneNumber, { message: "Numero de telefone invalido." }),
+        .refine(isValidPhoneNumber, { message: "Numero de telefone invalido." })
+        .optional(),
     // telephone: z.string().min(9, {message: "Telefone deve ter 8 ou mais números"}).max(15, {message: "Telefone deve ter 11 ou menos números"}).refine(isValidPhoneNumber)
 })
     .refine(({ senha, senhaConfirmacao }) => senha === senhaConfirmacao, {

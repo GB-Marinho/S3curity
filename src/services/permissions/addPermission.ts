@@ -2,10 +2,12 @@
 import { ErrorResponse } from "@/types";
 import { axiosApiClientSide } from "../config";
 import { API_PERMISSIONS } from "@/lib";
+import { getCookie } from "@/lib/actions";
 
 export async function addPermission(nome: string, descricao: string) {
   const data = { nome, descricao };
-  const axiosApi = axiosApiClientSide();
+  const tokenId = await getCookie("tokenId")
+  const axiosApi = axiosApiClientSide(tokenId?.value);
 
   try {
     const response = await axiosApi.post<void | ErrorResponse>(

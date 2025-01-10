@@ -1,12 +1,11 @@
 "use client";
-import PermissionsForm from "@/components/forms/Permissions/Permissions-form";
+import PermissionsForm from "@/components/forms/permissions/Permissions-form";
 import ModalTrigger from "@/components/ui/custom/buttons/modalTrigger";
 import { Permissao } from "@/types/Entities";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
 import { ColumnDef } from "@tanstack/react-table";
 
-export function columns(handleCancel: (id:string) => void) {
-  
+export function columnsPermissionTable(handleCancel: (id: string) => void) {
   const data: ColumnDef<Permissao>[] = [
     {
       accessorKey: "nome",
@@ -21,24 +20,25 @@ export function columns(handleCancel: (id:string) => void) {
       header: "Ações",
       cell: ({ row }) => (
         <div className="flex gap-2">
-          <ModalTrigger 
-           trigger={<button
-            className="text-blue-500 hover:underline"
+          <ModalTrigger
+            trigger={
+              <button className="text-blue-500 hover:underline">
+                <IconEdit />
+              </button>
+            }
           >
-            <IconEdit/>
-          </button>}>
-            <PermissionsForm id={row.original.id}/>
+            <PermissionsForm id={row.original.id} />
           </ModalTrigger>
-          
+
           <button
             className="text-red-500 hover:underline"
             onClick={() => handleCancel(row.original.id)}
           >
-            <IconTrash/>
+            <IconTrash />
           </button>
         </div>
       ),
     },
-  ]
-  return data
-} 
+  ];
+  return data;
+}

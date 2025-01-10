@@ -130,7 +130,10 @@ export default function UsersForm({ onClose, id }: usersFormSchemaProps) {
                                     name="senha"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-xl">Senha</FormLabel>
+                                            <FormLabel className="text-xl">
+                                                Senha
+                                                <span className="text-sm text-zinc-600">{id && " (Deixe em branco para não alterar)"}</span>
+                                            </FormLabel>
                                             <FormControl>
                                                 <div className="bg-black rounded-lg relative flex items-center">
                                                     <Input
@@ -148,7 +151,10 @@ export default function UsersForm({ onClose, id }: usersFormSchemaProps) {
                                     name="senhaConfirmacao"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-xl">Confirmação de Senha</FormLabel>
+                                            <FormLabel className="text-xl">
+                                                Confirmação de senha
+                                                <span className="text-sm text-zinc-600">{id && " (Deixe em branco para não alterar)"}</span>
+                                            </FormLabel>
                                             <FormControl>
                                                 <div className="bg-black rounded-lg relative flex items-center">
                                                     <Input
@@ -161,26 +167,29 @@ export default function UsersForm({ onClose, id }: usersFormSchemaProps) {
                                         </FormItem>
                                     )}
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="telefone"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel className="text-xl">Telefone</FormLabel>
-                                            <FormControl>
-                                                <PhoneInput
-                                                    numberInputProps={{ className: "bg-black" }}
-                                                    defaultCountry="BR"
-                                                    international={false}
-                                                    placeholder="Digite o numero de telefone"
-                                                    maxLength={15}
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                {!id &&
+                                    <FormField
+                                        control={form.control}
+                                        name="telefone"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="text-xl">Telefone</FormLabel>
+                                                <FormControl>
+                                                    <PhoneInput
+                                                        numberInputProps={{ className: "bg-black" }}
+                                                        defaultCountry="BR"
+                                                        international={false}
+                                                        placeholder="Digite o numero de telefone"
+                                                        maxLength={15}
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                }
+
                             </div>
                             <div className="flex justify-center w-full gap-7">
                                 <ButtonSubmit isSubmitting={form.formState.isSubmitting} />
