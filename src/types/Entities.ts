@@ -1,8 +1,9 @@
 export type Usuario = {
-    nome?: string,
+    id?: string,
+    nome: string,
+    email: string,
+    urlPerfil?: string,
     ativo?: boolean,
-    horarioTrabalho?: string,
-    diasDeTrabalho?: string[],
     perfis?: string[],
 } 
 

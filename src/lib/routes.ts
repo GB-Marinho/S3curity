@@ -13,6 +13,8 @@ export const API_AUTH_CHANGE_PASSWORD_BY_EMAIL_TOKEN = `${API_AUTH}/alterar-senh
 export const API_AUTH_CHANGE_TOKENID_BY_REFRESH_TOKEN = `${API_AUTH}/atualizar-token`;
 // API - Other Routes ---------------------------------
 export const API_PERMISSIONS = `/permissoes`
+export const API_USERS = `${API_AUTH}/usuarios`
+export const API_ATUALIZAR_USUARIO = `${API_AUTH}/atualizar-usuario`
 // PAGES WEBAPP ---------------------------------
 export const PATH_PAGE = "/";
 // PAGES WEBAPP - ACCOUNTS ----------------------
