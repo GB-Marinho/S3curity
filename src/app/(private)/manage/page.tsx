@@ -8,6 +8,7 @@ import ConfirmationDialog from "@/components/ui/custom/confirmationDialog";
 import useConfirmDialog from "@/hooks/useConfirmDialog";
 import { toast } from "sonner";
 import NewUserModal from "@/components/modals/newUserModal";
+import { Button } from "@/components/ui/button"
 
 export default function ManagePage() {
     const { users, findUsers, deleteUser } = useUsersStore();
