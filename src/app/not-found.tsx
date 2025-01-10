@@ -8,7 +8,7 @@ export default async function Custom404() {
       <p className="text-zinc-500 text-lg">
         A página que você está tentando acessar não existe.
       </p>
-      <Link href="/">
+      <Link href="/home">
         <Button className="btn-primary text-white text-xl py-6">
           Retornar para Home
         </Button>

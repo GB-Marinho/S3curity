@@ -2,7 +2,6 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { PermissionsFormSchema } from "./PermissionsFormSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -20,6 +19,7 @@ import CardModal from "@/components/ui/custom/cards/cardModal";
 import { usePermissionsStore } from "@/hooks/store/permissionsStore";
 import { toast } from "sonner";
 import { findPermissionID } from "@/services";
+import { PermissionsFormSchema } from "./PermissionsFormSchema";
 
 interface PermissionsFormProps {
   onClose?: () => void;
@@ -86,7 +86,7 @@ export default function PermissionsForm({ onClose, id }: PermissionsFormProps) {
       <div className="w-full max-w-[702px]">
         {isLoading ? (
           <div className="flex justify-center items-center py-20">
-            <span className="loader" /> {/* Um spinner simples */}
+            <span className="loader" />
           </div>
         ) : (
           <Form {...form}>

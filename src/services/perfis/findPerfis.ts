@@ -1,11 +1,10 @@
-import { API_PERMISSIONS } from "@/lib";
+import { Perfil } from "@/types/Entities";
 import { axiosApiClientSide } from "../config";
-import { Permissao } from "@/types/Entities";
+import { API_PERFIS } from "@/lib";
 import { getCookie } from "@/lib/actions";
 
-
-export async function findPermissions() {
+export async function findPerfis() {
      const tokenId = await getCookie("tokenId")
     const axiosApi = axiosApiClientSide(tokenId?.value)
-    return await axiosApi.get<Permissao[]>(API_PERMISSIONS)
+    return await axiosApi.get<Perfil[]>(API_PERFIS)
 }

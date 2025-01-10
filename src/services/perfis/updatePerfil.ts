@@ -1,27 +1,35 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { API_PERMISSIONS } from "@/lib";
 import { axiosApiClientSide } from "../config";
 import { ErrorResponse } from "@/types";
+import { API_PERFIS } from "@/lib";
+import { Perfil } from "@/types/Entities";
 import { getCookie } from "@/lib/actions";
 
-export async function deletePermission(ID: string) {
-  const tokenId = await getCookie("tokenId");
-  const axiosApi = axiosApiClientSide(tokenId?.value);
+
+
+export async function updatePerfil(perfil: Perfil) {
+  const data = {
+    nome : perfil.nome,
+    descricao: perfil.descricao,
+    permissoes: perfil.permissoes.map((permissao) => permissao.id),
+  };
+    const tokenId = await getCookie("tokenId");
+    const axiosApi = axiosApiClientSide(tokenId?.value);
 
   try {
-    const response = await axiosApi.delete<void | ErrorResponse>(
-      `${API_PERMISSIONS}/${ID}`
+    const response = await axiosApi.put<void | ErrorResponse>(
+      `${API_PERFIS}/${perfil.id}`,
+      data
     );
 
     if (response.status >= 200 && response.status < 300) {
       return response.data;
     }
-
     if (response.data?.message) {
       throw new Error(response.data.message);
     }
 
-    throw new Error("Erro ao deletar permissão");
+    throw new Error("Erro ao editar perfil");
   } catch (error: any) {
     if (error.response) {
       if (error.response.data?.message) {

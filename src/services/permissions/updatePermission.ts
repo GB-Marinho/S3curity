@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Permissao } from "@/types/Entities";
 import { axiosApiClientSide } from "../config";
 import { ErrorResponse } from "@/types";
 import { API_PERMISSIONS } from "@/lib";
+import { getCookie } from "@/lib/actions";
 
 export async function updatePermission(permission: Permissao) {
   const data = {
-    nome : permission.nome,
+    nome: permission.nome,
     descricao: permission.descricao,
   };
-  const axiosApi = axiosApiClientSide();
+  const tokenId = await getCookie("tokenId");
+  const axiosApi = axiosApiClientSide(tokenId?.value);
 
   try {
     const response = await axiosApi.put<void | ErrorResponse>(

@@ -1,20 +1,20 @@
 import { IconPlus } from "@tabler/icons-react";
-
-import ModalTrigger from "../ui/custom/buttons/modalTrigger";
 import { Button } from "../ui/button";
-import PermissionsForm from "../forms/permissions/Permissions-form";
+import ModalTrigger from "../ui/custom/buttons/modalTrigger";
+import ADDPerfilForm from "../forms/perfil/addPerfil/addPerfil-form";
 
-export default function NewPermissionsModal() {
+export default function NewPerfilModal() {
   return (
     <ModalTrigger
       trigger={
         <Button className="btn-primary text-white items-center gap-2">
           <IconPlus />
-          Nova Permissão
+          Novo Perfil
         </Button>
       }
     >
-      <PermissionsForm />
+          <ADDPerfilForm />
+      
     </ModalTrigger>
   );
 }
