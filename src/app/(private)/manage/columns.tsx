@@ -1,37 +1,56 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
+import { Usuario } from "@/types/Entities";
+import { ColumnDef } from "@tanstack/react-table";
+import { IconThumbUp, IconThumbDown, IconEdit, IconTrash } from "@tabler/icons-react";
+import ModalTrigger from "@/components/ui/custom/buttons/modalTrigger";
+import UsersForm from "@/components/forms/users/users-form";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-    id: string
-    nome: string
-    perfil: "Item 1" | "Item 2" | "Item 3" | "Item 4"
-    ativo: "SIM" | "NÃO"
-    horarioTrabalho: string
-    diasTrabalho: string
+export function columns(handleCancel: (id: string) => void): ColumnDef<Usuario>[] {
+    return [
+        {
+            accessorKey: "nome",
+            header: "Nome",
+        },
+        {
+            accessorKey: "email",
+            header: "Email",
+        },
+        {
+            accessorKey: "ativo",
+            header: "Ativo",
+            cell: ({ row }) => {
+                const isActive = row.getValue<boolean>("ativo");
+                return (
+                    <div>
+                        {isActive ? <IconThumbUp /> : <IconThumbDown />}
+                    </div>
+                );
+            },
+        },
+        {
+            id: "acoes",
+            header: "Ações",
+            cell: ({ row }) => (
+                <div className="flex gap-2">
+                    <ModalTrigger
+                        trigger={
+                            <button className="text-blue-500 hover:underline">
+                                <IconEdit />
+                            </button>
+                        }
+                    >
+                        <UsersForm id={row.original.id} />
+                    </ModalTrigger>
+
+                    <button
+                        className="text-red-500 hover:underline"
+                        onClick={() => handleCancel(row.original.id)}
+                    >
+                        <IconTrash />
+                    </button>
+                </div>
+            ),
+        },
+    ];
 }
-
-export const columns: ColumnDef<Payment>[] = [
-    {
-        accessorKey: "nome",
-        header: "Nome",
-    },
-    {
-        accessorKey: "perfil",
-        header: "Perfil",
-    },
-    {
-        accessorKey: "ativo",
-        header: "Ativo",
-    },
-    {
-        accessorKey: "horarioTrabalho",
-        header: "Horário de Trabalho",
-    },
-    {
-        accessorKey: "diasTrabalho",
-        header: "Dias de Trabalho",
-    },
-]

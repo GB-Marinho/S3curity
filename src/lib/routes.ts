@@ -14,6 +14,9 @@ export const API_AUTH_CHANGE_TOKENID_BY_REFRESH_TOKEN = `${API_AUTH}/atualizar-t
 // API - Other Routes ---------------------------------
 export const API_PERMISSIONS = `/permissoes`
 export const API_PERFIS = `/perfis`
+export const API_USERS = `${API_AUTH}/usuarios`
+export const API_ATUALIZAR_USUARIO = `${API_AUTH}/atualizar-usuario`
+export const API_REGISTRAR_USUARIO = `${API_AUTH}/registrar-usuario`
 // PAGES WEBAPP ---------------------------------
 export const PATH_PAGE = "/";
 // PAGES WEBAPP - ACCOUNTS ----------------------
