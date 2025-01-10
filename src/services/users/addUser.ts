@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ErrorResponse } from "@/types";
 import { axiosApiClientSide } from "../config";
-import { API_USERS } from "@/lib";
+import { API_REGISTRAR_USUARIO } from "@/lib";
 
-export async function addUser(nome: string, email: string) {
-  const data = { nome, email };
+export async function addUser(nome: string, email: string, senha: string, senhaConfirmacao: string, telefone: string) {
+  const data = { nome, email, senha, senhaConfirmacao, telefone };
   const axiosApi = axiosApiClientSide();
 
   try {
     const response = await axiosApi.post<void | ErrorResponse>(
-      API_USERS,
+      API_REGISTRAR_USUARIO,
       data
     );
 

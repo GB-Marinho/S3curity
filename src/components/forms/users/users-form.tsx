@@ -19,6 +19,7 @@ import CardModal from "@/components/ui/custom/cards/cardModal";
 import ButtonSubmit from "@/components/ui/custom/buttons/buttonSubmit";
 import ButtonCloseModal from "@/components/ui/custom/buttons/buttonCloseModal";
 import { Input } from "@/components/ui/input";
+import { PhoneInput } from "@/components/ui/phone-input";
 
 interface usersFormSchemaProps {
     onClose?: () => void;
@@ -31,15 +32,14 @@ export default function UsersForm({ onClose, id }: usersFormSchemaProps) {
     const form = useForm<z.infer<typeof UsersFormSchema>>({
         resolver: zodResolver(UsersFormSchema),
         defaultValues: async () => {
-            if (!id) return { nome: "", email: "" };
-
+            if (!id) return { nome: "", email: "", senha: "", senhaConfirmacao: "", telefone: "" };
             try {
                 const user = await findUserID(id);
                 console.log(user)
-                return { nome: user.nome, email: user.email };
+                return { nome: user.nome, email: user.email, senha: user.senha, senhaConfirmacao: user.senhaConfirmacao, telefone: user.telefone };
             } catch (error: any) {
                 toast.error(error.message);
-                return { nome: "", email: "" };
+                return { nome: "", email: "", senha: "", senhaConfirmacao: "", telefone: "" };
             }
         },
     })
@@ -61,15 +61,16 @@ export default function UsersForm({ onClose, id }: usersFormSchemaProps) {
         if (id) {
             await updateUser({ id, ...data });
             const { error } = useUsersStore.getState();
+            console.log("xxxxxxxx Passou aqui")
             if (error) {
                 toast.error(error);
             } else {
-                toast.success("Permissão atualizada com Sucesso!");
+                toast.success("Usuário atualizado com sucesso!");
                 handlerModal();
             }
         } else {
             await addUser(data);
-            toast("Permissão adicionada com sucesso!");
+            toast("Usuário criado com sucesso!");
         }
         resetForm();
     }
@@ -111,7 +112,7 @@ export default function UsersForm({ onClose, id }: usersFormSchemaProps) {
                                     name="email"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel className="text-xl">Descrição</FormLabel>
+                                            <FormLabel className="text-xl">E-mail</FormLabel>
                                             <FormControl>
                                                 <div className="bg-black rounded-lg relative flex items-center">
                                                     <Input
@@ -119,6 +120,62 @@ export default function UsersForm({ onClose, id }: usersFormSchemaProps) {
                                                         {...field}
                                                     />
                                                 </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="senha"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-xl">Senha</FormLabel>
+                                            <FormControl>
+                                                <div className="bg-black rounded-lg relative flex items-center">
+                                                    <Input
+                                                        className="bg-transparent  flex-1 peer h-12"
+                                                        {...field}
+                                                    />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="senhaConfirmacao"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-xl">Confirmação de Senha</FormLabel>
+                                            <FormControl>
+                                                <div className="bg-black rounded-lg relative flex items-center">
+                                                    <Input
+                                                        className="bg-transparent  flex-1 peer h-12"
+                                                        {...field}
+                                                    />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="telefone"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel className="text-xl">Telefone</FormLabel>
+                                            <FormControl>
+                                                <PhoneInput
+                                                    numberInputProps={{ className: "bg-black" }}
+                                                    defaultCountry="BR"
+                                                    international={false}
+                                                    placeholder="Digite o numero de telefone"
+                                                    maxLength={15}
+                                                    {...field}
+                                                />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>

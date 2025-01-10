@@ -7,6 +7,9 @@ export async function updateUser(user: Usuario) {
     const data = {
         nome: user.nome,
         email: user.email,
+        senha: user.senha,
+        senhaConfirmacao: user.senhaConfirmacao,
+        telefone: user.telefone,
     };
     const axiosApi = axiosApiClientSide();
 
