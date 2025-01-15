@@ -7,7 +7,7 @@ export type Usuario = {
     telefone?: string,
     urlPerfil?: string,
     ativo?: boolean,
-    perfis?: string[],
+    perfis?: Perfil[],
 } 
 
 export type Perfil = {

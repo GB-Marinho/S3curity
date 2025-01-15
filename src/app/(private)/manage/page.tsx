@@ -25,14 +25,14 @@ export default function ManagePage() {
                 toast.error(error)
                 findUsers()
             } else {
-                toast("Permissão deletada com Sucesso!")
+                toast("Usuário deletado com Sucesso!")
             }
         }
     }
 
     useEffect(() => {
         findUsers();
-    }, [findUsers]);
+    }, []);
 
     const sheach = (
         <BarraDePesquisa

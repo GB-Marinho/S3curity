@@ -1,4 +1,4 @@
-import NewCustomerForm from "../forms/newCustomer/newCustomer-form";
+import NewCustomerForm from "../forms/customers/newCustomer/newCustomer-form";
 import { IconPlus } from "@tabler/icons-react";
 import ButtonDialog from "../ui/custom/buttons/modalTrigger";
 

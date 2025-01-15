@@ -15,5 +15,5 @@ export const UpdatePerfilFormSchema = z.object({
     }),
 
     descricao: z.string().min(3, {message: "A descrição deve ter mais que 3 caracteres"}).max(50, { message: "A descrição não pode ter mais que 150 caracteres" }),
-    permissoes: z.array(permissaoSchema)
+    permissoes: z.array(permissaoSchema).default([]),
 })

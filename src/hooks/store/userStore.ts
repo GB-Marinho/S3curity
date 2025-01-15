@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Usuario } from "@/types/Entities";
 import { create } from "zustand";
 import {
@@ -6,6 +7,8 @@ import {
     updateUser,
     deleteUser
 } from "@/services";
+import { updateUserPerfilService } from "@/services/users/updateUserPerfil";
+
 
 interface UsersState {
     users: Usuario[];
@@ -16,6 +19,7 @@ interface UsersState {
     addUser: (user: Omit<Usuario, "id">) => Promise<void>;
     updateUser: (user: Usuario) => Promise<void>;
     deleteUser: (id: string) => Promise<void>;
+    UpdateUserPerfil: (id: string, perfis: string[]) => Promise<void>
 }
 
 export const useUsersStore = create<UsersState>((set, get) => ({
@@ -27,7 +31,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         set({ isLoading: true, error: null });
         try {
             const response = await findUsers();
-            set({ users: response.data });
+            set({ users: response.data.sort((a, b) => a.nome.localeCompare(b.nome)) });
         } catch (error: any) {
             set({
                 error: error.message || "Erro ao buscar usuários",
@@ -66,6 +70,19 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             });
         } finally {
             set({ isLoading: false });
+        }
+    },
+
+    UpdateUserPerfil: async (id, perfis) => {
+        set({ isLoading: true, error: null });
+        try {
+            await updateUserPerfilService(id, perfis)
+        } catch (error: any) {
+            set({
+                error: error.message || "Erro ao adicionar perfil ao usuário"
+            });
+        } finally {
+            set({ isLoading: false })
         }
     },
 

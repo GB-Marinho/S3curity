@@ -36,7 +36,6 @@ export default function PermissionsForm({ onClose, id }: PermissionsFormProps) {
 
       try {
         const permissao = await findPermissionID(id);
-        console.log(permissao)
         return { nome: permissao.nome, descricao: permissao.descricao };
       } catch (error: any) {
         toast.error(error.message);

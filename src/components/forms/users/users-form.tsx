@@ -35,7 +35,6 @@ export default function UsersForm({ onClose, id }: usersFormSchemaProps) {
             if (!id) return { nome: "", email: "", senha: "", senhaConfirmacao: "", telefone: "" };
             try {
                 const user = await findUserID(id);
-                console.log(user)
                 return { nome: user.nome, email: user.email, senha: user.senha, senhaConfirmacao: user.senhaConfirmacao, telefone: user.telefone };
             } catch (error: any) {
                 toast.error(error.message);
@@ -61,7 +60,6 @@ export default function UsersForm({ onClose, id }: usersFormSchemaProps) {
         if (id) {
             await updateUser({ id, ...data });
             const { error } = useUsersStore.getState();
-            console.log("xxxxxxxx Passou aqui")
             if (error) {
                 toast.error(error);
             } else {

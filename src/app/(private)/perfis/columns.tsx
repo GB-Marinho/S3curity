@@ -1,5 +1,3 @@
-import { Badge } from "@/components/ui/badge";
-import ModalTrigger from "@/components/ui/custom/buttons/modalTrigger";
 import { API_PERFIS } from "@/lib";
 import { Perfil } from "@/types/Entities";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
@@ -33,31 +31,7 @@ export function columnsPerfilTable(handleCancel: (id: string) => void) {
         </div>
       ),
     },
-    // {
-    //   id: "permissoes",
-    //   header: "Permições",
-    //   cell: ({ row }) => {
-    //     if (row.original.permissoes.length === 0) {
-    //       return <div>Sem permissões</div>;
-    //     }
 
-    //     const permissoes = row.original.permissoes;
-    //     const maxVisiveis = 3;
-
-    //     return (
-    //       <div className="flex gap-2 flex-wrap max-w-full">
-    //         {permissoes.slice(0, maxVisiveis).map((permissao, index) => (
-    //           <Badge key={index}>{permissao.nome}</Badge>
-    //         ))}
-    //         {permissoes.length > maxVisiveis && (
-    //           <Badge variant={"outline"}>
-    //             + {permissoes.length - maxVisiveis} Permissoes
-    //           </Badge>
-    //         )}
-    //       </div>
-    //     );
-    //   },
-    // },
     {
       id: "acoes",
       header: "Ações",
