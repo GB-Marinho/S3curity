@@ -1,8 +1,15 @@
-"use client"
+"use client";
 
-import { Form, FormField, FormLabel, FormItem, FormControl, FormMessage } from "@/components/ui/form";
+import {
+    Form,
+    FormField,
+    FormLabel,
+    FormItem,
+    FormControl,
+    FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -10,21 +17,21 @@ import { useCallback, useState } from "react";
 import { IconEye, IconEyeOff, IconLock } from "@tabler/icons-react";
 import CardLogin from "@/components/ui/custom/cards/cardLogin";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import React from "react";
 import { Button } from "@/components/ui/button";
-import { passwordEmailRecoverySchema } from "./passwordEmailRecoverySchema";
+import { changePasswordByEmailToken } from "@/services";
+import { handleError, PATH_PAGE_ACCOUNTS_LOGIN } from "@/lib";
+import { ErrorResponse } from "@/types/Response";
+import { toast } from "sonner";
+import { passwordRecoveryEmailSchema } from "./passwordRecoveryEmailSchema";
 
-export default function PasswordRecoveryEmailForm() {
+export default function PasswordRecoveryEmailForm({ token }: { token: string }) {
+    const router = useRouter();
 
-    const onSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-    };
-
-    const form = useForm<z.infer<typeof passwordEmailRecoverySchema>>({
-        resolver: zodResolver(passwordEmailRecoverySchema),
+    const form = useForm<z.infer<typeof passwordRecoveryEmailSchema>>({
+        resolver: zodResolver(passwordRecoveryEmailSchema),
         defaultValues: {
-            password: "",
-            passwordConfirm: "",
+            senhaNova: "",
+            senhaNovaConfirmacao: "",
         },
     });
 
@@ -42,6 +49,29 @@ export default function PasswordRecoveryEmailForm() {
         [handlerMostrarSenha]
     );
 
+    async function onSubmit(data: z.infer<typeof passwordRecoveryEmailSchema>) {
+        console.log("Passou aqui 1");
+        try {
+            const response = await changePasswordByEmailToken(
+                token,
+                data.senhaNova,
+                data.senhaNovaConfirmacao
+            );
+            console.log(response);
+            if (response.status === 200) {
+                console.log("Passou aqui 2");
+                toast.success("Senha alterada com sucesso!");
+                router.push(PATH_PAGE_ACCOUNTS_LOGIN);
+            } else {
+                console.log("Passou aqui 3");
+                const error = response.data as unknown as ErrorResponse;
+                toast.error(error.message);
+            }
+        } catch (error) {
+            handleError(error);
+        }
+    };
+
     return (
         <div className="flex h-screen w-full items-center justify-center px-4">
             <CardLogin>
@@ -52,10 +82,13 @@ export default function PasswordRecoveryEmailForm() {
                 </CardHeader>
                 <CardContent className="px-[68px]">
                     <Form {...form}>
-                        <form onSubmit={onSubmit} className="flex flex-col gap-4">
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="flex flex-col gap-4"
+                        >
                             <FormField
                                 control={form.control}
-                                name="password"
+                                name="senhaNova"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-xl">Senha</FormLabel>
@@ -66,7 +99,7 @@ export default function PasswordRecoveryEmailForm() {
                                                     {...field}
                                                     type={mostrarSenha ? "text" : "password"}
                                                 />
-                                                <IconLock className=" absolute left-3 text-zinc-600 peer-focus:text-zinc-300" />
+                                                <IconLock className="absolute left-3 text-zinc-600 peer-focus:text-zinc-300" />
                                                 {mostrarSenha ? (
                                                     <IconEyeOff
                                                         onMouseDown={handlerIconMostrarSenha}
@@ -86,7 +119,7 @@ export default function PasswordRecoveryEmailForm() {
                             />
                             <FormField
                                 control={form.control}
-                                name="passwordConfirm"
+                                name="senhaNovaConfirmacao"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel className="text-xl">Confirmar Senha</FormLabel>
@@ -97,7 +130,7 @@ export default function PasswordRecoveryEmailForm() {
                                                     {...field}
                                                     type={mostrarSenha ? "text" : "password"}
                                                 />
-                                                <IconLock className=" absolute left-3 text-zinc-600 peer-focus:text-zinc-300" />
+                                                <IconLock className="absolute left-3 text-zinc-600 peer-focus:text-zinc-300" />
                                             </div>
                                         </FormControl>
                                         <FormMessage />
@@ -108,7 +141,6 @@ export default function PasswordRecoveryEmailForm() {
                                 <Button
                                     type="submit"
                                     className="w-full btn-primary text-white py-6 text-xl"
-                                    disabled={form.formState.isSubmitting}
                                 >
                                     Redefinir Senha
                                 </Button>

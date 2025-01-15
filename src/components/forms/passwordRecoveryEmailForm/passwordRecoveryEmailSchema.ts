@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-export const passwordEmailRecoverySchema = z
+export const passwordRecoveryEmailSchema = z
     .object({
-        password: z
+        senhaNova: z
             .string()
             .min(6, {
                 message: "A senha deve ter no mínimo 6 caracteres",
@@ -20,9 +20,9 @@ export const passwordEmailRecoverySchema = z
             .regex(/[!@#$%^&*(),.?":{}|<>]/, {
                 message: "A senha deve conter ao menos um caractere especial",
             }),
-        passwordConfirm: z.string(),
+        senhaNovaConfirmacao: z.string(),
     })
-    .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
+    .refine(({ senhaNova, senhaNovaConfirmacao }) => senhaNova === senhaNovaConfirmacao, {
         message: "As senhas devem ser iguais",
-        path: ["passwordConfirm"],
+        path: ["senhaNovaConfirmacao"],
     });

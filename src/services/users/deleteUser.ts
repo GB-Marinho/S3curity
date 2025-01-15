@@ -18,14 +18,14 @@ export async function deleteUser(ID: string) {
     }
 
     if (response.data?.message) {
-        throw new Error(response.data.message);
+      throw new Error(response.data.message);
     }
-    
+
     throw new Error("Erro ao deletar usuário");
-} catch (error: any) {
+  } catch (error: any) {
     if (error.response) {
       if (error.response.data?.message) {
-        throw new Error(error.response.data.message); 
+        throw new Error(error.response.data.message);
       }
       throw new Error('Erro ao processar resposta da API');
     } else if (error.request) {
