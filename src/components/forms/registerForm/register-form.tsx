@@ -62,7 +62,7 @@ export function RegisterForm() {
             email: "",
             password: "",
             passwordConfirm: "",
-            telephone: "",
+            celular: "",
         },
     });
 
@@ -87,8 +87,15 @@ export function RegisterForm() {
                 data.email,
                 data.password,
                 data.passwordConfirm,
-                data.telephone
+                data.celular,
+                data.ativo
             );
+            console.log(data.name,
+                data.email,
+                data.password,
+                data.passwordConfirm,
+                data.celular,
+                data.ativo)
             if (response.status === 201) {
                 toast.success(MsgSuccess.USUARIO_CADASTRADO);
                 push(PATH_PAGE_ACCOUNTS_LOGIN);
@@ -217,7 +224,7 @@ export function RegisterForm() {
                         />
                         <FormField
                             control={form.control}
-                            name="telephone"
+                            name="celular"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-xl">Telefone</FormLabel>

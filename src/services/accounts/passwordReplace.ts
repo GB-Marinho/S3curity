@@ -1,17 +1,28 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ErrorResponse } from "@/types";
-import { axiosApiClientSide } from "../config";
-import { API_REGISTRAR_USUARIO } from "@/lib";
 import { getCookie } from "@/lib/actions";
+import { axiosApiClientSide } from "../config";
+import { API_AUTH_CHANGE_PASSWORD_USER } from "@/lib";
+import { ErrorResponse } from "@/types";
 
-export async function addUser(nome: string, email: string, senha: string, senhaConfirmacao: string, celular: string) {
-  const data = { nome, email, senha, senhaConfirmacao, celular };
+interface passwordReplaceType {
+  id: string;
+  senhaAntiga: string;
+  senhaNova: string;
+  senhaNovaConfirmacao: string;
+}
+
+export async function passwordReplaceService(password: passwordReplaceType) {
+  const data = {
+    senhaAntiga: password.senhaAntiga,
+    senhaNova: password.senhaNova,
+    senhaNovaConfirmacao: password.senhaNovaConfirmacao,
+  };
   const tokenId = await getCookie("tokenId");
-  const axiosApi = axiosApiClientSide(tokenId?.value)
+  const axiosApi = axiosApiClientSide(tokenId?.value);
 
   try {
-    const response = await axiosApi.post<void | ErrorResponse>(
-      API_REGISTRAR_USUARIO,
+    const response = await axiosApi.put<void | ErrorResponse>(
+      `${API_AUTH_CHANGE_PASSWORD_USER}/${password.id}`,
       data
     );
 
@@ -22,7 +33,7 @@ export async function addUser(nome: string, email: string, senha: string, senhaC
       throw new Error(response.data.message);
     }
 
-    throw new Error("Erro ao criar usuário");
+    throw new Error("Erro ao alterar senha de usuário");
   } catch (error: any) {
     if (error.response) {
       if (error.response.data?.message) {

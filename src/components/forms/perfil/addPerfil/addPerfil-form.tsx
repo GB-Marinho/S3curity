@@ -55,13 +55,12 @@ export default function ADDPerfilForm({ onClose }: PerfilFormProps) {
 
   return (
     <CardModal title="Criar Perfil">
-      <div className="w-full max-w-[702px]">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-6 py-4"
+            className="flex flex-col gap-10"
           >
-            <div className="flex flex-col gap-6 pt-5 pb-11">
+            <div className="flex flex-col gap-6 ">
               <FormField
                 control={form.control}
                 name="nome"
@@ -100,12 +99,11 @@ export default function ADDPerfilForm({ onClose }: PerfilFormProps) {
               />
             </div>
             <div className="flex justify-center w-full gap-7">
-              <ButtonSubmit isSubmitting={form.formState.isSubmitting} />
               <ButtonCloseModal resetForm={resetForm} />
+              <ButtonSubmit isSubmitting={form.formState.isSubmitting} />
             </div>
           </form>
         </Form>
-      </div>
     </CardModal>
   );
 }

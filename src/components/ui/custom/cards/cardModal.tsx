@@ -6,16 +6,18 @@ interface CardModalProps {
   title?: string;
 }
 
-const CardModal = (props: CardModalProps) => {
+const CardModal = ({title, children }: CardModalProps) => {
   return (
-    <Card className="w-full max-w-[991px] text-white rounded-xl">
+    <Card className="w-full text-white rounded-xl">
       <CardHeader className="bg-[#27272A] rounded-t-xl">
         <CardTitle className="text-center text-lg font-semibold">
-          {props.title}
+          {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className=" flex items-center justify-center p-4">
-        {props.children}
+      <CardContent className="flex items-center justify-center py-8 px-12">
+      <div className="w-full">
+        {children}
+      </div>
       </CardContent>
     </Card>
   );
