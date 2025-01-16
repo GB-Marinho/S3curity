@@ -33,6 +33,7 @@ export function AuthProvider({ children }: AuthProviderInterface) {
   const [token, setToken] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const { replace } = useRouter();
+  const [id, setId] = useState<string | undefined>(undefined);
 
   const user = useMemo(() => userState, [userState]);
 
@@ -50,6 +51,7 @@ export function AuthProvider({ children }: AuthProviderInterface) {
           name: payload.nome as string,
           email: payload.email as string,
         });
+        setId(payload.id as string);
       }
     } catch (error) {
       console.error(error);

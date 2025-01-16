@@ -10,6 +10,7 @@ export interface AuthContextInterface extends UserInterface {
   token?: string;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  id?: string;
 }
 
 export interface AuthProviderInterface {

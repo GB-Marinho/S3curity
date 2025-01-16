@@ -17,7 +17,7 @@ export const navItems: NavItemType[] = [
       {
         id:"home",
         title: "Home",
-        url: "home",
+        url: "/home",
         icon: IconHome,
         type: "item",
       },
