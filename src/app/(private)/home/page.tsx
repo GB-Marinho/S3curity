@@ -1,6 +1,12 @@
 "use client"
 
+import { useEffect } from "react"
+
 export default function HomePage() {
+
+  useEffect(() => {
+    console.log("rendereizei")
+  }, [])
 
   return (
     <div className='flex flex-col flex-wrap'>

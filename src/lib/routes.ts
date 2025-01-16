@@ -11,12 +11,14 @@ export const API_AUTH_RECOVERY_BY_EMAIL = `${API_AUTH}/recuperar-por-email`;
 export const API_AUTH_VERIFY_EMAIL_TOKEN = `${API_AUTH}/verificar-token`;
 export const API_AUTH_CHANGE_PASSWORD_BY_EMAIL_TOKEN = `${API_AUTH}/alterar-senha-email`;
 export const API_AUTH_CHANGE_TOKENID_BY_REFRESH_TOKEN = `${API_AUTH}/atualizar-token`;
+export const API_AUTH_CHANGE_PASSWORD_USER = `${API_AUTH}/alterar-senha`;
 // API - Other Routes ---------------------------------
 export const API_PERMISSIONS = `/permissoes`
 export const API_PERFIS = `/perfis`
 export const API_USERS = `${API_AUTH}/usuarios`
 export const API_ATUALIZAR_USUARIO = `${API_AUTH}/atualizar-usuario`
 export const API_REGISTRAR_USUARIO = `${API_AUTH}/registrar-usuario`
+export const API_ADD_PERFIL_TO_USUARIO = `${API_AUTH}/atualizar-perfil`
 // PAGES WEBAPP ---------------------------------
 export const PATH_PAGE = "/";
 // PAGES WEBAPP - ACCOUNTS ----------------------
@@ -28,4 +30,5 @@ export const PATH_PAGE_ACCOUNTS_RECOVERY_SUCCESS = `${PATH_PAGE_ACCOUNTS_RECOVER
 export const PATH_PAGE_ACCOUNTS_RECOVERY_EMAIL = `${PATH_PAGE_ACCOUNTS_RECOVERY}/email`;
 // PAGES WEBAPP - PRIVATE ----------------------
 export const PATH_PAGE_HOME = "/home";
+export const PATH_PAGE_MANAGE = "/manage";
 

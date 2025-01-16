@@ -7,8 +7,7 @@ import { columns } from "./columns";
 import ConfirmationDialog from "@/components/ui/custom/confirmationDialog";
 import useConfirmDialog from "@/hooks/useConfirmDialog";
 import { toast } from "sonner";
-import NewUserModal from "@/components/modals/newUserModal";
-import { Button } from "@/components/ui/button"
+import NewCustomersModal from "@/components/modals/newCustomersModal";
 
 export default function ManagePage() {
     const { users, findUsers, deleteUser } = useUsersStore();
@@ -25,21 +24,21 @@ export default function ManagePage() {
                 toast.error(error)
                 findUsers()
             } else {
-                toast("Permissão deletada com Sucesso!")
+                toast("Usuário deletado com Sucesso!")
             }
         }
     }
 
     useEffect(() => {
         findUsers();
-    }, [findUsers]);
+    }, []);
 
     const sheach = (
         <BarraDePesquisa
             title="Pesquisar Usuários"
             placeholder="Procurar por nome..."
         >
-            <NewUserModal />
+            <NewCustomersModal />
         </BarraDePesquisa>
     );
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Usuario } from "@/types/Entities";
 import { axiosApiClientSide } from "../config";
 import { ErrorResponse } from "@/types";
@@ -10,10 +11,12 @@ export async function updateUser(user: Usuario) {
         email: user.email,
         senha: user.senha,
         senhaConfirmacao: user.senhaConfirmacao,
-        telefone: user.telefone,
+        telefone: user.celular,
+        urlPerfil:user.urlPerfil,
+        ativo: user.ativo,
     };
-    const tokenId = await getCookie("tokenId");
-    const axiosApi = axiosApiClientSide(tokenId?.value)
+      const tokenId = await getCookie("tokenId")
+      const axiosApi = axiosApiClientSide(tokenId?.value);
 
     try {
         const response = await axiosApi.put<void | ErrorResponse>(

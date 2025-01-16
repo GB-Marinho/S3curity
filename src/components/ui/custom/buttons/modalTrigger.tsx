@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogTrigger } from "../../dialog";
 
 interface ButtonDialogProps {
   trigger: ReactNode;
-  children: ReactNode;
+  children: ReactNode | ((onClose: () => void) => ReactNode);
 }
 
 export default function ModalTrigger({
@@ -28,11 +28,13 @@ export default function ModalTrigger({
         {trigger}
       </DialogTrigger>
       <DialogContent
-        className="max-w-4xl p-0 border-none"
+        className="xl:max-w-4xl p-0 border-none"
         onInteractOutside={(event) => event.preventDefault()}
         onEscapeKeyDown={(event) => event.preventDefault()}
       >
-        {isValidElement<{ onClose: () => void }>(children)
+        {typeof children === "function"
+          ? children(closeModal)
+          : isValidElement<{ onClose: () => void }>(children)
           ? cloneElement(children, { onClose: closeModal })
           : children}
       </DialogContent>

@@ -5,8 +5,8 @@ import { Usuario } from "@/types/Entities";
 import { getCookie } from "@/lib/actions";
 
 export async function findUserID(id: string) {
-  const tokenId = await getCookie("tokenId");
-  const axiosApi = axiosApiClientSide(tokenId?.value)
+    const tokenId = await getCookie("tokenId")
+    const axiosApi = axiosApiClientSide(tokenId?.value);
 
   try {
     const response = await axiosApi.get<Usuario | null>(

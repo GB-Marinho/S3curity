@@ -1,3 +1,4 @@
+"use client"
 import { UserInfoSkeleton } from "@/components/skeletons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -8,17 +9,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context";
+import { pegarIniciais } from "@/lib";
 import { LogOut, User } from "lucide-react";
 import Link from "next/link";
 
-function pegarIniciais(nome: string) {
-  if(!nome) return "";
-
-  const nomes = nome.trim().split(" ").slice(0,2);
-  const iniciais = nomes.length > 1 ? nomes.map( value => value.charAt(0).toUpperCase()).join("") : nomes[0].slice(0,2).toLocaleUpperCase();
-
-  return iniciais;
-}
 
 export default function UserProfileSection() {
   const { name, email, logout, loading, id } = useAuth();
