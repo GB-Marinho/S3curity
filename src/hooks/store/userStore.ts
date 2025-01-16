@@ -5,9 +5,12 @@ import {
     addUser,
     findUsers,
     updateUser,
-    deleteUser
+    deleteUser,
+    register
 } from "@/services";
 import { updateUserPerfilService } from "@/services/users/updateUserPerfil";
+import { passwordReplaceService } from "@/services/accounts/passwordReplace";
+import { handleError } from "@/lib";
 
 
 interface UsersState {
@@ -16,10 +19,12 @@ interface UsersState {
     error: string | null;
 
     findUsers: () => Promise<void>;
+    registerUser: (user: Omit<Usuario, "id">) => Promise<void>;
     addUser: (user: Omit<Usuario, "id">) => Promise<void>;
     updateUser: (user: Usuario) => Promise<void>;
     deleteUser: (id: string) => Promise<void>;
     UpdateUserPerfil: (id: string, perfis: string[]) => Promise<void>
+    passwordReplace: (id: string, senhaAntiga: string, senhaNova: string, senhaNovaConfirmacao: string) => Promise<void>
 }
 
 export const useUsersStore = create<UsersState>((set, get) => ({
@@ -41,11 +46,29 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         }
     },
 
+    registerUser: async (user) => {
+        set({ isLoading: true, error: null });
+        try {
+            await register(
+                user.nome,
+                user.email,
+                user.senha!,
+                user.senhaConfirmacao!,
+                user.celular!,
+                user.ativo!
+              );
+        } catch (error: any) {
+            handleError(error);
+        } finally {
+            set({ isLoading: false });
+        }
+    },
+
     addUser: async (newUser) => {
         set({ isLoading: true, error: null });
         try {
-            if (newUser.nome && newUser.email && newUser.senha && newUser.senhaConfirmacao && newUser.telefone) {
-                await addUser(newUser.nome, newUser.email, newUser.senha, newUser.senhaConfirmacao, newUser.telefone);
+            if (newUser.nome && newUser.email && newUser.senha && newUser.senhaConfirmacao && newUser.celular) {
+                await addUser(newUser.nome, newUser.email, newUser.senha, newUser.senhaConfirmacao, newUser.celular);
             } else {
                 throw new Error("Error desconhecido");
             }
@@ -70,6 +93,19 @@ export const useUsersStore = create<UsersState>((set, get) => ({
             });
         } finally {
             set({ isLoading: false });
+        }
+    },
+
+    passwordReplace: async (id, senhaAntiga, senhaNova, senhaNovaConfirmacao ) => {
+        set({ isLoading: true, error: null });
+        try {
+            await passwordReplaceService({id, senhaAntiga, senhaNova, senhaNovaConfirmacao})
+        } catch (error: any) {
+            set({
+                error: error.message || "Erro ao alterar senha de usuário"
+            });
+        } finally {
+            set({ isLoading: false })
         }
     },
 

@@ -50,7 +50,6 @@ export default function PasswordRecoveryEmailForm({ token }: { token: string }) 
     );
 
     async function onSubmit(data: z.infer<typeof passwordRecoveryEmailSchema>) {
-        console.log("Passou aqui 1");
         try {
             const response = await changePasswordByEmailToken(
                 token,

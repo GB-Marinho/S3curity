@@ -82,7 +82,6 @@ export default function PermissionsForm({ onClose, id }: PermissionsFormProps) {
 
   return (
     <CardModal title={`${id ? "Editar" : "Criar"} Permissão`}>
-      <div className="w-full max-w-[702px]">
         {isLoading ? (
           <div className="flex justify-center items-center py-20">
             <span className="loader" />
@@ -91,9 +90,9 @@ export default function PermissionsForm({ onClose, id }: PermissionsFormProps) {
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}
-              className="flex flex-col gap-6 py-4"
+              className="flex flex-col gap-10"
             >
-              <div className="flex flex-col gap-6 pt-5 pb-11">
+              <div className="flex flex-col gap-6">
                 <FormField
                   control={form.control}
                   name="nome"
@@ -132,13 +131,12 @@ export default function PermissionsForm({ onClose, id }: PermissionsFormProps) {
                 />
               </div>
               <div className="flex justify-center w-full gap-7">
-                <ButtonSubmit isSubmitting={form.formState.isSubmitting} />
                 <ButtonCloseModal resetForm={resetForm} />
+                <ButtonSubmit isSubmitting={form.formState.isSubmitting} />
               </div>
             </form>
           </Form>
         )}
-      </div>
     </CardModal>
   );
 }

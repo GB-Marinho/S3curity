@@ -19,12 +19,19 @@ import {
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { IconMail, IconSignature } from "@tabler/icons-react";
-import CardModal from "@/components/ui/custom/cards/cardModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { pegarIniciais } from "@/lib";
 import { Checkbox } from "@/components/ui/checkbox";
 import { revalidateRoute } from "@/lib/actions/revalidade";
 import { PhoneInput } from "@/components/ui/phone-input";
+import PasswordReplaceForm from "../../passwordReplaceForm/passwordReplaceForm";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Switch } from "@/components/ui/switch";
 
 interface UpdateCustomerFormProps {
   customer: Usuario;
@@ -72,11 +79,11 @@ export default function UpdateCustomerForm({
 
       reader.onload = () => {
         const base64 = reader.result as string;
-        form.setValue("urlPerfil", base64); // Atualiza o campo do formulário
+        form.setValue("urlPerfil", base64);
         console.log(base64);
       };
 
-      reader.readAsDataURL(file); // Converte o arquivo para Base64
+      reader.readAsDataURL(file);
     }
   };
 
@@ -94,16 +101,16 @@ export default function UpdateCustomerForm({
       >
         <Card className="mx-auto py-2 px-4 sm:px-16 bg-[#09090b] border-none text-white w-full">
           <div className="flex flex-col lg:flex-row lg:gap-16 gap-6 py-4">
-            <div className="flex flex-col justify-center py-4">
+            <div className="flex flex-col py-4 2xl:px-16 gap-7">
               <FormField
                 control={form.control}
                 name="urlPerfil"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormControl>
-                      <div className="relative group">
+                      <div className="flex flex-grow justify-center relative group">
                         <label htmlFor="fileInput" className="cursor-pointer">
-                          <Avatar className="size-40 group-hover:opacity-75 transition-opacity">
+                          <Avatar className="size-40 2xl:size-52 group-hover:opacity-75 transition-opacity">
                             <AvatarImage
                               src={form.watch("urlPerfil") || undefined}
                               alt={form.watch("nome")}
@@ -126,6 +133,25 @@ export default function UpdateCustomerForm({
                       </div>
                     </FormControl>
                     <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="ativo"
+                render={({ field }) => (
+                  <FormItem className="flex  flex-col max-w-40 mx-auto  border p-2 rounded-lg w-full">
+                    <div className="flex justify-between items-center w-full">
+                      <FormLabel className="text-sm">Ativo</FormLabel>
+                      <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    </div>
+
+  
                   </FormItem>
                 )}
               />
@@ -172,10 +198,10 @@ export default function UpdateCustomerForm({
               />
               <FormField
                 control={form.control}
-                name="telefone"
+                name="celular"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xl">Telefone</FormLabel>
+                    <FormLabel className="text-xl">Celular</FormLabel>
                     <FormControl>
                       <PhoneInput
                         numberInputProps={{ className: "bg-black" }}
@@ -190,19 +216,19 @@ export default function UpdateCustomerForm({
                   </FormItem>
                 )}
               />
-            </div>
-          </div>
-        </Card>
-        <div className="flex w-full flex-col md:flex-row gap-4">
-          <CardModal title="Perfis Disponiveis">
-            <div className="flex flex-wrap gap-2">
               <FormField
                 control={form.control}
                 name="perfis"
                 render={({ field }) => (
                   <FormItem>
+                    <FormLabel className="text-xl">Perfils</FormLabel>
                     <FormControl>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-2 bg-black p-4 justify-center">
+                        {perfis.length === 0 && (
+                          <p className="text-zinc-400 text-sm">
+                            Sem perfis disponiveis.
+                          </p>
+                        )}
                         {perfis
                           .sort((a, b) => a.nome.localeCompare(b.nome))
                           .map((perfil) => (
@@ -243,7 +269,26 @@ export default function UpdateCustomerForm({
                 )}
               />
             </div>
-          </CardModal>
+          </div>
+        </Card>
+
+        <div className="flex w-full flex-col lg:flex-row gap-4">
+          <div className="flex w-full">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Alterar senha?</AccordionTrigger>
+                <AccordionContent>
+                  <Card className="mx-auto py-2 px-4 sm:px-16 bg-[#09090b] border-none text-white w-full">
+                    <div className="flex flex-col lg:flex-row lg:gap-16 gap-6 py-4">
+                      <div className="flex flex-col flex-grow gap-4">
+                        <PasswordReplaceForm userID={customer.id!} />
+                      </div>
+                    </div>
+                  </Card>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
         </div>
       </form>
     </Form>

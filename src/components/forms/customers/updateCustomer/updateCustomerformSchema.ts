@@ -21,7 +21,7 @@ export const UpdateCustomerFormSchema = z.object({
   
   urlPerfil: z.string().url().optional(),
 
-  telefone: z
+  celular: z
     .string()
     .refine(isValidPhoneNumber, { message: "Numero de telefone invalido." }).optional(),
 });
