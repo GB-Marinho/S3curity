@@ -40,12 +40,19 @@ interface UpdateCustomerFormProps {
 export default function UpdateCustomerForm({
   customer,
 }: UpdateCustomerFormProps) {
-  const { updateUser, UpdateUserPerfil } = useUsersStore();
+  const { updateUser, UpdateUserPerfil, activateUser, disbaleUser } = useUsersStore();
   const { perfis, findPerfis } = usePerfilStore();
 
   const form = useForm<z.infer<typeof UpdateCustomerFormSchema>>({
     resolver: zodResolver(UpdateCustomerFormSchema),
-    defaultValues: customer,
+    defaultValues: {
+      ...customer,
+      urlPerfil: customer.urlPerfil ?? undefined,
+      celular:
+        customer.celular && !customer.celular.startsWith("+")
+          ? `+55${customer.celular}`
+          : customer.celular,
+    },
   });
 
   function houveAlteracao(original: Usuario, atual: Usuario) {
@@ -57,6 +64,11 @@ export default function UpdateCustomerForm({
 
   async function onSubmit(data: z.infer<typeof UpdateCustomerFormSchema>) {
     if (houveAlteracao(customer, data)) {
+      if(data.ativo){
+        activateUser(data.id);
+      } else {
+        disbaleUser(data.id);
+      }
       await updateUser(data);
     }
     await UpdateUserPerfil(
@@ -144,14 +156,12 @@ export default function UpdateCustomerForm({
                     <div className="flex justify-between items-center w-full">
                       <FormLabel className="text-sm">Ativo</FormLabel>
                       <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
                     </div>
-
-  
                   </FormItem>
                 )}
               />
