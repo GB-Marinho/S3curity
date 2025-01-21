@@ -8,9 +8,11 @@ import ConfirmationDialog from "@/components/ui/custom/confirmationDialog";
 import useConfirmDialog from "@/hooks/useConfirmDialog";
 import { toast } from "sonner";
 import NewCustomersModal from "@/components/modals/newCustomersModal";
+import { useAuth } from "@/context";
 
 export default function ManagePage() {
     const { users, findUsers, deleteUser } = useUsersStore();
+    const {id} = useAuth()
     const { showDialog, handleConfirm, handleCancel } = useConfirmDialog();
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
@@ -46,7 +48,7 @@ export default function ManagePage() {
         <div className="w-full h-full container">
             <DataTable
                 columns={columns(handlerDelete)}
-                data={users}
+                data={users.filter((user) => user.id !== id)}
                 searchBar={sheach}
                 searchFor="nome"
             />

@@ -1,30 +1,11 @@
-"use client"
+import { ActiveCustomersChart } from "@/components/charts/activeCustomersChart";
 
-import { useEffect } from "react"
-
-export default function HomePage() {
-
-  useEffect(() => {
-    console.log("rendereizei")
-  }, [])
-
+export default async function HomePage() {
   return (
-    <div className='flex flex-col flex-wrap'>
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
-      Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse, quaerat sed. Consequatur, architecto, doloribus facilis, magni nobis reprehenderit sapiente sequi quidem culpa suscipit neque. Deserunt blanditiis mollitia fugit tempora inventore.
+    <div className="flex flex-wrap w-full container">
+      <div>
+        <ActiveCustomersChart />
+      </div>
     </div>
-
-  )
+  );
 }
