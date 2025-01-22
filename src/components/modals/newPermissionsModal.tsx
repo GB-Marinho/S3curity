@@ -1,8 +1,8 @@
 import { IconPlus } from "@tabler/icons-react";
 
-import ModalTrigger from "../ui/custom/buttons/modalTrigger";
+import PermissionsForm from "../forms/Permissions/Permissions-form";
 import { Button } from "../ui/button";
-import PermissionsForm from "../forms/permissions/Permissions-form";
+import ModalTrigger from "../ui/custom/buttons/modalTrigger";
 
 export default function NewPermissionsModal() {
   return (
