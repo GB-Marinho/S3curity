@@ -1,5 +1,5 @@
 "use client";
-import PermissionsForm from "@/components/forms/permissions/Permissions-form";
+import PermissionsForm from "@/components/forms/Permissions/Permissions-form";
 import ModalTrigger from "@/components/ui/custom/buttons/modalTrigger";
 import { Permissao } from "@/types/Entities";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
