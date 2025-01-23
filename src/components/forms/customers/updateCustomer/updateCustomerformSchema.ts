@@ -1,6 +1,6 @@
-import { isValidPhoneNumber } from "react-phone-number-input";
 import { z } from "zod";
 import { UpdatePerfilFormSchema } from "../../perfil/updatePerfilForm/updatePerfilFormSchema";
+import { isValidPhoneNumberCustom } from "../newCustomer/newUsersFormSchema";
 
 export const UpdateCustomerFormSchema = z.object({
   id: z.string(),
@@ -23,5 +23,5 @@ export const UpdateCustomerFormSchema = z.object({
 
   celular: z
     .string()
-    .refine(isValidPhoneNumber, { message: "Numero de telefone invalido." }).optional(),
+    .refine(isValidPhoneNumberCustom, { message: "Numero de telefone invalido." }).optional(),
 });

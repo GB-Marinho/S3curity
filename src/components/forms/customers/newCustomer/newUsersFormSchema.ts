@@ -1,7 +1,13 @@
 import { z } from "zod";
 import { isValidPhoneNumber } from "react-phone-number-input";
 
-export const NewUsersFormSchema = z.object({
+export const isValidPhoneNumberCustom = (value: string) => {
+  const phoneRegex = /^(\+?55)?([1-9]{2})9[0-9]{8}$/;
+  return isValidPhoneNumber(value) && phoneRegex.test(value);
+};
+
+export const NewUsersFormSchema = z
+  .object({
     nome: z
       .string()
       .min(2, { message: "O nome precisa ter mais que 2 caracteres" })
@@ -31,10 +37,13 @@ export const NewUsersFormSchema = z.object({
     senhaConfirmacao: z.string(),
     celular: z
       .string()
-      .refine(isValidPhoneNumber, { message: "Numero de telefone invalido." }).optional(),
-      ativo: z.boolean().default(true)
+      .refine(isValidPhoneNumberCustom, {
+        message: "Numero de telefone invalido.",
+      })
+      .optional(),
+    ativo: z.boolean().default(true),
   })
   .refine(({ senha, senhaConfirmacao }) => senha === senhaConfirmacao, {
     message: "As senhas devem ser iguais",
-    path: ["passwordConfirm"],
+    path: ["senhaConfirmacao"],
   });

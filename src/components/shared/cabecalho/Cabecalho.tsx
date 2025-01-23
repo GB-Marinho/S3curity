@@ -9,7 +9,8 @@ export default function Cabecalho() {
     <div className="bg-black h-[175px] flex-none flex justify-center items-center">
       <SidebarTrigger />
       <div className=" flex flex-1 justify-between items-center">
-        <span className="text-2xl">Administrador</span>
+        {/* <span className="text-2xl">Administrador</span> */}
+        <span className="text-2xl"></span>
         <div className="flex gap-3 items-center px-2">
           <button className="hover:bg-zinc-800 p-[8px] rounded-full">
             <IconSearch />

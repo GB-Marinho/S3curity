@@ -26,7 +26,7 @@ export default function ManagePage() {
                 toast.error(error)
                 findUsers()
             } else {
-                toast("Usuário deletado com Sucesso!")
+                toast.success("Usuário deletado com Sucesso!")
             }
         }
     }

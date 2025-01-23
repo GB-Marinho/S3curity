@@ -19,7 +19,7 @@ export default async function UserIdPage({
     return (
         <div className="flex flex-col w-full gap-4 container">
         <div className="flex w-full justify-between">
-          <div></div>
+          <div className="flex items-center font-bold text-2xl text-zinc-300 ">SecurityAdmin</div>
           <Button
             form="updateUserForm"
             type="submit"

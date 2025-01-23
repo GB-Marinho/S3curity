@@ -195,7 +195,6 @@ export default function UpdateCustomerForm({
                     <FormControl>
                       <div className="bg-black rounded-lg relative flex items-center">
                         <Input
-                          disabled
                           className="bg-transparent pl-11 flex-1 peer h-12"
                           {...field}
                         />
