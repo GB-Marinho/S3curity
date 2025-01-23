@@ -111,12 +111,21 @@ export function ActiveCustomersChart() {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Atualmente há <strong> {ativos}</strong> usuarios ativos
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Equivalente a {Math.round((ativos / totalUsers) * 100)}% do total de usuarios
-        </div>
+        {totalUsers === 0 ? (
+            <div className="flex items-center gap-2 font-medium leading-none">
+              Não há usuarios cadastrados
+            </div>
+        ) : (
+          <>
+            <div className="flex items-center gap-2 font-medium leading-none">
+              Atualmente há <strong> {ativos}</strong> usuarios ativos
+            </div>
+            <div className="leading-none text-muted-foreground">
+              Equivalente a {Math.round((ativos / totalUsers) * 100)}% do total
+              de usuarios
+            </div>
+          </>
+        )}
       </CardFooter>
     </Card>
   );

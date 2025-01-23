@@ -24,7 +24,8 @@ import { pegarIniciais } from "@/lib";
 import { Checkbox } from "@/components/ui/checkbox";
 import { revalidateRoute } from "@/lib/actions/revalidade";
 import { PhoneInput } from "@/components/ui/phone-input";
-import { Switch } from "@/components/ui/switch";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import PasswordReplaceForm from "../../passwordReplaceForm/passwordReplaceForm";
 
 interface UpdateUserFormProps {
     user: Usuario;
@@ -40,7 +41,7 @@ export default function UpdateUserForm({
         resolver: zodResolver(UpdateUserFormSchema),
         defaultValues: {
             ...user,
-            // Adiciona o +55 no inicio do celular - Necessario apenas se o banco não tiver o +55
+            urlPerfil: user.urlPerfil ?? undefined,
             celular: user.celular && !user.celular.startsWith("+55") ? `+55${user.celular}` : user.celular,
         },
     });
@@ -249,7 +250,24 @@ export default function UpdateUserForm({
                         </div>
                     </div>
                 </Card>
-
+                <div className="flex w-full flex-col lg:flex-row gap-4">
+          <div className="flex w-full">
+            <Accordion type="single" collapsible className="w-full">
+              <AccordionItem value="item-1">
+                <AccordionTrigger>Alterar senha?</AccordionTrigger>
+                <AccordionContent>
+                  <Card className="mx-auto py-2 px-4 sm:px-16 bg-[#09090b] border-none text-white w-full">
+                    <div className="flex flex-col lg:flex-row lg:gap-16 gap-6 py-4">
+                      <div className="flex flex-col flex-grow gap-4">
+                        <PasswordReplaceForm userID={user.id!} />
+                      </div>
+                    </div>
+                  </Card>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        </div>
             </form>
         </Form>
     );

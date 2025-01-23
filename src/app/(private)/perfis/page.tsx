@@ -22,7 +22,7 @@ export default function PerfisPage() {
       if(error){
         toast.error(error)
       }else{
-        toast("Perfil deletado com Sucesso!")
+        toast.success("Perfil deletado com Sucesso!")
       }
     }
   };

@@ -1,7 +1,8 @@
 import { z } from "zod";
-import { isValidPhoneNumber } from "react-phone-number-input";
+import { isValidPhoneNumberCustom } from "../customers/newCustomer/newUsersFormSchema";
 
-export const registerFormSchema = z.object({
+export const registerFormSchema = z
+  .object({
     name: z
       .string()
       .min(2, { message: "O nome precisa ter mais que 2 caracteres" })
@@ -31,8 +32,10 @@ export const registerFormSchema = z.object({
     passwordConfirm: z.string(),
     celular: z
       .string()
-      .refine(isValidPhoneNumber, { message: "Numero de telefone invalido." }),
-      ativo: z.boolean().default(true)
+      .refine(isValidPhoneNumberCustom, {
+        message: "Numero de telefone invalido.",
+      }),
+    ativo: z.boolean().default(true),
   })
   .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
     message: "As senhas devem ser iguais",
