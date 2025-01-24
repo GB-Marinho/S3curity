@@ -4,8 +4,8 @@ import { axiosApiClientSide } from "../config";
 import { API_REGISTRAR_USUARIO } from "@/lib";
 import { getCookie } from "@/lib/actions";
 
-export async function addUser(nome: string, email: string, senha: string, senhaConfirmacao: string, celular: string) {
-  const data = { nome, email, senha, senhaConfirmacao, celular };
+export async function addUser(nome: string, email: string, senha: string, senhaConfirmacao: string, celular: string, ativo:boolean) {
+  const data = { nome, email, senha, senhaConfirmacao, celular, ativo };
   const tokenId = await getCookie("tokenId");
   const axiosApi = axiosApiClientSide(tokenId?.value)
 
