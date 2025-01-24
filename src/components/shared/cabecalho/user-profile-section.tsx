@@ -22,7 +22,7 @@ export default function UserProfileSection() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="flex gap-2 px-2 max-w-56 items-center py-1 rounded-lg data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:bg-sidebar-accent" >
+        <div className="flex gap-2 px-2 max-w-56 items-center py-1 rounded-lg data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground hover:bg-sidebar-accent cursor-pointer" >
           <Avatar className="h-10 w-10 rounded-lg">
             <AvatarImage src="" alt={name} />
             <AvatarFallback className="bg-zinc-600">

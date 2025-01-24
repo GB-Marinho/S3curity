@@ -89,7 +89,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
           newUser.email,
           newUser.senha,
           newUser.senhaConfirmacao,
-          newUser.celular
+          newUser.celular,
+          newUser.ativo!
         );
       } else {
         throw new Error("Error desconhecido");

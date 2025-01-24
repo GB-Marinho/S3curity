@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { usePerfilStore } from "@/hooks/store/perfisStore";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   Form,
   FormControl,
@@ -32,6 +32,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Switch } from "@/components/ui/switch";
+import { Trash } from "lucide-react";
 
 interface UpdateCustomerFormProps {
   customer: Usuario;
@@ -40,7 +41,8 @@ interface UpdateCustomerFormProps {
 export default function UpdateCustomerForm({
   customer,
 }: UpdateCustomerFormProps) {
-  const { updateUser, UpdateUserPerfil, activateUser, disbaleUser } = useUsersStore();
+  const { updateUser, UpdateUserPerfil, activateUser, disbaleUser } =
+    useUsersStore();
   const { perfis, findPerfis } = usePerfilStore();
 
   const form = useForm<z.infer<typeof UpdateCustomerFormSchema>>({
@@ -64,7 +66,7 @@ export default function UpdateCustomerForm({
 
   async function onSubmit(data: z.infer<typeof UpdateCustomerFormSchema>) {
     if (houveAlteracao(customer, data)) {
-      if(data.ativo){
+      if (data.ativo) {
         activateUser(data.id);
       } else {
         disbaleUser(data.id);
@@ -84,6 +86,9 @@ export default function UpdateCustomerForm({
     await revalidateRoute(`/manage/${customer.id}`);
   }
 
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // ver como isso vai ficar.
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -98,6 +103,13 @@ export default function UpdateCustomerForm({
       reader.readAsDataURL(file);
     }
   };
+
+  const handleRemoveUrlPerfil = () => {
+    form.setValue("urlPerfil", undefined);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  }
 
   useEffect(() => {
     console.log(customer);
@@ -120,28 +132,46 @@ export default function UpdateCustomerForm({
                 render={() => (
                   <FormItem>
                     <FormControl>
-                      <div className="flex flex-grow justify-center relative group">
-                        <label htmlFor="fileInput" className="cursor-pointer">
-                          <Avatar className="size-40 2xl:size-52 group-hover:opacity-75 transition-opacity">
-                            <AvatarImage
-                              src={form.watch("urlPerfil") || undefined}
-                              alt={form.watch("nome")}
-                              className=" object-cover"
-                            />
-                            <AvatarFallback className="flex items-center justify-center bg-zinc-800">
-                              <span className="text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-l from-red-500 via-red-700 to-red-900">
-                                {pegarIniciais(form.watch("nome"))}
+                      <div className="relative">
+                        <div className="flex flex-grow justify-center relative group">
+                          <label htmlFor="fileInput" className="cursor-pointer">
+                            <Avatar className="size-40 2xl:size-52 group-hover:opacity-75 transition-opacity">
+                              <AvatarImage
+                                src={form.watch("urlPerfil") || undefined}
+                                alt={form.watch("nome")}
+                                className="object-cover"
+                              />
+                              <AvatarFallback className="flex items-center justify-center bg-zinc-800">
+                                <span className="text-6xl font-extrabold bg-clip-text text-transparent bg-gradient-to-l from-red-500 via-red-700 to-red-900">
+                                  {pegarIniciais(form.watch("nome"))}
+                                </span>
+                              </AvatarFallback>
+                            </Avatar>
+                          </label>
+                          <Input
+                            id="fileInput"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            ref={fileInputRef}
+                            className="hidden"
+                          />
+                        </div>
+
+                        {form.watch("urlPerfil") && (
+                          <div className="absolute bottom-0 right-0 group">
+                            <button
+                              type="button"
+                              onClick={handleRemoveUrlPerfil}
+                              className="p-1 gap-1 bg-zinc-100 group-hover:bg-red-600 rounded-full text-black flex items-center transition-all duration-500 ease-in-out group-hover:pr-2"
+                            >
+                              <Trash className="w-4 h-4 group-hover:text-zinc-100" />
+                              <span className="hidden group-hover:block text-xs text-zinc-100">
+                                Remover
                               </span>
-                            </AvatarFallback>
-                          </Avatar>
-                        </label>
-                        <Input
-                          id="fileInput"
-                          type="file"
-                          accept="image/*"
-                          onChange={handleFileChange}
-                          className="hidden"
-                        />
+                            </button>
+                          </div>
+                        )}
                       </div>
                     </FormControl>
                     <FormMessage />
