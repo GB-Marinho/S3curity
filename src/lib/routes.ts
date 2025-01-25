@@ -13,6 +13,7 @@ export const API_AUTH_VERIFY_EMAIL_TOKEN = `${API_AUTH}/verificar-token`;
 export const API_AUTH_CHANGE_PASSWORD_BY_EMAIL_TOKEN = `${API_AUTH}/alterar-senha-email`;
 export const API_AUTH_CHANGE_TOKENID_BY_REFRESH_TOKEN = `${API_AUTH}/atualizar-token`;
 export const API_AUTH_CHANGE_PASSWORD_USER = `${API_AUTH}/alterar-senha`;
+export const API_AUTH_VERIFY_OTP = `${API_AUTH}/verificar-otp`;
 // API - Other Routes ---------------------------------
 export const API_PERMISSIONS = `/permissoes`;
 export const API_PERFIS = `/perfis`;
