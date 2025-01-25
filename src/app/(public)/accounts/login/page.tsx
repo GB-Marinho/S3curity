@@ -4,7 +4,11 @@ import { decrypt } from "@/lib/JWT/verifyToken";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams: { next: string };
+}) {
   const token = cookies().get("tokenId");
   const user = token ? await decrypt(token.value) : null;
   // Redireciona para /home se o usuário estiver autenticado
@@ -14,7 +18,7 @@ export default async function LoginPage() {
 
   return (
     <div className="flex h-screen w-full items-center justify-center px-4">
-      <LoginForm />
+      <LoginForm next={searchParams.next} />
     </div>
   );
 }
