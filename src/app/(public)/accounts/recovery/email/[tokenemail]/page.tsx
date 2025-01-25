@@ -9,7 +9,6 @@ export default async function RecoveryByEmailToken({
 }) {
   const response = await verifyEmailToken(params.tokenemail);
   if (response.status === 200 && response.data.isValid)
-    // TODO: Criar o Form de Recuperar a senha se entrar nesse if
     return (
       <section>
         <PasswordRecoveryEmailForm token={params.tokenemail} />

@@ -11,8 +11,9 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 
 interface OtpFormProps {
-  next?: string;
   email: string;
+  expired_at: Date;
+  next?: string;
 }
 
 export function OtpForm(props: OtpFormProps) {
