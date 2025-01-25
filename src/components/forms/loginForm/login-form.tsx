@@ -45,7 +45,11 @@ const GoogleButton = React.memo(() => (
 
 GoogleButton.displayName = "GoogleButton";
 
-export function LoginForm() {
+interface LoginFormProps {
+  next?: string;
+}
+
+export function LoginForm(props: LoginFormProps) {
   const { login } = useAuth();
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
@@ -64,7 +68,7 @@ export function LoginForm() {
 
   async function onSubmit(data: z.infer<typeof loginFormSchema>) {
     try {
-      await login(data.email, data.password);
+      await login(data.email, data.password, false, props.next);
     } catch (error) {
       handleError(error);
     }

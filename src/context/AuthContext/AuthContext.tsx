@@ -1,15 +1,19 @@
 "use client";
-import { PATH_PAGE_ACCOUNTS_LOGIN, PATH_PAGE_HOME } from "@/lib";
+import {
+  PATH_PAGE_ACCOUNTS_LOGIN,
+  PATH_PAGE_ACCOUNTS_LOGIN_2FA_VERIFICATION,
+  PATH_PAGE_HOME,
+} from "@/lib";
 import { createCookie, deleteCookie, getCookie } from "@/lib/actions/";
 import { decrypt } from "@/lib/JWT/verifyToken";
-import { loginRequest, LoginResponse } from "@/services";
+import { loginRequest, LoginResponse, otpValidation } from "@/services";
 import {
   AuthContextInterface,
   AuthProviderInterface,
   ErrorResponse,
   UserInterface,
 } from "@/types";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -32,7 +36,8 @@ export function AuthProvider({ children }: AuthProviderInterface) {
   const [userState, setUser] = useState<UserInterface>();
   const [token, setToken] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
-  const { replace } = useRouter();
+  const { replace, push } = useRouter();
+  const searchParams = useSearchParams();
   const [id, setId] = useState<string | undefined>(undefined);
 
   const user = useMemo(() => userState, [userState]);
@@ -66,8 +71,15 @@ export function AuthProvider({ children }: AuthProviderInterface) {
     initializeUser();
   }, [initializeUser]);
 
-  async function login(email: string, password: string) {
-    const response = await loginRequest(email, password);
+  async function login(
+    email: string,
+    password: string,
+    isOtpValidation = false,
+    next?: string
+  ) {
+    const response = isOtpValidation
+      ? await otpValidation(email, password)
+      : await loginRequest(email, password);
     if (response.status === 200) {
       const data = response.data as LoginResponse;
       await createCookie("tokenId", data.tokenId);
@@ -80,7 +92,13 @@ export function AuthProvider({ children }: AuthProviderInterface) {
         email: payload.email as string,
       });
       // replace(PATH_PAGE_HOME);
-      window.location.replace(PATH_PAGE_HOME);
+      window.location.replace(next || PATH_PAGE_HOME);
+    } else if (response.status === 303) {
+      const urlParams = new URLSearchParams(searchParams);
+      urlParams.set("email", email);
+      push(
+        `${PATH_PAGE_ACCOUNTS_LOGIN_2FA_VERIFICATION}?${urlParams.toString()}`
+      );
     } else {
       const error = response.data as ErrorResponse;
       toast.error(error.message);
