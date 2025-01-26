@@ -1,13 +1,14 @@
 "use client";
-import { useUsersStore } from "@/hooks/store/userStore";
-import { Perfil, Usuario } from "@/types/Entities";
-import { z } from "zod";
-import { UpdateCustomerFormSchema } from "./updateCustomerformSchema";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { usePerfilStore } from "@/hooks/store/perfisStore";
-import { toast } from "sonner";
-import { useEffect, useRef } from "react";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Form,
   FormControl,
@@ -16,23 +17,23 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { IconMail, IconSignature } from "@tabler/icons-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { pegarIniciais } from "@/lib";
-import { Checkbox } from "@/components/ui/checkbox";
-import { revalidateRoute } from "@/lib/actions/revalidade";
 import { PhoneInput } from "@/components/ui/phone-input";
-import PasswordReplaceForm from "../../passwordReplaceForm/passwordReplaceForm";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Switch } from "@/components/ui/switch";
+import { usePerfilStore } from "@/hooks/store/perfisStore";
+import { useUsersStore } from "@/hooks/store/userStore";
+import { pegarIniciais } from "@/lib";
+import { revalidateRoute } from "@/lib/actions/revalidade";
+import { Perfil, Usuario } from "@/types/Entities";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { IconMail, IconSignature } from "@tabler/icons-react";
 import { Trash } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import PasswordReplaceForm from "../../passwordReplaceForm/passwordReplaceForm";
+import { UpdateCustomerFormSchema } from "./updateCustomerformSchema";
 
 interface UpdateCustomerFormProps {
   customer: Usuario;
@@ -109,7 +110,7 @@ export default function UpdateCustomerForm({
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
-  }
+  };
 
   useEffect(() => {
     console.log(customer);
@@ -195,6 +196,26 @@ export default function UpdateCustomerForm({
                   </FormItem>
                 )}
               />
+              <Button className=" btn-primary text-white px-8" type="button">
+                Criar Novo QrCode
+              </Button>
+              {/* <QRCodeSVG
+                value={"https://picturesofpeoplescanningqrcodes.tumblr.com/"}
+                title={form.getValues("email")}
+                // size={200}
+                bgColor={"#ffffff"}
+                fgColor={"#000000"}
+                level={"M"}
+                imageSettings={{
+                  src: "@/assets/img/logo.png", // TODO: trocar pelo caminho no bucket
+                  x: undefined,
+                  y: undefined,
+                  height: 20,
+                  width: 20,
+                  opacity: 1,
+                  excavate: true,
+                }}
+              /> */}
             </div>
             <div className="flex flex-col flex-grow gap-4">
               <FormField
