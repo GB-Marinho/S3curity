@@ -7,6 +7,7 @@ export const API_BASE_URL_USE_CLIENT =
 export const API_AUTH = `/auth`;
 export const API_AUTH_LOGIN = `${API_AUTH}/login`;
 export const API_AUTH_LOGIN_OTP_VALIDATION = `${API_AUTH_LOGIN}/otp-validacao`;
+export const API_AUTH_LOGIN_CREATE_QRCODE = `${API_AUTH_LOGIN}/criar-qrcode`;
 export const API_AUTH_USER_REGISTER = `${API_AUTH}/registrar-usuario`;
 export const API_AUTH_RECOVERY_BY_EMAIL = `${API_AUTH}/recuperar-por-email`;
 export const API_AUTH_VERIFY_EMAIL_TOKEN = `${API_AUTH}/verificar-token`;

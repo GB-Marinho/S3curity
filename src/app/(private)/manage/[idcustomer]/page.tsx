@@ -6,38 +6,35 @@ import { IconChevronLeft } from "@tabler/icons-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-
-
 export default async function CustomerIdPage({
-    params,
+  params,
 }: {
-    params: { idcustomer: string };
+  params: { idcustomer: string };
 }) {
-    const response = await findUserID(params.idcustomer)
-    
-    if(!response) {
-        notFound();
-    }
+  const response = await findUserID(params.idcustomer);
 
-    return (
-        <div className="flex flex-col w-full gap-4 container">
-        <div className="flex w-full justify-between">
-          <Link href={PATH_PAGE_MANAGE}>
-            <Button variant={"ghost"} className="gap-2">
-              <IconChevronLeft />
-              Voltar
-            </Button>
-          </Link>
-          <Button
-            form="upateCustomerForm"
-            type="submit"
-            className=" btn-primary text-white px-8"
-          >
-            Salvar
+  if (!response) {
+    notFound();
+  }
+
+  return (
+    <div className="flex flex-col w-full gap-4 container">
+      <div className="flex w-full justify-between">
+        <Link href={PATH_PAGE_MANAGE}>
+          <Button variant={"ghost"} className="gap-2">
+            <IconChevronLeft />
+            Voltar
           </Button>
-        </div>
-        <UpdateCustomerForm customer={response} />
+        </Link>
+        <Button
+          form="upateCustomerForm"
+          type="submit"
+          className=" btn-primary text-white px-8"
+        >
+          Salvar
+        </Button>
       </div>
-    );
-
+      <UpdateCustomerForm customer={response} />
+    </div>
+  );
 }
