@@ -1,11 +1,5 @@
 "use client";
 import ShowQrCodeLoginModal from "@/components/modals/showQrCOdeLoginModal";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -32,8 +26,9 @@ import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import PasswordReplaceForm from "../../passwordReplaceForm/passwordReplaceForm";
 import { UpdateCustomerFormSchema } from "./updateCustomerformSchema";
+import clsx from "clsx";
+import NewPasswordModal from "@/components/modals/newPasswordModal";
 
 interface UpdateCustomerFormProps {
   customer: Usuario;
@@ -126,7 +121,7 @@ export default function UpdateCustomerForm({
       >
         <Card className="mx-auto py-2 px-4 sm:px-16 bg-[#09090b] border-none text-white w-full">
           <div className="flex flex-col lg:flex-row lg:gap-16 gap-6 py-4">
-            <div className="flex flex-col py-4 2xl:px-16 gap-7">
+            <div className="flex flex-col pt-4 justify-between 2xl:min-w-[350px] gap-7">
               <FormField
                 control={form.control}
                 name="urlPerfil"
@@ -179,24 +174,87 @@ export default function UpdateCustomerForm({
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="ativo"
-                render={({ field }) => (
-                  <FormItem className="flex  flex-col max-w-40 mx-auto  border p-2 rounded-lg w-full">
-                    <div className="flex justify-between items-center w-full">
-                      <FormLabel className="text-sm">Ativo</FormLabel>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                    </div>
-                  </FormItem>
-                )}
-              />
-              <ShowQrCodeLoginModal email={form.getValues("email")} />
+              <div className="flex flex-col gap-4 justify-center">
+                <div className="flex gap-4 justify-center">
+                  <FormField
+                    control={form.control}
+                    name="securityAdmin"
+                    render={({ field }) => (
+                      <FormItem className="flex  flex-col p-2 rounded-lg flex-grow max-w-56 bg-zinc-900">
+                        <div className="flex justify-between items-center w-full gap-2">
+                          <FormLabel
+                            className={clsx("text-sm", {
+                              "text-zinc-500": !field.value,
+                            })}
+                          >
+                            Admin
+                          </FormLabel>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="ativo"
+                    render={({ field }) => (
+                      <FormItem className="flex  flex-col p-2 rounded-lg flex-grow max-w-56 bg-zinc-900 ">
+                        <div className="flex justify-between items-center w-full gap-2">
+                          <FormLabel
+                            className={clsx("text-sm", {
+                              "text-zinc-500": !field.value,
+                            })}
+                          >
+                            Ativo
+                          </FormLabel>
+                          <FormControl>
+                            <Switch
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormField
+                  control={form.control}
+                  name="doisFatores"
+                  render={({ field }) => (
+                    <FormItem className="flex  flex-col p-2 rounded-lg flex-grow bg-zinc-900 ">
+                      <div className="flex justify-between items-center w-full gap-2">
+                        <FormLabel
+                          className={clsx("text-sm", {
+                            "text-zinc-500": !field.value,
+                          })}
+                        >
+                          <p className="font-semibold">2AF </p>
+                          <span className={clsx("text-[10px]", {
+                            "text-zinc-400": field.value,
+                          })}>(Autenticação de 2 fatores)</span>
+                        </FormLabel>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </div>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex flex-col gap-4 justify-center">
+                <NewPasswordModal userID={customer.id!} />
+                  <ShowQrCodeLoginModal email={form.getValues("email")} />
+              </div>
             </div>
             <div className="flex flex-col flex-grow gap-4">
               <FormField
@@ -261,10 +319,10 @@ export default function UpdateCustomerForm({
                 control={form.control}
                 name="perfis"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="flex flex-col flex-grow">
                     <FormLabel className="text-xl">Perfils</FormLabel>
                     <FormControl>
-                      <div className="flex flex-wrap gap-2 bg-black p-4 justify-center">
+                      <div className="flex flex-wrap gap-2 bg-black p-4 items-center justify-center flex-grow">
                         {perfis.length === 0 && (
                           <p className="text-zinc-400 text-sm">
                             Sem perfis disponiveis.
@@ -313,7 +371,7 @@ export default function UpdateCustomerForm({
           </div>
         </Card>
 
-        <div className="flex w-full flex-col lg:flex-row gap-4">
+        {/* <div className="flex w-full flex-col lg:flex-row gap-4">
           <div className="flex w-full">
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
@@ -330,7 +388,7 @@ export default function UpdateCustomerForm({
               </AccordionItem>
             </Accordion>
           </div>
-        </div>
+        </div> */}
       </form>
     </Form>
   );

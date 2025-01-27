@@ -82,18 +82,18 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
     <ModalTrigger
       trigger={
         <Button
-          className="btn-primary text-white items-center gap-2"
+          className="btn-secondary text-white items-center gap-2"
           type="button"
         >
           <IconQrcode />
-          Visualizar QrCode Login
+          QrCode Login
         </Button>
       }
     >
       {(onclose) => (
-        <CardModal title="Criar Usuário">
+        <CardModal title="QrCode Login">
           <div className="flex flex-col gap-8 w-full items-center justify-center">
-            <h2 className="text-lg">
+            <h2 className="">
               Salve seu QrCode em um local securo para realizar login sem senha,
               utilizando apenas este QrCode.
             </h2>
@@ -118,12 +118,16 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
                 }}
               />
             ) : (
-              <h3 className="text-center text-xl font-semibold italic h-[300px]">
-                Usuário ainda não possui um QrCode para Login. Clique abaixo em
-                Gerar Novo QrCode para obter um.
-              </h3>
+              <div className=" flex items-center  h-[300px] max-w-[50%]">
+                <h3 className="text-center text-xs text-zinc-400 italic">
+                  Este usuário ainda não possui um QrCode para Login. Clique
+                  abaixo em
+                  <span className="font-bold"> Novo QrCode </span>
+                  para obter um.
+                </h3>
+              </div>
             )}
-            <h4 className="text-zinc-400">
+            <h4 className="text-zinc-400 text-justify">
               Se caso suspeitar de perda ou roubo do QrCode, clique abaixo em
               Gerar Novo QrCode e o antigo QrCode não terá mais valide. Mas{" "}
               <span className="font-bold">
@@ -131,9 +135,10 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
               </span>
               .
             </h4>
-            {/* <NewUsersForm onClose={onclose} /> */}
-            <div className="w-full flex gap-12 justify-end">
+
+            <div className="w-full flex gap-12 ">
               <ButtonCloseModal
+                grow
                 title="Fechar"
                 resetForm={() => {
                   onclose();
@@ -142,7 +147,7 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
               {token ? (
                 <Button
                   type="button"
-                  className="btn-error text-white items-center gap-2 text-xl font-bold py-6"
+                  className="btn-error text-white items-center gap-2 text-xl font-bold py-6 flex-grow"
                   disabled={isLoading}
                   onClick={handleDeleteQrCode}
                 >
@@ -151,13 +156,12 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
               ) : null}
               <Button
                 type="button"
-                className="btn-primary text-white items-center gap-2 text-xl font-bold py-6"
+                className="btn-primary text-white items-center gap-2 text-xl font-bold py-6 flex-grow"
                 disabled={isLoading}
                 onClick={handleCreateQrCode}
               >
-                Gerar Novo QrCode
+                Novo QrCode
               </Button>
-              {/* <ButtonSubmit form="newUserForm" /> */}
             </div>
           </div>
         </CardModal>
