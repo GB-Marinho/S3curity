@@ -6,6 +6,7 @@ export const API_BASE_URL_USE_CLIENT =
 // export const API_BASE_URL = "http://host.docker.internal:8000/v1";
 export const API_AUTH = `/auth`;
 export const API_AUTH_LOGIN = `${API_AUTH}/login`;
+export const API_AUTH_LOGIN_BY_QRCODE = `${API_AUTH}/login-qrcode`;
 export const API_AUTH_LOGIN_OTP_VALIDATION = `${API_AUTH_LOGIN}/otp-validacao`;
 export const API_AUTH_QRCODE_LOGIN = `${API_AUTH}/qrcode/login`;
 export const API_AUTH_USER_REGISTER = `${API_AUTH}/registrar-usuario`;
