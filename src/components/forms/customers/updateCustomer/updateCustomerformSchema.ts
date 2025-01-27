@@ -18,7 +18,10 @@ export const UpdateCustomerFormSchema = z.object({
   
   perfis: z.array(UpdatePerfilFormSchema),
 
+  securityAdmin: z.boolean().default(false),
   
+  doisFatores: z.boolean().default(false),
+
   urlPerfil: z.string().url().optional(),
 
   celular: z
