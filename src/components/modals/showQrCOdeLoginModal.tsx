@@ -20,27 +20,30 @@ interface ShowQrCodeLoginModalProps {
 
 export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const [buildComplete, setBuildComplete] = useState(false);
   const [token, setToken] = useState<string>();
 
   useEffect(() => {
     async function getToken() {
       setIsLoading(true);
-      try {
-        const response = await getTokenQrCodeLogin(props.email);
-        if (response.status === 200) {
-          setToken(response.data.token);
-        } else {
-          const dataError = response.data as unknown as { message: string };
-          toast.warning(dataError.message);
+      if (buildComplete) {
+        try {
+          const response = await getTokenQrCodeLogin(props.email);
+          if (response.status === 200) {
+            setToken(response.data.token);
+          } else {
+            const dataError = response.data as unknown as { message: string };
+            toast.warning(dataError.message);
+          }
+        } catch (error) {
+          handleError(error);
+        } finally {
+          setIsLoading(false);
         }
-      } catch (error) {
-        handleError(error);
-      } finally {
-        setIsLoading(false);
       }
     }
     getToken();
-  }, [props.email]);
+  }, [props.email, buildComplete]);
 
   async function handleCreateQrCode() {
     setIsLoading(true);
@@ -84,6 +87,7 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
         <Button
           className="btn-secondary text-white items-center gap-2"
           type="button"
+          onClick={() => setBuildComplete(true)}
         >
           <IconQrcode />
           QrCode Login
@@ -93,10 +97,13 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
       {(onclose) => (
         <CardModal title="QrCode Login">
           <div className="flex flex-col gap-8 w-full items-center justify-center">
-            <h2 className="">
-              Salve seu QrCode em um local securo para realizar login sem senha,
-              utilizando apenas este QrCode.
-            </h2>
+            {token && (
+              <h2 className="">
+                Salve seu QrCode em um local securo para realizar login sem
+                senha, utilizando apenas este QrCode.
+              </h2>
+            )}
+
             {isLoading ? (
               <QrCodeSkeleton />
             ) : token ? (
@@ -118,8 +125,8 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
                 }}
               />
             ) : (
-              <div className=" flex items-center  h-[300px] max-w-[50%]">
-                <h3 className="text-center text-xs text-zinc-400 italic">
+              <div className=" flex items-center  h-[300px] max-w-[75%]">
+                <h3 className="text-center text-sm text-zinc-400 italic">
                   Este usuário ainda não possui um QrCode para Login. Clique
                   abaixo em
                   <span className="font-bold"> Novo QrCode </span>
@@ -127,14 +134,16 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
                 </h3>
               </div>
             )}
-            <h4 className="text-zinc-400 text-justify">
-              Se caso suspeitar de perda ou roubo do QrCode, clique abaixo em
-              Gerar Novo QrCode e o antigo QrCode não terá mais valide. Mas{" "}
-              <span className="font-bold">
-                atenção procedimento irreversível
-              </span>
-              .
-            </h4>
+            {token && (
+              <h4 className="text-zinc-400 text-justify">
+                Se caso suspeitar de perda ou roubo do QrCode, clique abaixo em
+                Gerar Novo QrCode e o antigo QrCode não terá mais valide. Mas{" "}
+                <span className="font-bold">
+                  atenção procedimento irreversível
+                </span>
+                .
+              </h4>
+            )}
 
             <div className="w-full flex gap-12 ">
               <ButtonCloseModal
