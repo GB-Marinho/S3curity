@@ -41,6 +41,8 @@ export function OtpForm(props: OtpFormProps) {
           setValue(value);
         }}
         disabled={isValidating}
+        autoFocus
+        inputMode="numeric"
       >
         <InputOTPGroup>
           <InputOTPSlot index={0} />

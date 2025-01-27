@@ -132,6 +132,10 @@ export function LoginForm(props: LoginFormProps) {
                   <FormControl>
                     <div className="bg-black rounded-lg relative flex items-center">
                       <Input
+                        autoFocus
+                        autoCapitalize="none"
+                        autoComplete="email"
+                        inputMode="email"
                         className="bg-transparent pr-12 flex-1 peer h-12"
                         {...field}
                       />
@@ -155,6 +159,8 @@ export function LoginForm(props: LoginFormProps) {
                         {...field}
                         type={mostrarSenha ? "text" : "password"}
                         required
+                        autoComplete="current-password"
+                        inputMode="text"
                       />
                       {mostrarSenha ? (
                         <IconEyeOff
