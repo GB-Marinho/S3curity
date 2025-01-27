@@ -1,4 +1,5 @@
 "use client";
+import ShowQrCodeLoginModal from "@/components/modals/showQrCOdeLoginModal";
 import {
   Accordion,
   AccordionContent,
@@ -6,7 +7,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -196,26 +196,7 @@ export default function UpdateCustomerForm({
                   </FormItem>
                 )}
               />
-              <Button className=" btn-primary text-white px-8" type="button">
-                Criar Novo QrCode
-              </Button>
-              {/* <QRCodeSVG
-                value={"https://picturesofpeoplescanningqrcodes.tumblr.com/"}
-                title={form.getValues("email")}
-                // size={200}
-                bgColor={"#ffffff"}
-                fgColor={"#000000"}
-                level={"M"}
-                imageSettings={{
-                  src: "@/assets/img/logo.png", // TODO: trocar pelo caminho no bucket
-                  x: undefined,
-                  y: undefined,
-                  height: 20,
-                  width: 20,
-                  opacity: 1,
-                  excavate: true,
-                }}
-              /> */}
+              <ShowQrCodeLoginModal email={form.getValues("email")} />
             </div>
             <div className="flex flex-col flex-grow gap-4">
               <FormField
