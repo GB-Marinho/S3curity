@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 
 
-export default function PasswordReplaceForm({ userID }: { userID: string }) {
+export default function PasswordReplaceForm({ userID, onClose }: { userID: string, onClose?: () => void }) {
   const { passwordReplace } = useUsersStore();
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
@@ -47,6 +47,9 @@ export default function PasswordReplaceForm({ userID }: { userID: string }) {
     } else {
       resetForm();
       toast.success("Senha alterada com Sucesso!");
+      if (onClose) {
+        onClose();
+      }
     }
   }
 
