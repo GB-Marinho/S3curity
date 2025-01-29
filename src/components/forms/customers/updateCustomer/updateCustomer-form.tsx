@@ -46,10 +46,10 @@ export default function UpdateCustomerForm({
     defaultValues: {
       ...customer,
       urlPerfil: customer.urlPerfil ?? undefined,
-      celular:
-        customer.celular && !customer.celular.startsWith("+")
-          ? `+55${customer.celular}`
-          : customer.celular,
+      telefone:
+        customer.telefone && !customer.telefone.startsWith("+")
+          ? `+55${customer.telefone}`
+          : customer.telefone,
     },
   });
 
@@ -297,10 +297,10 @@ export default function UpdateCustomerForm({
               />
               <FormField
                 control={form.control}
-                name="celular"
+                name="telefone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xl">Celular</FormLabel>
+                    <FormLabel className="text-xl">telefone</FormLabel>
                     <FormControl>
                       <PhoneInput
                         numberInputProps={{ className: "bg-black" }}
@@ -370,25 +370,6 @@ export default function UpdateCustomerForm({
             </div>
           </div>
         </Card>
-
-        {/* <div className="flex w-full flex-col lg:flex-row gap-4">
-          <div className="flex w-full">
-            <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1">
-                <AccordionTrigger>Alterar senha?</AccordionTrigger>
-                <AccordionContent>
-                  <Card className="mx-auto py-2 px-4 sm:px-16 bg-[#09090b] border-none text-white w-full">
-                    <div className="flex flex-col lg:flex-row lg:gap-16 gap-6 py-4">
-                      <div className="flex flex-col flex-grow gap-4">
-                        <PasswordReplaceForm userID={customer.id!} />
-                      </div>
-                    </div>
-                  </Card>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div>
-        </div> */}
       </form>
     </Form>
   );

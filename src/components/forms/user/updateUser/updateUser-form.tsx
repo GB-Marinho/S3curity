@@ -42,7 +42,7 @@ export default function UpdateUserForm({
         defaultValues: {
             ...user,
             urlPerfil: user.urlPerfil ?? undefined,
-            celular: user.celular && !user.celular.startsWith("+55") ? `+55${user.celular}` : user.celular,
+            telefone: user.telefone && !user.telefone.startsWith("+55") ? `+55${user.telefone}` : user.telefone,
         },
     });
 
@@ -177,10 +177,10 @@ export default function UpdateUserForm({
                             />
                             <FormField
                                 control={form.control}
-                                name="celular"
+                                name="telefone"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-xl">Celular</FormLabel>
+                                        <FormLabel className="text-xl">telefone</FormLabel>
                                         <FormControl>
                                             <PhoneInput
                                                 numberInputProps={{ className: "bg-black" }}

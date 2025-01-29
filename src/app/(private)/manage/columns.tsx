@@ -45,7 +45,7 @@ export function columns(
 
           <button
             className="text-red-500 hover:underline"
-            onClick={() => handleCancel(row.original.id)}
+            onClick={() => handleCancel(row.original.id!)}
           >
             <IconTrash />
           </button>

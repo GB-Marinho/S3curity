@@ -64,7 +64,7 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         user.email,
         user.senha!,
         user.senhaConfirmacao!,
-        user.celular!,
+        user.telefone!,
         user.ativo!
       );
     } catch (error: any) {
@@ -82,14 +82,14 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         newUser.email &&
         newUser.senha &&
         newUser.senhaConfirmacao &&
-        newUser.celular
+        newUser.telefone
       ) {
         await addUser(
           newUser.nome,
           newUser.email,
           newUser.senha,
           newUser.senhaConfirmacao,
-          newUser.celular,
+          newUser.telefone,
           newUser.ativo!
         );
       } else {

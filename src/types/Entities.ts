@@ -4,7 +4,7 @@ export type Usuario = {
     email: string,
     senha?: string,
     senhaConfirmacao?: string,
-    celular?: string,
+    telefone?: string,
     urlPerfil?: string,
     ativo?: boolean,
     perfis?: Perfil[],

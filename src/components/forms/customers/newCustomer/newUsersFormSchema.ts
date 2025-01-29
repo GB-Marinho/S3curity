@@ -35,11 +35,12 @@ export const NewUsersFormSchema = z
         message: "A senha deve conter ao menos um caractere especial",
       }),
     senhaConfirmacao: z.string(),
-    celular: z
+    telefone: z
       .string()
-      .refine(isValidPhoneNumberCustom, {
-        message: "Numero de telefone invalido.",
-      })
+      .regex(
+        /^[1-9]{2}(?:9[0-9]{8}|[2-5][0-9]{7})$/,
+        "Número de telefone inválido."
+      )
       .optional(),
     ativo: z.boolean().default(true),
   })

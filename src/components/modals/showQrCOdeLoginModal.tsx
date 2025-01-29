@@ -47,7 +47,7 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
       }
     }
     getToken();
-  }, [props.email]);
+  }, [props.email,buildComplete]);
   // useEffect(() => {
   //   if (token) {
   //     // Gera o QR Code a partir do token
