@@ -47,20 +47,7 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
       }
     }
     getToken();
-  }, [props.email]);
-  // useEffect(() => {
-  //   if (token) {
-  //     // Gera o QR Code a partir do token
-  //     QRCode.toDataURL(token, { width: 300 }, (err, url) => {
-  //       if (err) {
-  //         console.error("Erro ao gerar QR Code:", err);
-  //         toast.error(`Erro ao gerar QR Code: ${err}`);
-  //         return;
-  //       }
-  //       setQrCodeUrl(url);
-  //     });
-  //   }
-  // }, [token]);
+  }, [buildComplete, props.email]);
 
   async function handleCreateQrCode() {
     setIsLoading(true);
