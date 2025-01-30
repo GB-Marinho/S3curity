@@ -3,6 +3,7 @@ import axios from "axios";
 
 export function axiosApiClientSide(token?: string) {
   const axiosClientApi = axios.create({
+    withCredentials: true,
     baseURL: API_BASE_URL_USE_CLIENT,
     validateStatus: () => true,
   });

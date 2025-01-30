@@ -13,6 +13,7 @@ import { useState } from "react";
 interface OtpFormProps {
   email: string;
   expired_at: Date;
+  loginType: string;
   next?: string;
 }
 
@@ -24,7 +25,7 @@ export function OtpForm(props: OtpFormProps) {
   async function handleValidateOtp(codeOtp: string) {
     setIsValidating(true);
     try {
-      await login(props.email, codeOtp, true, props.next);
+      await login(props.email, codeOtp, true, props.loginType, props.next);
     } catch (error) {
       handleError(error);
     } finally {
