@@ -36,9 +36,9 @@ export default function PasswordReplaceForm({ userID, onClose }: { userID: strin
   async function onSubmit(data: z.infer<typeof passwordReplaceFormSchema>) {
     await passwordReplace(
       userID,
-      data.senhaAntiga,
       data.senhaNova,
-      data.senhaNovaConfirmacao
+      data.senhaNovaConfirmacao,
+      data.senhaAntiga
     );
 
     const { error } = useUsersStore.getState();

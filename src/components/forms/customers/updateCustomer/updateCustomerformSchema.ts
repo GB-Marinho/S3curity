@@ -17,7 +17,7 @@ export const UpdateCustomerFormSchema = z.object({
   
   perfis: z.array(UpdatePerfilFormSchema),
 
-  securityAdmin: z.boolean().default(false),
+  sisAdmin: z.boolean().default(false),
   
   doisFatores: z.boolean().default(false),
 
@@ -28,6 +28,5 @@ export const UpdateCustomerFormSchema = z.object({
       .regex(
         /^[1-9]{2}(?:9[0-9]{8}|[2-5][0-9]{7})$/,
         "Número de telefone inválido."
-      )
-      .optional(),
+      ).optional(),
 });

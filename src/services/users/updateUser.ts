@@ -13,7 +13,8 @@ export async function updateUser(user: Usuario) {
         senhaConfirmacao: user.senhaConfirmacao,
         telefone: user.telefone,
         urlPerfil:user.urlPerfil,
-        ativo: user.ativo,
+        sisAdmin: user.sisAdmin,
+        autenticacaoDoisFatores: user.doisFatores,
     };
       const tokenId = await getCookie("tokenId")
       const axiosApi = axiosApiClientSide(tokenId?.value);

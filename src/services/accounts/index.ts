@@ -10,3 +10,4 @@ export * from "./recoveryByEmail";
 export * from "./register";
 export * from "./verifyEmailToken";
 export * from "./verifyOtpExists";
+export * from "./passwordCustomerReplace"

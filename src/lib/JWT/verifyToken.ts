@@ -8,13 +8,15 @@ export interface JoseErrorInterface {
   payload: JWTPayload;
 }
 
-// export interface JosePayload {
-//   id: string;
-//   nome: string;
-//   email: string;
-//   iat: number;
-//   exp: number;
-// }
+
+
+export interface PayloadInterface {
+  id: string;
+  nome: string;
+  email: string;
+  isSisAdmin: string;
+  perfis: string[];
+}
 
 export async function decrypt(token: string | undefined = "") {
   const spki = `-----BEGIN PUBLIC KEY-----
@@ -28,7 +30,7 @@ qQIDAQAB
 -----END PUBLIC KEY-----`;
   const alg = "RS256";
   const publicKey = await importSPKI(spki, alg);
-  const { payload } = await jwtVerify(token, publicKey, {
+  const { payload } = await jwtVerify<PayloadInterface>(token, publicKey, {
     algorithms: ["RS256"],
   });
   return payload;

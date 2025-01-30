@@ -17,7 +17,7 @@ export const UpdateUserFormSchema = z.object({
   
   perfis: z.array(UpdatePerfilFormSchema),
 
-  securityAdmin: z.boolean().default(false),
+  sisAdmin: z.boolean().default(false),
   
   doisFatores: z.boolean().default(false),
   

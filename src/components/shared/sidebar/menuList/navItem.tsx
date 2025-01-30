@@ -11,7 +11,7 @@ export default function NavItem({navItem}: NavItemProps) {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild>
-        <Link href={navItem.url!} className="flex pl-6 justify-start">
+        <Link href={navItem.url!} className="flex pl-6 py-5 justify-start">
           <div className="h-5 w-5 mr-2">
             <navItem.icon className="h-5 w-5" />
           </div>

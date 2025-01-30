@@ -170,7 +170,7 @@ export default function UpdateUserForm({ user }: UpdateUserFormProps) {
                 <div className="flex gap-4 justify-center">
                   <FormField
                     control={form.control}
-                    name="securityAdmin"
+                    name="sisAdmin"
                     render={({ field }) => (
                       <FormItem className="flex  flex-col p-2 rounded-lg flex-grow max-w-56 bg-zinc-900">
                         <div className="flex justify-between items-center w-full gap-2">
@@ -250,7 +250,7 @@ export default function UpdateUserForm({ user }: UpdateUserFormProps) {
               </div>
 
               <div className="flex flex-col gap-4 justify-center">
-                <NewPasswordModal userID={user.id!} />
+                <NewPasswordModal userID={user.id!} isLogin />
                 <ShowQrCodeLoginModal email={form.getValues("email")} />
               </div>
             </div>

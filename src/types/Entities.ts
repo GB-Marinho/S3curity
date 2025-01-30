@@ -8,6 +8,8 @@ export type Usuario = {
     urlPerfil?: string,
     ativo?: boolean,
     perfis?: Perfil[],
+    doisFatores?: boolean,
+    sisAdmin?: boolean,
 } 
 
 export type Perfil = {

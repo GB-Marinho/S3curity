@@ -1,6 +1,6 @@
 import { JWTExpired } from "jose/errors";
 import { NextRequest, NextResponse } from "next/server";
-import { PATH_PAGE_ACCOUNTS_LOGIN } from "./lib";
+import { PATH_PAGE } from "./lib";
 import { decrypt } from "./lib/JWT/verifyToken";
 import { changeTokenId } from "./services";
 
@@ -9,7 +9,7 @@ export async function middleware(request: NextRequest) {
   try {
     const user = tokenId ? await decrypt(tokenId) : null;
     // Se o usuário está autenticado, permite o acesso as rotas do config
-    if (user) return NextResponse.next();
+    if (user?.isSisAdmin) return NextResponse.next();
   } catch (error) {
     if (error instanceof JWTExpired && tokenId) {
       const res = NextResponse.next();
@@ -27,9 +27,10 @@ export async function middleware(request: NextRequest) {
     }
   }
   const redirectResponse = NextResponse.redirect(
-    new URL(PATH_PAGE_ACCOUNTS_LOGIN, request.url)
+    new URL(PATH_PAGE, request.url)
   );
-  redirectResponse.cookies.delete("tokenId");
+  
+  // redirectResponse.cookies.delete("tokenId");
   return redirectResponse;
 }
 
@@ -39,5 +40,6 @@ export const config = {
     "/manage/:path*",
     "/perfils/:path*",
     "/permissoes/:path*",
+    "/accounts/register",
   ],
 };

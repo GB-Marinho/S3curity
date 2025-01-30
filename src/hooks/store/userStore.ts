@@ -7,6 +7,7 @@ import {
   updateUser,
   deleteUser,
   register,
+  passwordCustomerReplaceService,
 } from "@/services";
 import { updateUserPerfilService } from "@/services/users/updateUserPerfil";
 import { passwordReplaceService } from "@/services/accounts/passwordReplace";
@@ -29,9 +30,9 @@ interface UsersState {
   UpdateUserPerfil: (id: string, perfis: string[]) => Promise<void>;
   passwordReplace: (
     id: string,
-    senhaAntiga: string,
     senhaNova: string,
-    senhaNovaConfirmacao: string
+    senhaNovaConfirmacao: string,
+    senhaAntiga?: string
   ) => Promise<void>;
 }
 
@@ -122,22 +123,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
   activateUser: async (id: any) => {
     set({ isLoading: true, error: null });
     try {
-        await activateUser(id);
-        await get().findUsers();
-    } catch (error: any) {
-        set({
-            error: error.message || "Erro ao editar permissão",
-        });
-    } finally {
-        set({ isLoading: false });
-    }
-},
-
-disbaleUser: async (id: any) => {
-    set({ isLoading: true, error: null });
-    try {
-        await disableUser(id);
-        await get().findUsers();
+      await activateUser(id);
+      await get().findUsers();
     } catch (error: any) {
       set({
         error: error.message || "Erro ao editar permissão",
@@ -147,15 +134,37 @@ disbaleUser: async (id: any) => {
     }
   },
 
-  passwordReplace: async (id, senhaAntiga, senhaNova, senhaNovaConfirmacao) => {
+  disbaleUser: async (id: any) => {
     set({ isLoading: true, error: null });
     try {
-      await passwordReplaceService({
-        id,
-        senhaAntiga,
-        senhaNova,
-        senhaNovaConfirmacao,
+      await disableUser(id);
+      await get().findUsers();
+    } catch (error: any) {
+      set({
+        error: error.message || "Erro ao editar permissão",
       });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  passwordReplace: async (id, senhaNova, senhaNovaConfirmacao, senhaAntiga) => {
+    set({ isLoading: true, error: null });
+    try {
+      if (senhaAntiga) {
+        await passwordReplaceService({
+          id,
+          senhaNova,
+          senhaNovaConfirmacao,
+          senhaAntiga,
+        });
+      } else {
+        await passwordCustomerReplaceService({
+          id,
+          senhaNova,
+          senhaNovaConfirmacao,
+        });
+      }
     } catch (error: any) {
       set({
         error: error.message || "Erro ao alterar senha de usuário",

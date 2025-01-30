@@ -1,21 +1,18 @@
 import { NavItemType } from "@/types";
 import {
-  IconBox,
-  IconClipboardText,
   IconHome,
   IconLicense,
-  IconUserCog,
   IconUsers,
   IconUsersGroup,
 } from "@tabler/icons-react";
 
 export const navItems: NavItemType[] = [
   {
-    id:"navMain",
+    id: "navMain",
     type: "group",
     items: [
       {
-        id:"home",
+        id: "home",
         title: "Home",
         url: "/home",
         icon: IconHome,
@@ -24,49 +21,26 @@ export const navItems: NavItemType[] = [
     ],
   },
   {
-    id:"primario",
-    title: "Primário",
+    id: "primario",
+    title: "Gerenciar",
     type: "group",
     items: [
       {
-        id:"customers",
+        id: "manege",
         title: "Customers",
-        url: "#",
+        url: "/manage",
         icon: IconUsersGroup,
-        type: "collapsible",
-        items: [
-          {
-            id:"manege",
-            title: "Gerenciar",
-            url: "/manage",
-            icon: IconUserCog,
-            type: "item",
-          },
-          {
-            id:"relatorio",
-            title: "Relatório",
-            url: "/relatorio",
-            icon: IconClipboardText,
-            type: "item",
-          },
-        ],
-      },
-      {
-        id:"visualizar",
-        title: "Visualizar",
-        url: "#",
-        icon: IconBox,
         type: "item",
       },
     ],
   },
   {
-    id:"secundário",
-    title: "Secundario",
+    id: "secundário",
+    title: "Roles",
     type: "group",
     items: [
       {
-        id:"perfis",
+        id: "perfis",
         title: "Perfis",
         url: "/perfis",
         icon: IconUsers,
@@ -74,7 +48,7 @@ export const navItems: NavItemType[] = [
       },
 
       {
-        id:"permissoes",
+        id: "permissoes",
         title: "Permissoes",
         url: "/permissoes",
         icon: IconLicense,

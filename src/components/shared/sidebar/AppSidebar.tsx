@@ -1,14 +1,11 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
 import Image from "next/image";
 import Logo from "@/assets/img/logo.png";
 import Logotipo from "@/assets/img/logotipo.png";
-
-import { Combobox } from "../../ui/combobox";
 
 import { navItems } from "./navItems";
 import NavItemMidd from "./Middleware-navItem";
@@ -23,12 +20,6 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarContent className="bg-black">
-        <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-          <div className="flex justify-center">
-            <Combobox />
-          </div>
-        </SidebarGroup>
-
         <div>
           {navItems.map((item) => (
             <NavItemMidd key={item.id} navItem={item} />
