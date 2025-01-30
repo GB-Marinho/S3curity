@@ -11,7 +11,6 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PhoneInput } from "@/components/ui/phone-input";
 import { handleError, MsgSuccess, PATH_PAGE_ACCOUNTS_LOGIN } from "@/lib";
 import { register } from "@/services";
 import { ErrorResponse } from "@/types";
@@ -31,6 +30,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { registerFormSchema } from "./registerFormSchema";
+import InputCustomPhone from "@/components/ui/custom/inputs/inputCustomPhone";
 
 const BotaoCadastrar = React.memo(
     ({ isSubmitting }: { isSubmitting: boolean }) => (
@@ -58,11 +58,11 @@ export function RegisterForm() {
     const form = useForm<z.infer<typeof registerFormSchema>>({
         resolver: zodResolver(registerFormSchema),
         defaultValues: {
-            name: "",
+            nome: "",
             email: "",
-            password: "",
-            passwordConfirm: "",
-            celular: "",
+            senha: "",
+            senhaConfirmacao: "",
+            telefone: "",
         },
     });
 
@@ -83,19 +83,8 @@ export function RegisterForm() {
     async function onSubmit(data: z.infer<typeof registerFormSchema>) {
         try {
             const response = await register(
-                data.name,
-                data.email,
-                data.password,
-                data.passwordConfirm,
-                data.celular,
-                data.ativo
+               data
             );
-            console.log(data.name,
-                data.email,
-                data.password,
-                data.passwordConfirm,
-                data.celular,
-                data.ativo)
             if (response.status === 201) {
                 toast.success(MsgSuccess.USUARIO_CADASTRADO);
                 push(PATH_PAGE_ACCOUNTS_LOGIN);
@@ -135,7 +124,7 @@ export function RegisterForm() {
                     >
                         <FormField
                             control={form.control}
-                            name="name"
+                            name="nome"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-xl">Nome</FormLabel>
@@ -173,7 +162,7 @@ export function RegisterForm() {
                         />
                         <FormField
                             control={form.control}
-                            name="password"
+                            name="senha"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-xl">Senha</FormLabel>
@@ -204,7 +193,7 @@ export function RegisterForm() {
                         />
                         <FormField
                             control={form.control}
-                            name="passwordConfirm"
+                            name="senhaConfirmacao"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel className="text-xl">Confirmar Senha</FormLabel>
@@ -224,19 +213,12 @@ export function RegisterForm() {
                         />
                         <FormField
                             control={form.control}
-                            name="celular"
-                            render={({ field }) => (
+                            name="telefone"
+                            render={() => (
                                 <FormItem>
                                     <FormLabel className="text-xl">Telefone</FormLabel>
                                     <FormControl>
-                                        <PhoneInput
-                                            numberInputProps={{ className: "bg-black" }}
-                                            defaultCountry="BR"
-                                            international={false}
-                                            placeholder="Digite o numero de telefone"
-                                            maxLength={15}
-                                            {...field}
-                                        />
+                                        <InputCustomPhone control={form.control} name=""/>
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>

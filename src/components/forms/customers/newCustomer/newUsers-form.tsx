@@ -1,7 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { IMaskInput } from 'react-imask';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCallback, useState } from "react";
 import { useUsersStore } from "@/hooks/store/userStore";
@@ -20,12 +19,12 @@ import {
   IconEyeOff,
   IconLock,
   IconMail,
-  IconPhone,
   IconSignature,
 } from "@tabler/icons-react";
 import { MsgSuccess, PATH_PAGE_ACCOUNTS_LOGIN } from "@/lib";
 import { useRouter } from "next/navigation";
 import { NewUsersFormSchema } from "./newUsersFormSchema";
+import InputCustomPhone from "@/components/ui/custom/inputs/inputCustomPhone";
 
 interface NewUsersFormProps {
   register?: boolean;
@@ -192,33 +191,11 @@ export default function NewUsersForm({
         <FormField
           control={form.control}
           name="telefone"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel className="text-xl">Telefone</FormLabel>
               <FormControl>
-                <div className="bg-black rounded-lg relative flex items-center">
-                  <IMaskInput
-                    mask={[
-                      "(00) 0 0000-0000",
-                      "(00) 0000-0000",  
-                    ]}
-                    dispatch={(appended, dynamicMasked) => {
-                      const value = (dynamicMasked.value + appended).replace(/\D/g, "");
-                      return value.length > 10
-                        ? dynamicMasked.compiledMasks[0] 
-                        : dynamicMasked.compiledMasks[1]; 
-                    }}
-                    unmask={true}
-                    value={field.value}
-                    onAccept={(value) =>
-                      field.onChange(value.replace(/\D/g, ""))
-                    }
-                    onBlur={field.onBlur}
-                    className="bg-transparent pl-11 flex-1 peer h-12 flex w-full rounded-md border-none px-3 py-2 text-base ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm"
-                    placeholder="(11) 99999-9999"
-                  />
-                  <IconPhone className="absolute left-3 text-zinc-600 peer-focus:text-zinc-300 pointer-events-none" />
-                </div>
+                <InputCustomPhone control={form.control} name="telefone" />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -64,8 +64,8 @@ export const useUsersStore = create<UsersState>((set, get) => ({
         user.email,
         user.senha!,
         user.senhaConfirmacao!,
-        user.telefone!,
-        user.ativo!
+        user.ativo!,
+        user.telefone!
       );
     } catch (error: any) {
       handleError(error);

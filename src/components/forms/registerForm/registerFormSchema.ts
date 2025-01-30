@@ -1,9 +1,8 @@
 import { z } from "zod";
-import { isValidPhoneNumberCustom } from "../customers/newCustomer/newUsersFormSchema";
 
 export const registerFormSchema = z
   .object({
-    name: z
+    nome: z
       .string()
       .min(2, { message: "O nome precisa ter mais que 2 caracteres" })
       .max(150, { message: "O nome não pode ter mais que 150 caracteres" })
@@ -11,7 +10,7 @@ export const registerFormSchema = z
         message: "O nome só pode conter letras",
       }),
     email: z.string().email({ message: "E-mail inválido" }),
-    password: z
+    senha: z
       .string()
       .min(6, {
         message: "A senha deve ter no mínimo 6 caracteres",
@@ -29,15 +28,17 @@ export const registerFormSchema = z
       .regex(/[!@#$%^&*(),.?":{}|<>]/, {
         message: "A senha deve conter ao menos um caractere especial",
       }),
-    passwordConfirm: z.string(),
-    celular: z
+    senhaConfirmacao: z.string(),
+    telefone: z
       .string()
-      .refine(isValidPhoneNumberCustom, {
-        message: "Numero de telefone invalido.",
-      }),
+      .regex(
+        /^[1-9]{2}(?:9[0-9]{8}|[2-5][0-9]{7})$/,
+        "Número de telefone inválido."
+      )
+      .optional(),
     ativo: z.boolean().default(true),
   })
-  .refine(({ password, passwordConfirm }) => password === passwordConfirm, {
+  .refine(({ senha, senhaConfirmacao }) => senha === senhaConfirmacao, {
     message: "As senhas devem ser iguais",
-    path: ["passwordConfirm"],
+    path: ["senhaConfirmacao"],
   });

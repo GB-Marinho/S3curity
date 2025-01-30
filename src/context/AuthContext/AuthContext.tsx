@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import {
   handleError,
@@ -8,6 +9,8 @@ import {
 import { createCookie, deleteCookie, getCookie } from "@/lib/actions/";
 import { decrypt } from "@/lib/JWT/verifyToken";
 import {
+  changeTokenId,
+  findUserID,
   loginRequest,
   LoginResponse,
   logoutRequest,
@@ -114,6 +117,31 @@ export function AuthProvider({ children }: AuthProviderInterface) {
     }
   }
 
+  async function userInfoUpdate() {
+    try {
+      const payload = await findUserID(id || "");
+      if (payload) {
+        setUser({
+          id: payload.id as string,
+          name: payload.nome as string,
+          email: payload.email as string,
+        });
+
+        const tokenRefresh = await getCookie("token");
+        if (tokenRefresh?.value) {
+          const response = await changeTokenId(tokenRefresh.value, token);
+          if (response.status === 200) {
+            const data = response.data;
+            createCookie("tokenId", data.tokenId, 2 * 60 * 60); 
+            createCookie("token", data.token, 30 * 24 * 60 * 60);
+          }
+        }
+      }
+    } catch (error: any) {
+      handleError(error);
+    }
+  }
+
   async function loginQrCode(token: string, next?: string) {
     const response = await loginByQrCodeRequest(token);
     if (response.status === 200) {
@@ -165,6 +193,7 @@ export function AuthProvider({ children }: AuthProviderInterface) {
         login,
         loginQrCode,
         logout,
+        userInfoUpdate,
       }}
     >
       {children}

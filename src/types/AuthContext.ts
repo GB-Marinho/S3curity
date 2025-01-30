@@ -17,6 +17,7 @@ export interface AuthContextInterface extends UserInterface {
   ) => Promise<void>;
   loginQrCode: (token: string, next?: string) => Promise<void>;
   logout: () => void;
+  userInfoUpdate: () => void;
   id?: string;
 }
 

@@ -12,7 +12,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PhoneInput } from "@/components/ui/phone-input";
 import { Switch } from "@/components/ui/switch";
 import { usePerfilStore } from "@/hooks/store/perfisStore";
 import { useUsersStore } from "@/hooks/store/userStore";
@@ -29,6 +28,7 @@ import { z } from "zod";
 import { UpdateCustomerFormSchema } from "./updateCustomerformSchema";
 import clsx from "clsx";
 import NewPasswordModal from "@/components/modals/newPasswordModal";
+import InputCustomPhone from "@/components/ui/custom/inputs/inputCustomPhone";
 
 interface UpdateCustomerFormProps {
   customer: Usuario;
@@ -46,10 +46,7 @@ export default function UpdateCustomerForm({
     defaultValues: {
       ...customer,
       urlPerfil: customer.urlPerfil ?? undefined,
-      telefone:
-        customer.telefone && !customer.telefone.startsWith("+")
-          ? `+55${customer.telefone}`
-          : customer.telefone,
+      telefone: customer.telefone ?? undefined,
     },
   });
 
@@ -82,23 +79,24 @@ export default function UpdateCustomerForm({
     await revalidateRoute(`/manage/${customer.id}`);
   }
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
+  
   // ver como isso vai ficar.
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-
+      
       reader.onload = () => {
         const base64 = reader.result as string;
         form.setValue("urlPerfil", base64);
         console.log(base64);
       };
-
+      
       reader.readAsDataURL(file);
     }
   };
+
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleRemoveUrlPerfil = () => {
     form.setValue("urlPerfil", undefined);
@@ -235,9 +233,13 @@ export default function UpdateCustomerForm({
                           })}
                         >
                           <p className="font-semibold">2AF </p>
-                          <span className={clsx("text-[10px]", {
-                            "text-zinc-400": field.value,
-                          })}>(Autenticação de 2 fatores)</span>
+                          <span
+                            className={clsx("text-[10px]", {
+                              "text-zinc-400": field.value,
+                            })}
+                          >
+                            (Autenticação de 2 fatores)
+                          </span>
                         </FormLabel>
                         <FormControl>
                           <Switch
@@ -253,7 +255,7 @@ export default function UpdateCustomerForm({
 
               <div className="flex flex-col gap-4 justify-center">
                 <NewPasswordModal userID={customer.id!} />
-                  <ShowQrCodeLoginModal email={form.getValues("email")} />
+                <ShowQrCodeLoginModal email={form.getValues("email")} />
               </div>
             </div>
             <div className="flex flex-col flex-grow gap-4">
@@ -298,17 +300,13 @@ export default function UpdateCustomerForm({
               <FormField
                 control={form.control}
                 name="telefone"
-                render={({ field }) => (
+                render={() => (
                   <FormItem>
                     <FormLabel className="text-xl">telefone</FormLabel>
                     <FormControl>
-                      <PhoneInput
-                        numberInputProps={{ className: "bg-black" }}
-                        defaultCountry="BR"
-                        international={false}
-                        placeholder="Digite o numero de telefone"
-                        maxLength={15}
-                        {...field}
+                      <InputCustomPhone
+                        control={form.control}
+                        name="telefone"
                       />
                     </FormControl>
                     <FormMessage />

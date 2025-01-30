@@ -1,10 +1,4 @@
 import { z } from "zod";
-import { isValidPhoneNumber } from "react-phone-number-input";
-
-export const isValidPhoneNumberCustom = (value: string) => {
-  const phoneRegex = /^(\+?55)?([1-9]{2})9[0-9]{8}$/;
-  return isValidPhoneNumber(value) && phoneRegex.test(value);
-};
 
 export const NewUsersFormSchema = z
   .object({

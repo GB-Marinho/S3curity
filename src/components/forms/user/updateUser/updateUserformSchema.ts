@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { UpdatePerfilFormSchema } from "../../perfil/updatePerfilForm/updatePerfilFormSchema";
-import { isValidPhoneNumberCustom } from "../../customers/newCustomer/newUsersFormSchema";
 
 export const UpdateUserFormSchema = z.object({
   id: z.string(),
@@ -18,10 +17,16 @@ export const UpdateUserFormSchema = z.object({
   
   perfis: z.array(UpdatePerfilFormSchema),
 
+  securityAdmin: z.boolean().default(false),
+  
+  doisFatores: z.boolean().default(false),
   
   urlPerfil: z.string().url().optional(),
 
   telefone: z
-    .string()
-    .refine(isValidPhoneNumberCustom, { message: "Numero de telefone invalido." }).optional(),
+      .string()
+      .regex(
+        /^[1-9]{2}(?:9[0-9]{8}|[2-5][0-9]{7})$/,
+        "Número de telefone inválido."
+      ).optional(),
 });

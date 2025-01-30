@@ -3,15 +3,16 @@ import { API_AUTH_USER_REGISTER } from "@/lib";
 import { ErrorResponse } from "@/types";
 import { axiosApiClientSide } from "../config";
 
+
 export async function register(
   nome: string,
   email: string,
   senha: string,
   senhaConfirmacao: string,
-  celular: string,
-  ativo: boolean
+  ativo: boolean,
+  telefone?: string
 ) {
-  const data = { nome, email, senha, senhaConfirmacao, celular, ativo };
+  const data = { nome, email, senha, senhaConfirmacao, celular: telefone, ativo };
   const axiosApi = axiosApiClientSide();
 
   try {
