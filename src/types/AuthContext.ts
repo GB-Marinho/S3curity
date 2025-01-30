@@ -11,9 +11,11 @@ export interface AuthContextInterface extends UserInterface {
   login: (
     email: string,
     password: string,
-    isOtpValidation?: boolean,
+    isOtpValidation: boolean,
+    loginType: string,
     next?: string
   ) => Promise<void>;
+  loginQrCode: (token: string, next?: string) => Promise<void>;
   logout: () => void;
   id?: string;
 }

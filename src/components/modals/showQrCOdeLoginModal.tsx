@@ -5,9 +5,10 @@ import {
   getTokenQrCodeLogin,
 } from "@/services";
 import { IconQrcode } from "@tabler/icons-react";
-import { QRCodeCanvas } from "qrcode.react";
+// import { QRCodeCanvas } from "qrcode.react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { QrCodeGenerator } from "../qrCode";
 import { QrCodeSkeleton } from "../skeletons";
 import { Button } from "../ui/button";
 import ButtonCloseModal from "../ui/custom/buttons/buttonCloseModal";
@@ -22,6 +23,9 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [buildComplete, setBuildComplete] = useState(false);
   const [token, setToken] = useState<string>();
+  // const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+  const msgNoQrCode =
+    "Usuário ainda não possui um QrCode para Login. Clique abaixo em Gerar Novo QrCode para obter um.";
 
   useEffect(() => {
     async function getToken() {
@@ -43,7 +47,7 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
       }
     }
     getToken();
-  }, [props.email, buildComplete]);
+  }, [buildComplete, props.email]);
 
   async function handleCreateQrCode() {
     setIsLoading(true);
@@ -106,33 +110,12 @@ export default function ShowQrCodeLoginModal(props: ShowQrCodeLoginModalProps) {
 
             {isLoading ? (
               <QrCodeSkeleton />
-            ) : token ? (
-              <QRCodeCanvas
-                value={token || ""}
-                title={props.email}
-                size={300}
-                bgColor={"#ffffff"}
-                fgColor={"#000000"}
-                level={"M"}
-                imageSettings={{
-                  src: "@/assets/img/logo.png", // TODO: trocar pelo caminho no bucket
-                  x: undefined,
-                  y: undefined,
-                  height: 20,
-                  width: 20,
-                  opacity: 1,
-                  excavate: true,
-                }}
-              />
             ) : (
-              <div className=" flex items-center  h-[300px] max-w-[75%]">
-                <h3 className="text-center text-sm text-zinc-400 italic">
-                  Este usuário ainda não possui um QrCode para Login. Clique
-                  abaixo em
-                  <span className="font-bold"> Novo QrCode </span>
-                  para obter um.
-                </h3>
-              </div>
+              <QrCodeGenerator
+                token={token ?? ""}
+                width={300}
+                msgNoQrCode={msgNoQrCode}
+              />
             )}
             {token && (
               <h4 className="text-zinc-400 text-justify">

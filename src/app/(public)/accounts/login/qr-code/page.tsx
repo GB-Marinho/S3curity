@@ -22,7 +22,7 @@ export default async function Page({
           </CardDescription>
         </CardHeader>
         <CardContent className="w-full flex items-center justify-center h-full">
-          <LoginQrCodeForm />
+          <LoginQrCodeForm next={searchParams.next} />
         </CardContent>
       </Card>
     </div>

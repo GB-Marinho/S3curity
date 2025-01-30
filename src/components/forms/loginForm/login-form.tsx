@@ -56,12 +56,11 @@ export function LoginForm(props: LoginFormProps) {
         setMostrarSenha((prev) => !prev);
     }, []);
 
-    async function onSubmit(data: z.infer<typeof loginFormSchema>) {
-        try {
-            await login(data.email, data.password, false, props.next);
-        } catch (error) {
-            handleError(error);
-        }
+  async function onSubmit(data: z.infer<typeof loginFormSchema>) {
+    try {
+      await login(data.email, data.password, false, "email", props.next);
+    } catch (error) {
+      handleError(error);
     }
 
     const LinkEsqueceuSenha = useMemo(
