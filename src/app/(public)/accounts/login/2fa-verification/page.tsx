@@ -12,7 +12,7 @@ import { notFound } from "next/navigation";
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { email: string; next: string };
+  searchParams: { email: string; next: string; login_type: string };
 }) {
   const response = await verifyOtpExists(searchParams.email);
   if (response.status === 200 && response.data.expired_at)
@@ -28,6 +28,7 @@ export default async function Page({
               next={searchParams.next}
               email={searchParams.email}
               expired_at={response.data.expired_at}
+              loginType={searchParams.login_type}
             />
           </CardContent>
         </Card>
