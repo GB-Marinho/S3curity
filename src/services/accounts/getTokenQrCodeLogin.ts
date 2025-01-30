@@ -6,7 +6,7 @@ export interface GetTokenQrCodeLoginResponse {
 }
 
 export async function getTokenQrCodeLogin(email: string) {
-  const axiosApi = axiosApiClientSide(); // TODO: falta obter o tokenId para passar no Authorization
+  const axiosApi = axiosApiClientSide();
   return await axiosApi.get<GetTokenQrCodeLoginResponse>(
     API_AUTH_QRCODE_LOGIN,
     {

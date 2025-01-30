@@ -1,12 +1,18 @@
 "use client";
 import {
+  handleError,
   PATH_PAGE_ACCOUNTS_LOGIN,
   PATH_PAGE_ACCOUNTS_LOGIN_2FA_VERIFICATION,
   PATH_PAGE_HOME,
 } from "@/lib";
 import { createCookie, deleteCookie, getCookie } from "@/lib/actions/";
 import { decrypt } from "@/lib/JWT/verifyToken";
-import { loginRequest, LoginResponse, otpValidation } from "@/services";
+import {
+  loginRequest,
+  LoginResponse,
+  logoutRequest,
+  otpValidation,
+} from "@/services";
 import { loginByQrCodeRequest } from "@/services/accounts/loginByQrCode";
 import {
   AuthContextInterface,
@@ -76,10 +82,11 @@ export function AuthProvider({ children }: AuthProviderInterface) {
     email: string,
     password: string,
     isOtpValidation = false,
+    loginType: string,
     next?: string
   ) {
     const response = isOtpValidation
-      ? await otpValidation(email, password)
+      ? await otpValidation(email, password, loginType)
       : await loginRequest(email, password);
     if (response.status === 200) {
       const data = response.data as LoginResponse;
@@ -97,6 +104,7 @@ export function AuthProvider({ children }: AuthProviderInterface) {
     } else if (response.status === 303) {
       const urlParams = new URLSearchParams(searchParams);
       urlParams.set("email", email);
+      urlParams.set("login_type", "email");
       push(
         `${PATH_PAGE_ACCOUNTS_LOGIN_2FA_VERIFICATION}?${urlParams.toString()}`
       );
@@ -125,6 +133,7 @@ export function AuthProvider({ children }: AuthProviderInterface) {
       const data = response.data as LoginResponse;
       const urlParams = new URLSearchParams(searchParams);
       urlParams.set("email", data.tokenId); //tokenId nesse caso é o email
+      urlParams.set("login_type", "qrCode");
       push(
         `${PATH_PAGE_ACCOUNTS_LOGIN_2FA_VERIFICATION}?${urlParams.toString()}`
       );
@@ -135,10 +144,15 @@ export function AuthProvider({ children }: AuthProviderInterface) {
   }
 
   async function logout() {
-    await deleteCookie("tokenId");
-    await deleteCookie("token");
-    replace(PATH_PAGE_ACCOUNTS_LOGIN);
-    setUser(undefined);
+    try {
+      logoutRequest(user?.id || "");
+      await deleteCookie("tokenId");
+      await deleteCookie("token");
+      replace(PATH_PAGE_ACCOUNTS_LOGIN);
+      setUser(undefined);
+    } catch (error) {
+      handleError(error);
+    }
   }
 
   return (

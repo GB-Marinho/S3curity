@@ -4,6 +4,7 @@ export * from "./createTokenQrCodeLogin";
 export * from "./deleteTokenQrCodeLogin";
 export * from "./getTokenQrCodeLogin";
 export * from "./login";
+export * from "./logout";
 export * from "./otpValidation";
 export * from "./recoveryByEmail";
 export * from "./register";

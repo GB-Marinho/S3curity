@@ -68,7 +68,7 @@ export function LoginForm(props: LoginFormProps) {
 
   async function onSubmit(data: z.infer<typeof loginFormSchema>) {
     try {
-      await login(data.email, data.password, false, props.next);
+      await login(data.email, data.password, false, "email", props.next);
     } catch (error) {
       handleError(error);
     }
