@@ -20,7 +20,7 @@ export function LoginQrCodeForm(props: LoginQrCodeFormProps) {
   }
 
   return (
-    <div className="w-full flex justify-center mx-auto mt-4">
+    <div className="w-full flex justify-center mx-auto mt-4 bg-zinc-900">
       <Html5QrcodePlugin
         fps={10}
         qrbox={250}

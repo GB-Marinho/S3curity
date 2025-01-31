@@ -1,5 +1,5 @@
 import { Html5QrcodeScanner } from "html5-qrcode";
-import { QrDimensions } from "html5-qrcode/esm/core";
+import { QrDimensions } from "./src/lib/html5-qrcode/esm/core";
 import { useEffect } from "react";
 
 const qrcodeRegionId = "html5qr-code-full-region";
