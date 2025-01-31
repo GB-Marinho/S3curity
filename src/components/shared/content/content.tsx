@@ -1,7 +1,10 @@
+"use client"
 import { useSidebar } from "@/components/ui/sidebar";
 import React, { memo, ReactNode } from "react";
 import Cabecalho from "../cabecalho/Cabecalho";
-import { cookies } from "next/headers";
+import clsx from "clsx";
+import { useAuth } from "@/context";
+import { Loader2 } from "lucide-react";
 
 interface ContentProps {
   children?: ReactNode;
@@ -9,22 +12,41 @@ interface ContentProps {
 
 function Content({ children }: ContentProps) {
   const sidebar = useSidebar();
-
-  const mainClass = sidebar.open
-    ? "flex flex-col flex-1 md:pr-11 md:pl-0 px-6 pb-11"
-    : "flex flex-col flex-1 md:px-11 px-6 pb-11";
-
-  const cookieStore = cookies();
-  const isSidebarOpen = cookieStore.get("sidebar-open")?.value === "true";
+  const {loading} = useAuth()
 
   return (
-    <div className={mainClass}>
+    <div className={clsx("flex flex-col flex-1 px-6 pb-11 md:px-11", {"md:pl-0": sidebar.open})}>
       <Cabecalho />
       <main className="flex flex-1 justify-center bg-[#18181b] rounded-xl p-8">
-        {children}
+        {loading? ContentSkeleton() :
+        children
+        }
       </main>
     </div>
   );
 }
+
+
+const ContentSkeleton = () => {
+  return (
+    <div className="flex flex-col w-full h-full gap-4 justify-center items-center">
+      <Loader2 className="animate-spin size-8 text-zinc-600" />
+    </div>
+  )
+}
+
+// const ContentSkeleton = () => {
+//   return (
+//     <div className="flex flex-col w-full h-full gap-4">
+//       <div className="flex justify-between">
+//         <Skeleton className=" h-8 w-40"/> 
+//         <Skeleton className=" h-8 w-40"/> 
+//       </div>
+//       <div className="flex flex-grow">
+//         <Skeleton className="h-full w-full animate-spin"/>
+//       </div>
+//     </div>
+//   )
+// }
 
 export default memo(Content);

@@ -9,6 +9,7 @@ export default async function UserIdPage({
 }: {
   params: { idcustomer: string };
 }) {
+
   const response = await findUserID(params.idcustomer);
 
   if (!response) {

@@ -173,6 +173,7 @@ export function AuthProvider({ children }: AuthProviderInterface) {
 
   async function logout() {
     try {
+      setLoading(true)
       logoutRequest(user?.id || "");
       await deleteCookie("tokenId");
       await deleteCookie("token");
@@ -180,6 +181,8 @@ export function AuthProvider({ children }: AuthProviderInterface) {
       setUser(undefined);
     } catch (error) {
       handleError(error);
+    } finally {
+      setLoading(false)
     }
   }
 

@@ -6,6 +6,11 @@ import { getCookie } from "@/lib/actions";
 
 export async function findUserID(id: string) {
     const tokenId = await getCookie("tokenId")
+
+    if (!tokenId) {
+      throw new Error("Token não encontrado.");
+    }
+    
     const axiosApi = axiosApiClientSide(tokenId?.value);
 
   try {

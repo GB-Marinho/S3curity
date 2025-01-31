@@ -100,9 +100,8 @@ export default function UpdateUserForm({ user }: UpdateUserFormProps) {
   };
 
   useEffect(() => {
-    console.log(user);
     findPerfis();
-  }, []);
+  }, [findPerfis]);
 
   return (
     <Form {...form}>
