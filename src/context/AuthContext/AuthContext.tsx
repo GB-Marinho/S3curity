@@ -2,11 +2,11 @@
 "use client";
 import {
   handleError,
-  PATH_PAGE_ACCOUNTS_LOGIN,
+  PATH_PAGE,
   PATH_PAGE_ACCOUNTS_LOGIN_2FA_VERIFICATION,
   PATH_PAGE_HOME,
 } from "@/lib";
-import { createCookie, deleteCookie, getCookie } from "@/lib/actions/";
+import { createCookie, getCookie } from "@/lib/actions/";
 import { decrypt } from "@/lib/JWT/verifyToken";
 import {
   changeTokenId,
@@ -46,7 +46,7 @@ export function AuthProvider({ children }: AuthProviderInterface) {
   const [userState, setUser] = useState<UserInterface>();
   const [token, setToken] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
-  const { replace, push } = useRouter();
+  const { push } = useRouter();
   const searchParams = useSearchParams();
   const [id, setId] = useState<string | undefined>(undefined);
 
@@ -119,7 +119,7 @@ export function AuthProvider({ children }: AuthProviderInterface) {
 
   async function userInfoUpdate() {
     try {
-      const payload = await findUserID(id || "");
+      const payload = await findUserID({ id: id || "", token: undefined });
       if (payload) {
         setUser({
           id: payload.id as string,
@@ -132,7 +132,7 @@ export function AuthProvider({ children }: AuthProviderInterface) {
           const response = await changeTokenId(tokenRefresh.value, token);
           if (response.status === 200) {
             const data = response.data;
-            createCookie("tokenId", data.tokenId, 2 * 60 * 60); 
+            createCookie("tokenId", data.tokenId, 2 * 60 * 60);
             createCookie("token", data.token, 30 * 24 * 60 * 60);
           }
         }
@@ -173,16 +173,14 @@ export function AuthProvider({ children }: AuthProviderInterface) {
 
   async function logout() {
     try {
-      setLoading(true)
-      logoutRequest(user?.id || "");
-      await deleteCookie("tokenId");
-      await deleteCookie("token");
-      replace(PATH_PAGE_ACCOUNTS_LOGIN);
+      setLoading(true);
+      await logoutRequest(user?.id || "");
+      window.location.replace(PATH_PAGE);
       setUser(undefined);
     } catch (error) {
       handleError(error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 

@@ -1,8 +1,10 @@
 "use client";
+import NewPasswordModal from "@/components/modals/newPasswordModal";
 import ShowQrCodeLoginModal from "@/components/modals/showQrCOdeLoginModal";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import InputCustomPhone from "@/components/ui/custom/inputs/inputCustomPhone";
 import {
   Form,
   FormControl,
@@ -20,15 +22,13 @@ import { revalidateRoute } from "@/lib/actions/revalidade";
 import { Perfil, Usuario } from "@/types/Entities";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { IconMail, IconSignature } from "@tabler/icons-react";
+import clsx from "clsx";
 import { Trash } from "lucide-react";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { UpdateCustomerFormSchema } from "./updateCustomerformSchema";
-import clsx from "clsx";
-import NewPasswordModal from "@/components/modals/newPasswordModal";
-import InputCustomPhone from "@/components/ui/custom/inputs/inputCustomPhone";
 
 interface UpdateCustomerFormProps {
   customer: Usuario;
@@ -79,19 +79,18 @@ export default function UpdateCustomerForm({
     await revalidateRoute(`/manage/${customer.id}`);
   }
 
-  
   // ver como isso vai ficar.
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      
+
       reader.onload = () => {
         const base64 = reader.result as string;
         form.setValue("urlPerfil", base64);
         console.log(base64);
       };
-      
+
       reader.readAsDataURL(file);
     }
   };
@@ -254,7 +253,7 @@ export default function UpdateCustomerForm({
               </div>
 
               <div className="flex flex-col gap-4 justify-center">
-                <NewPasswordModal userID={customer.id!}/>
+                <NewPasswordModal userID={customer.id!} />
                 <ShowQrCodeLoginModal email={form.getValues("email")} />
               </div>
             </div>

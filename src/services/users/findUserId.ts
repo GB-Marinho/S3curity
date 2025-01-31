@@ -1,21 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { API_USERS } from "@/lib";
-import { axiosApiClientSide } from "../config";
 import { Usuario } from "@/types/Entities";
-import { getCookie } from "@/lib/actions";
+import { axiosApiServerSide } from "../config";
 
-export async function findUserID(id: string) {
-    const tokenId = await getCookie("tokenId")
+interface findUserIDProps {
+  id: string;
+  token?: string;
+}
 
-    if (!tokenId) {
-      throw new Error("Token não encontrado.");
-    }
-    
-    const axiosApi = axiosApiClientSide(tokenId?.value);
+export async function findUserID(props: findUserIDProps) {
+  const axiosApi = axiosApiServerSide(props.token);
 
   try {
     const response = await axiosApi.get<Usuario | null>(
-      `${API_USERS}/${id}`
+      `${API_USERS}/${props.id}`
     );
 
     if (response.status >= 200 && response.status < 300) {

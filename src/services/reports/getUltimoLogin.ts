@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { UltimoLoginReport } from "@/types";
-import { axiosApiClientSide } from "../config";
 import { API_REPORT_LAST_USER_LOGIN } from "@/lib";
+import { UltimoLoginReport } from "@/types";
 import qs from "qs";
-
+import { axiosApiClientSide } from "../config";
 
 export async function getUltimoLogin(email: string) {
-    const axiosApi = axiosApiClientSide();
+  const axiosApi = axiosApiClientSide();
   try {
     const query = qs.stringify({ email });
     const url = `${API_REPORT_LAST_USER_LOGIN}?${query}`;
@@ -14,6 +13,7 @@ export async function getUltimoLogin(email: string) {
     const response = await axiosApi.get<UltimoLoginReport | null>(url);
 
     if (response.status >= 200 && response.status < 300) {
+      if (response.status == 204) return null;
       if (response.data) {
         return response.data;
       } else {

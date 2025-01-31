@@ -1,13 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { API_REGISTRAR_USUARIO } from "@/lib";
 import { ErrorResponse } from "@/types";
 import { axiosApiClientSide } from "../config";
-import { API_REGISTRAR_USUARIO } from "@/lib";
-import { getCookie } from "@/lib/actions";
 
-export async function addUser(nome: string, email: string, senha: string, senhaConfirmacao: string, telefone: string, ativo:boolean) {
-  const data = { nome, email, senha, senhaConfirmacao, celular: telefone, ativo };
-  const tokenId = await getCookie("tokenId");
-  const axiosApi = axiosApiClientSide(tokenId?.value)
+export async function addUser(
+  nome: string,
+  email: string,
+  senha: string,
+  senhaConfirmacao: string,
+  telefone: string,
+  ativo: boolean
+) {
+  const data = {
+    nome,
+    email,
+    senha,
+    senhaConfirmacao,
+    celular: telefone,
+    ativo,
+  };
+  const axiosApi = axiosApiClientSide();
 
   try {
     const response = await axiosApi.post<void | ErrorResponse>(

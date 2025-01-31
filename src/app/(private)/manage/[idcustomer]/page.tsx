@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { PATH_PAGE_MANAGE } from "@/lib";
 import { findUserID } from "@/services";
 import { IconChevronLeft } from "@tabler/icons-react";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -12,7 +13,12 @@ export default async function CustomerIdPage({
 }: {
   params: { idcustomer: string };
 }) {
-  const response = await findUserID(params.idcustomer);
+  const cookieStore = cookies();
+  const tokenId = cookieStore.get("tokenId");
+  const response = await findUserID({
+    id: params.idcustomer,
+    token: tokenId?.value,
+  });
 
   if (!response) {
     notFound();

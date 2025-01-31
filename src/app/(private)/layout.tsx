@@ -1,7 +1,7 @@
 import Content from "@/components/shared/content/content";
 import { AppSidebar } from "@/components/shared/sidebar/AppSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface PrivateLayoutProps {
   children?: ReactNode;

@@ -27,7 +27,7 @@ export const navItems: NavItemType[] = [
     items: [
       {
         id: "manege",
-        title: "Customers",
+        title: "Usuários",
         url: "/manage",
         icon: IconUsersGroup,
         type: "item",
