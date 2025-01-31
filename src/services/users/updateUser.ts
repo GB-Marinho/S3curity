@@ -11,7 +11,7 @@ export async function updateUser(user: Usuario) {
         email: user.email,
         senha: user.senha,
         senhaConfirmacao: user.senhaConfirmacao,
-        telefone: user.telefone,
+        celular: user.telefone,
         urlPerfil:user.urlPerfil,
         sisAdmin: user.sisAdmin,
         autenticacaoDoisFatores: user.doisFatores,
