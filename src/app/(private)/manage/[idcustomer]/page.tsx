@@ -1,4 +1,5 @@
 import UpdateCustomerForm from "@/components/forms/customers/updateCustomer/updateCustomer-form";
+import UltimoLoginPainel from "@/components/reports/panels/ultimoLoginPainel";
 import { Button } from "@/components/ui/button";
 import { PATH_PAGE_MANAGE } from "@/lib";
 import { findUserID } from "@/services";
@@ -35,6 +36,11 @@ export default async function CustomerIdPage({
         </Button>
       </div>
       <UpdateCustomerForm customer={response} />
+      <div className="flex items-center font-bold text-xl text-zinc-400 gap-2">
+        Histórico de Login{" "}
+        <span className="text-xs text-zinc-500">(ultimo login)</span>
+      </div>
+      <UltimoLoginPainel email={response.email} />
     </div>
   );
 }

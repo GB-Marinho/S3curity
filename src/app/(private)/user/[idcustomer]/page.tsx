@@ -1,35 +1,39 @@
 import UpdateUserForm from "@/components/forms/user/updateUser/updateUser-form";
+import UltimoLoginPainel from "@/components/reports/panels/ultimoLoginPainel";
 import { Button } from "@/components/ui/button";
 import { findUserID } from "@/services";
 import { notFound } from "next/navigation";
 
-
-
 export default async function UserIdPage({
-    params,
+  params,
 }: {
-    params: { idcustomer: string };
+  params: { idcustomer: string };
 }) {
-    const response = await findUserID(params.idcustomer)
-    
-    if(!response) {
-        notFound();
-    }
+  const response = await findUserID(params.idcustomer);
 
-    return (
-        <div className="flex flex-col w-full gap-4 container">
-        <div className="flex w-full justify-between">
-          <div className="flex items-center font-bold text-2xl text-zinc-300 ">SecurityAdmin</div>
-          <Button
-            form="updateUserForm"
-            type="submit"
-            className=" btn-primary text-white px-8"
-          >
-            Salvar
-          </Button>
+  if (!response) {
+    notFound();
+  }
+
+  return (
+    <div className="flex flex-col w-full gap-4 container">
+      <div className="flex w-full justify-between">
+        <div className="flex items-center font-bold text-2xl text-zinc-300 ">
+          SecurityAdmin
         </div>
-        <UpdateUserForm user={response} />
+        <Button
+          form="updateUserForm"
+          type="submit"
+          className=" btn-primary text-white px-8"
+        >
+          Salvar
+        </Button>
       </div>
-    );
-
+      <UpdateUserForm user={response} />
+      <div className="flex items-center font-bold text-xl text-zinc-400 gap-2">
+        Histórico de Login <span className="text-xs text-zinc-500">(ultimo login)</span>
+      </div>
+      <UltimoLoginPainel email={response.email} />
+    </div>
+  );
 }
