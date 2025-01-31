@@ -11,7 +11,6 @@ export async function getUltimoLogin(email: string) {
     const query = qs.stringify({ email });
     const url = `${API_REPORT_LAST_USER_LOGIN}?${query}`;
 
-    console.log(url)
     const response = await axiosApi.get<UltimoLoginReport | null>(url);
 
     if (response.status >= 200 && response.status < 300) {
