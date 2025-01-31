@@ -105,3 +105,11 @@ body {
   }
 }
 
+#html5qr-code-full-region__scan_region {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+#html5qr-code-full-region__scan_region > img {
+  filter: invert(100%) brightness(100%);
+}
