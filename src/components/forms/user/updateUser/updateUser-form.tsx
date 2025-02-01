@@ -1,13 +1,10 @@
 "use client";
-import { useUsersStore } from "@/hooks/store/userStore";
-import { Perfil, Usuario } from "@/types/Entities";
-import { z } from "zod";
-import { UpdateUserFormSchema } from "./updateUserformSchema";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { usePerfilStore } from "@/hooks/store/perfisStore";
-import { toast } from "sonner";
-import { useEffect, useRef } from "react";
+import NewPasswordModal from "@/components/modals/newPasswordModal";
+import ShowQrCodeLoginModal from "@/components/modals/showQrCOdeLoginModal";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import InputCustomPhone from "@/components/ui/custom/inputs/inputCustomPhone";
 import {
   Form,
   FormControl,
@@ -16,28 +13,30 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { IconMail, IconSignature } from "@tabler/icons-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { pegarIniciais } from "@/lib";
-import { Checkbox } from "@/components/ui/checkbox";
-import { revalidateRoute } from "@/lib/actions/revalidade";
-import InputCustomPhone from "@/components/ui/custom/inputs/inputCustomPhone";
-import { Trash } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-import clsx from "clsx";
-import NewPasswordModal from "@/components/modals/newPasswordModal";
-import ShowQrCodeLoginModal from "@/components/modals/showQrCOdeLoginModal";
 import { useAuth } from "@/context";
+import { usePerfilStore } from "@/hooks/store/perfisStore";
+import { useUsersStore } from "@/hooks/store/userStore";
+import { pegarIniciais } from "@/lib";
+import { revalidateRoute } from "@/lib/actions/revalidade";
+import { Perfil, Usuario } from "@/types/Entities";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { IconMail, IconSignature } from "@tabler/icons-react";
+import clsx from "clsx";
+import { Trash } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { UpdateUserFormSchema } from "./updateUserformSchema";
 
 interface UpdateUserFormProps {
   user: Usuario;
 }
 
 export default function UpdateUserForm({ user }: UpdateUserFormProps) {
-  const { updateUser, UpdateUserPerfil } =
-    useUsersStore();
+  const { updateUser, UpdateUserPerfil } = useUsersStore();
   const { perfis, findPerfis } = usePerfilStore();
   const { userInfoUpdate } = useAuth();
 
@@ -69,7 +68,7 @@ export default function UpdateUserForm({ user }: UpdateUserFormProps) {
     if (error) {
       toast.error(error);
     } else {
-      userInfoUpdate()
+      userInfoUpdate();
       toast.success("Usuário Editado com Sucesso!");
     }
     await revalidateRoute(`/manage/${user.id}`);
@@ -124,7 +123,8 @@ export default function UpdateUserForm({ user }: UpdateUserFormProps) {
                           <label htmlFor="fileInput" className="cursor-pointer">
                             <Avatar className="size-40 2xl:size-52 group-hover:opacity-75 transition-opacity">
                               <AvatarImage
-                                src={form.watch("urlPerfil") || undefined}
+                                // src={form.watch("urlPerfil") || undefined}
+                                src={`${user.urlPerfil}` || undefined}
                                 alt={form.watch("nome")}
                                 className="object-cover"
                               />

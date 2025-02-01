@@ -2,6 +2,9 @@ export interface UserInterface {
   id?: string;
   name?: string;
   email?: string;
+  urlPerfil?: string;
+  isSisAdmin?: boolean;
+  perfis?: string[];
 }
 
 export interface AuthContextInterface extends UserInterface {

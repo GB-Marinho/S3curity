@@ -12,24 +12,23 @@ import { notFound } from "next/navigation";
 import { useEffect } from "react";
 import { create } from "zustand";
 
-
 const usePerfilStore = create<{
   perfil: Perfil | null | undefined;
   fetchPerfil: (id: string) => Promise<void>;
   reset: () => Promise<void>;
 }>((set) => ({
-  perfil: undefined, 
+  perfil: undefined,
   fetchPerfil: async (id: string) => {
     try {
       const perfil = await findPerfilID(id);
       set({ perfil });
     } catch (error) {
-      set({ perfil: null }); 
+      set({ perfil: null });
     }
   },
   reset: async () => {
-    set({perfil: undefined})
-  }
+    set({ perfil: undefined });
+  },
 }));
 
 export default function PerfilPage({
@@ -37,24 +36,24 @@ export default function PerfilPage({
 }: {
   params: { idperfil: string };
 }) {
-
   const { perfil, fetchPerfil, reset } = usePerfilStore();
 
-
   useEffect(() => {
-    reset()
+    reset();
     fetchPerfil(params.idperfil);
-  }, []);
-
+  }, [fetchPerfil, params.idperfil, reset]);
 
   if (perfil === undefined) {
-    return <div className="flex w-full h-full justify-center items-center"><Loader2 className="animate-spin" /></div>;
+    return (
+      <div className="flex w-full h-full justify-center items-center">
+        <Loader2 className="animate-spin" />
+      </div>
+    );
   }
 
   if (perfil === null) {
     notFound();
   }
-
 
   return (
     <div className="flex flex-col w-full gap-4 container">

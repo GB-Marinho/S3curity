@@ -3,6 +3,7 @@ import { PATH_PAGE_HOME } from "@/lib";
 import { decrypt } from "@/lib/JWT/verifyToken";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function LoginPage({
   searchParams,
@@ -18,7 +19,9 @@ export default async function LoginPage({
 
   return (
     <div className="flex h-screen w-full items-center justify-center px-4">
-      <LoginForm next={searchParams.next} />
+      <Suspense fallback={<div>Carregando...</div>}>
+        <LoginForm next={searchParams.next} />
+      </Suspense>
     </div>
   );
 }

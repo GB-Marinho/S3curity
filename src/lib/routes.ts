@@ -29,6 +29,9 @@ export const API_DESABILITAR_USUARIO = `${API_AUTH}/desabilitar-usuario`;
 export const API_ATUALIZAR_USUARIO = `${API_AUTH}/atualizar-usuario`;
 export const API_REGISTRAR_USUARIO = `${API_AUTH}/registrar-usuario`;
 export const API_ADD_PERFIL_TO_USUARIO = `${API_AUTH}/atualizar-perfil`;
+// BUCKET - V1 -------------------------------------
+export const BUCKET_BASE_URL = process.env.NEXT_PUBLIC_BUCKET_BASE_URL || "";
+export const BUCKET_STATIC_IMAGES_WEBP = `${BUCKET_BASE_URL}/static/images/f_webp`;
 // PAGES WEBAPP ---------------------------------
 export const PATH_PAGE = "/";
 // PAGES WEBAPP - ACCOUNTS ----------------------

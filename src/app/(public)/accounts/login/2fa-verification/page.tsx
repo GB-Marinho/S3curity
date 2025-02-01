@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/card";
 import { verifyOtpExists } from "@/services";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function Page({
   searchParams,
@@ -24,12 +25,14 @@ export default async function Page({
             <CardDescription>{searchParams.email}</CardDescription>
           </CardHeader>
           <CardContent className="w-full flex items-center justify-center h-full">
-            <OtpForm
-              next={searchParams.next}
-              email={searchParams.email}
-              expired_at={response.data.expired_at}
-              loginType={searchParams.login_type}
-            />
+            <Suspense fallback={<div>Carregando...</div>}>
+              <OtpForm
+                next={searchParams.next}
+                email={searchParams.email}
+                expired_at={response.data.expired_at}
+                loginType={searchParams.login_type}
+              />
+            </Suspense>
           </CardContent>
         </Card>
       </div>

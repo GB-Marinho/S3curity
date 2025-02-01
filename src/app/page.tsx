@@ -1,10 +1,10 @@
+import Logo from "@/assets/img/logo.png";
+import Logotipo from "@/assets/img/logotipo.png";
 import { Button } from "@/components/ui/button";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import CardLogin from "@/components/ui/custom/cards/cardLogin";
-import Link from "next/link";
 import Image from "next/image";
-import Logo from "@/assets/img/logo.png";
-import Logotipo from "@/assets/img/logotipo.png";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -29,14 +29,7 @@ export default function Home() {
             asChild
             className="w-full btn-primary text-white text-xl py-6"
           >
-            <Link href="accounts/login">LOGIN</Link>
-          </Button>
-          <Button
-            type="button"
-            asChild
-            className="w-full btn-secondary text-white text-xl py-6"
-          >
-            <Link href="home">ACESSAR</Link>
+            <Link href="accounts/login">Entrar</Link>
           </Button>
         </CardContent>
       </CardLogin>

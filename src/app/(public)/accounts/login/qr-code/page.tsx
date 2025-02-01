@@ -6,6 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Suspense } from "react";
 
 export default async function Page({
   searchParams,
@@ -22,7 +23,9 @@ export default async function Page({
           </CardDescription>
         </CardHeader>
         <CardContent className="w-full flex items-center justify-center h-full">
-          <LoginQrCodeForm next={searchParams.next} />
+          <Suspense fallback={<div>Carregando...</div>}>
+            <LoginQrCodeForm next={searchParams.next} />
+          </Suspense>
         </CardContent>
       </Card>
     </div>

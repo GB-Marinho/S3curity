@@ -1,14 +1,8 @@
-"use client"
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import ButtonToLoginPage from "@/components/ui/custom/buttons/buttonToLoginPage";
 import { IconProgressCheck } from "@tabler/icons-react";
-import { useRouter } from "next/navigation";
-import React from "react";
 
 export default function RecoverySuccessPage() {
-
-    const router = useRouter();
-
   return (
     <div className="flex h-screen w-full items-center justify-center px-4">
       <Card className="flex flex-col py-4 sm:px-6 bg-[#18181B] border-none max-w-[500px]">
@@ -23,17 +17,12 @@ export default function RecoverySuccessPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-            <p className="text-gray-300 mb-6">
+          <p className="text-gray-300 mb-6">
             Verifique sua caixa de entrada. Enviamos um link para recuperação de
             senha. Caso não encontre, verifique a pasta de spam.
-            </p>
-            <div>
-            <Button
-              className="btn-primary text-white p-4 w-full"
-              onClick={() => router.push("/accounts/login")}
-            >
-              Voltar para o Login
-            </Button>
+          </p>
+          <div>
+            <ButtonToLoginPage />
           </div>
         </CardContent>
       </Card>

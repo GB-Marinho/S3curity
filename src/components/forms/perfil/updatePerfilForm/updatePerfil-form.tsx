@@ -1,10 +1,7 @@
-"use client"
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useCallback, useEffect } from "react";
-import { usePerfilStore } from "@/hooks/store/perfisStore";
-import { toast } from "sonner";
+"use client";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import CardModal from "@/components/ui/custom/cards/cardModal";
 import {
   Form,
   FormControl,
@@ -14,12 +11,15 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UpdatePerfilFormSchema } from "../updatePerfilForm/updatePerfilFormSchema";
-import { Perfil, Permissao } from "@/types/Entities";
-import { Card } from "@/components/ui/card";
-import CardModal from "@/components/ui/custom/cards/cardModal";
-import { Badge } from "@/components/ui/badge";
+import { usePerfilStore } from "@/hooks/store/perfisStore";
 import { usePermissionsStore } from "@/hooks/store/permissionsStore";
+import { Perfil, Permissao } from "@/types/Entities";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { UpdatePerfilFormSchema } from "../updatePerfilForm/updatePerfilFormSchema";
 
 interface UpdatePerfilFormProps {
   perfil: Perfil;

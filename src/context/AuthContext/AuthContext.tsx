@@ -23,7 +23,7 @@ import {
   ErrorResponse,
   UserInterface,
 } from "@/types";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
   createContext,
   useCallback,
@@ -47,7 +47,6 @@ export function AuthProvider({ children }: AuthProviderInterface) {
   const [token, setToken] = useState<string | undefined>(undefined);
   const [loading, setLoading] = useState(true);
   const { push } = useRouter();
-  const searchParams = useSearchParams();
   const [id, setId] = useState<string | undefined>(undefined);
 
   const user = useMemo(() => userState, [userState]);
@@ -62,11 +61,14 @@ export function AuthProvider({ children }: AuthProviderInterface) {
         const payload = await decrypt(tokenId.value);
         setToken(tokenId.value);
         setUser({
-          id: payload.id as string,
-          name: payload.nome as string,
-          email: payload.email as string,
+          id: payload.id,
+          name: payload.nome,
+          email: payload.email,
+          urlPerfil: payload.urlPerfil,
+          isSisAdmin: payload.isSisAdmin,
+          perfis: payload.perfis,
         });
-        setId(payload.id as string);
+        setId(payload.id);
       }
     } catch (error) {
       console.error(error);
@@ -98,14 +100,17 @@ export function AuthProvider({ children }: AuthProviderInterface) {
       const payload = await decrypt(data.tokenId);
       setToken(data.tokenId);
       setUser({
-        id: payload.id as string,
-        name: payload.nome as string,
-        email: payload.email as string,
+        id: payload.id,
+        name: payload.nome,
+        email: payload.email,
+        urlPerfil: payload.urlPerfil,
+        isSisAdmin: payload.isSisAdmin,
+        perfis: payload.perfis,
       });
       // replace(PATH_PAGE_HOME);
       window.location.replace(next || PATH_PAGE_HOME);
     } else if (response.status === 303) {
-      const urlParams = new URLSearchParams(searchParams);
+      const urlParams = new URLSearchParams();
       urlParams.set("email", email);
       urlParams.set("login_type", "email");
       push(
@@ -122,9 +127,12 @@ export function AuthProvider({ children }: AuthProviderInterface) {
       const payload = await findUserID({ id: id || "", token: undefined });
       if (payload) {
         setUser({
-          id: payload.id as string,
-          name: payload.nome as string,
-          email: payload.email as string,
+          id: payload.id,
+          name: payload.nome,
+          email: payload.email,
+          urlPerfil: payload.urlPerfil,
+          isSisAdmin: payload.sisAdmin,
+          perfis: payload.perfis?.map((perfil) => perfil.nome) || [],
         });
 
         const tokenRefresh = await getCookie("token");
@@ -151,15 +159,18 @@ export function AuthProvider({ children }: AuthProviderInterface) {
       const payload = await decrypt(data.tokenId);
       setToken(data.tokenId);
       setUser({
-        id: payload.id as string,
-        name: payload.nome as string,
-        email: payload.email as string,
+        id: payload.id,
+        name: payload.nome,
+        email: payload.email,
+        urlPerfil: payload.urlPerfil,
+        isSisAdmin: payload.isSisAdmin,
+        perfis: payload.perfis,
       });
       // replace(PATH_PAGE_HOME);
       window.location.replace(next || PATH_PAGE_HOME);
     } else if (response.status === 303) {
       const data = response.data as LoginResponse;
-      const urlParams = new URLSearchParams(searchParams);
+      const urlParams = new URLSearchParams();
       urlParams.set("email", data.tokenId); //tokenId nesse caso é o email
       urlParams.set("login_type", "qrCode");
       push(

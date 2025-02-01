@@ -13,7 +13,6 @@ export async function middleware(request: NextRequest) {
   } catch (error) {
     if (error instanceof JWTExpired && tokenId) {
       const res = NextResponse.next();
-      // res.cookies.delete("tokenId");
       const tokenRefresh = request.cookies.get("token")?.value || "";
       const response = await changeTokenId(tokenRefresh, tokenId);
       if (response.status === 200) {
@@ -24,6 +23,7 @@ export async function middleware(request: NextRequest) {
         console.log("Redefiniu Tokens");
         return res;
       }
+      res.cookies.delete("tokenId");
     }
   }
   const redirectResponse = NextResponse.redirect(

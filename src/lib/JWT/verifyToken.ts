@@ -8,13 +8,12 @@ export interface JoseErrorInterface {
   payload: JWTPayload;
 }
 
-
-
 export interface PayloadInterface {
   id: string;
   nome: string;
   email: string;
-  isSisAdmin: string;
+  urlPerfil: string;
+  isSisAdmin: boolean;
   perfis: string[];
 }
 

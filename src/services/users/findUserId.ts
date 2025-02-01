@@ -23,7 +23,7 @@ export async function findUserID(props: findUserIDProps) {
         throw new Error("Usuário não encontrado.");
       }
     }
-    throw new Error("Erro ao buscar usuário");
+    // throw new Error("Erro ao buscar usuário");
   } catch (error: any) {
     if (error.response) {
       throw new Error(
